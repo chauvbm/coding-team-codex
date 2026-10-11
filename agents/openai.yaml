@@ -1,0 +1,6 @@
+interface:
+  display_name: "Coding Team"
+  short_description: "Adaptive coding teams with scoped review and checks"
+  default_prompt: "Use $coding-team to implement this change with proportionate delegation and verification."
+policy:
+  allow_implicit_invocation: true
