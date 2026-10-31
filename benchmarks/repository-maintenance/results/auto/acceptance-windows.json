@@ -1,0 +1,14 @@
+{
+  "tests_run": 15,
+  "skipped": 5,
+  "passed_available_checks": true,
+  "accepted": false,
+  "failures": [],
+  "coverage_limits": [
+    "symlink unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'",
+    "symlink unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'",
+    "symlink unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'",
+    "symlink unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'",
+    "symlink unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'"
+  ]
+}

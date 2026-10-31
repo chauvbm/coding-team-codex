@@ -1,0 +1,41 @@
+{
+  "verdict": "PASS",
+  "spec": "s1",
+  "plan": "p1",
+  "scope": [
+    "scripts/task_ledger.py",
+    "scripts/export_evaluation_inputs.py"
+  ],
+  "independent": true,
+  "tests_run": 11,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "observations": {
+    "native_symlinks": [
+      {
+        "status": "UNAVAILABLE",
+        "error": "[WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'"
+      }
+    ],
+    "junctions": [
+      "references/nested-junction",
+      "agents"
+    ]
+  },
+  "artifact_directory": "<pilot>\\full_team\\qa-artifacts\\run-1i34qw87",
+  "sha256_before": {
+    "scripts\\task_ledger.py": "63c1572c38556e17f6478990b82b26793c7c9565fa5634447b9bef99fed215fb",
+    "scripts\\export_evaluation_inputs.py": "bec5971c3d6d39420d37ce37f245683e367d13fb91f93c5be66b4155850d814c"
+  },
+  "sha256_after": {
+    "scripts\\task_ledger.py": "63c1572c38556e17f6478990b82b26793c7c9565fa5634447b9bef99fed215fb",
+    "scripts\\export_evaluation_inputs.py": "bec5971c3d6d39420d37ce37f245683e367d13fb91f93c5be66b4155850d814c"
+  },
+  "limitations": [
+    "Native symlink probes fall back to explicitly labeled lstat mocks if Windows privilege is unavailable.",
+    "No race defense or security sandbox required by contract."
+  ],
+  "model": null,
+  "token_telemetry": null
+}

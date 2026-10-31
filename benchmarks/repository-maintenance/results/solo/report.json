@@ -1,0 +1,215 @@
+{
+  "mode": "SOLO",
+  "delivered": true,
+  "independent_qa": false,
+  "model": null,
+  "reasoning_effort": null,
+  "token_telemetry": null,
+  "selfcheck_started_at": "2026-10-31T10:57:14.674881+00:00",
+  "selfcheck_completed_at": "2026-10-31T10:57:15.472439+00:00",
+  "checks": [
+    {
+      "name": "existing initialize validates and saves HOLD",
+      "status": "PASS"
+    },
+    {
+      "name": "record review appends history and one audit revision",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown review fields do not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate review ID does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "stale expected revision does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "blank reason does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "writer FinalQA cannot satisfy independent QA",
+      "status": "PASS"
+    },
+    {
+      "name": "stale-version FinalQA stays HOLD",
+      "status": "PASS"
+    },
+    {
+      "name": "applicable independent final QA permits PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "budget reserve increments only reserved",
+      "status": "PASS"
+    },
+    {
+      "name": "budget use consumes reservation",
+      "status": "PASS"
+    },
+    {
+      "name": "unreserved use does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid amount 0",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid amount -1",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid amount True",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid amount 1.5",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid counter does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid phase does not modify ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "over-limit budget persists as HOLD",
+      "status": "PASS"
+    },
+    {
+      "name": "counter supported: repairs",
+      "status": "PASS"
+    },
+    {
+      "name": "counter supported: diagnostics",
+      "status": "PASS"
+    },
+    {
+      "name": "counter supported: recovery_total",
+      "status": "PASS"
+    },
+    {
+      "name": "existing update retains behavior",
+      "status": "PASS"
+    },
+    {
+      "name": "same-revision concurrent writes yield one success and one stale rejection",
+      "status": "PASS"
+    },
+    {
+      "name": "CLI rejects invalid --amount=0",
+      "status": "PASS"
+    },
+    {
+      "name": "CLI rejects invalid --amount=-1",
+      "status": "PASS"
+    },
+    {
+      "name": "CLI rejects invalid --counter=unknown",
+      "status": "PASS"
+    },
+    {
+      "name": "CLI rejects invalid --phase=unknown",
+      "status": "PASS"
+    },
+    {
+      "name": "record-review CLI returns success while HOLD",
+      "status": "PASS"
+    },
+    {
+      "name": "check CLI still returns readiness failure code",
+      "status": "PASS"
+    },
+    {
+      "name": "normal export includes only operational resources",
+      "status": "PASS"
+    },
+    {
+      "name": "normal export inputs omit expected answers",
+      "status": "PASS"
+    },
+    {
+      "name": "native symlink external-file",
+      "status": "SKIP",
+      "reason": "WinError 1314: symlink privilege unavailable"
+    },
+    {
+      "name": "native symlink in-root-file",
+      "status": "SKIP",
+      "reason": "WinError 1314: symlink privilege unavailable"
+    },
+    {
+      "name": "native symlink broken-file",
+      "status": "SKIP",
+      "reason": "WinError 1314: symlink privilege unavailable"
+    },
+    {
+      "name": "native symlink external-directory",
+      "status": "SKIP",
+      "reason": "WinError 1314: symlink privilege unavailable"
+    },
+    {
+      "name": "reject simulated link metadata SKILL.md",
+      "status": "PASS"
+    },
+    {
+      "name": "reject simulated link metadata scripts",
+      "status": "PASS"
+    },
+    {
+      "name": "reject simulated link metadata references",
+      "status": "PASS"
+    },
+    {
+      "name": "reject simulated link metadata agents",
+      "status": "PASS"
+    },
+    {
+      "name": "reject simulated link metadata scripts/example.txt",
+      "status": "PASS"
+    },
+    {
+      "name": "actual Windows junction rejected before destination creation",
+      "status": "PASS"
+    },
+    {
+      "name": "linked resource rejected before default-output allocation",
+      "status": "PASS"
+    },
+    {
+      "name": "external targets unchanged",
+      "status": "PASS"
+    }
+  ],
+  "checks_passed": 40,
+  "checks_skipped": 4,
+  "defects_found": [],
+  "repairs": [],
+  "selfcheck_observations": [
+    "Initial native symlink selfcheck stopped at WinError 1314; reran with explicit skips, mocked symlink metadata and actual Windows junction checks. No product-code repair was required."
+  ],
+  "limitations": [
+    "Author self-checks only; no independent QA or coordinator acceptance accessed.",
+    "No race defense or permission changes requested; exporter preflight is a no-follow snapshot check.",
+    "Native file/directory symlink creation is unavailable without privilege; simulated lstat metadata and real junctions were checked.",
+    "Model/effort/token telemetry was not observed."
+  ],
+  "files_changed": [
+    "scripts/task_ledger.py",
+    "scripts/export_evaluation_inputs.py"
+  ],
+  "scope": "Single implementation batch and own checks; no policy/config changes, delegation, commits or pushes.",
+  "frozen_at": "2026-10-31T10:57:26.492795+00:00",
+  "code_sha256": {
+    "scripts/task_ledger.py": "305d2f83717b2470b8862d030c03d6a27dcb2120322f76c6732185a96b37fa54",
+    "scripts/export_evaluation_inputs.py": "6382a21e97afb11d48178f93c58edf6948aa4db882b118babded8eea858ac494"
+  }
+}

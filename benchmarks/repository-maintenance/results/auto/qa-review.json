@@ -1,0 +1,24 @@
+{
+  "verdict": "PASS",
+  "independent": true,
+  "tests_run": 15,
+  "failures": [],
+  "environment_blocked": [
+    {
+      "test": "test_export_all_operational_links_preflight_and_no_follow (__main__.Checks.test_export_all_operational_links_preflight_and_no_follow)",
+      "reason": "Native symlink creation blocked: WinError 1314"
+    },
+    {
+      "test": "test_linked_resource_directory_and_default_temp_not_created (__main__.Checks.test_linked_resource_directory_and_default_temp_not_created)",
+      "reason": "Native symlink creation blocked: WinError 1314"
+    }
+  ],
+  "scripts_sha256": {
+    "task_ledger.py": "100a7bbb18ce8c5d3894d9bd658888bf5caeade7ebc864b9b0d5ad7cbfba73ab",
+    "export_evaluation_inputs.py": "37ab07960414f21c96ec69eaa7aa0e4c6f1924b7dca78988977b8151b62279b4"
+  },
+  "evidence": "qa_checks.py; independent API/CLI, concurrency, atomic failure, history/readiness; native junction and mocked no-follow link metadata checks",
+  "limitations": [
+    "Native symbolic-link execution blocked by WinError 1314; junctions and simulated link metadata verified. No race defense or permissions changes tested, as excluded by TASK.md."
+  ]
+}

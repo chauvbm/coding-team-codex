@@ -116,6 +116,8 @@ If the Codex skill-creator validator is available in your environment, run its `
 
 ## Independent behavioral evaluation
 
+The [lean-workflow evaluation](evaluations/2026-10-31-lean-workflow/README.md) adds eight mode/level scenarios and records the unedited 11/14 initial result, independent adjudication and targeted 1/1 STOP_HOLD retest. The [repository-maintenance pilot](benchmarks/repository-maintenance/README.md) uses actual repository scripts and two parallel Developers in FULL_TEAM; all modes still tie on available checks. Neither record establishes a cost or quality advantage.
+
 The fixtures contain:
 
 | Fixture | Inventory | What it probes |

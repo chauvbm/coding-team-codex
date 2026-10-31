@@ -1,0 +1,26 @@
+{
+  "spec": "s1",
+  "plan": "p1",
+  "scope": [
+    "ledger",
+    "export"
+  ],
+  "representatives": {
+    "Architect": "maintenance_architect",
+    "Developer": "maintenance_full_developer",
+    "QA": "maintenance_full_qa"
+  },
+  "verdicts": {
+    "Architect": "APPROVED_WITH_NOTES",
+    "Developer": "APPROVED_WITH_NOTES",
+    "QA": "APPROVED_WITH_NOTES"
+  },
+  "material_issues": [],
+  "gate": "PASS",
+  "at": "2026-10-31T10:56:41.054309+00:00",
+  "ownership": {
+    "scripts/task_ledger.py": "maintenance_full_developer",
+    "scripts/export_evaluation_inputs.py": "maintenance_export_developer"
+  },
+  "review_notes": "Command-specific allowlist, one locked CAS transaction, nofollow complete preflight, preserve valid HOLD and original APIs. No material plan change."
+}

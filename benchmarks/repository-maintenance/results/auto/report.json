@@ -1,0 +1,49 @@
+{
+  "role": "AUTO coder",
+  "mode": "AUTO",
+  "task": "repository maintenance contract s1",
+  "owned_files": [
+    "scripts/task_ledger.py",
+    "scripts/export_evaluation_inputs.py"
+  ],
+  "implementation": [
+    "Added record-review CLI/API with strict supplied-review fields and locked append transaction",
+    "Added consume-budget CLI/API with reserve/use/both and positive integer validation",
+    "Reused existing schema, transition, readiness, atomic save, and lock helpers",
+    "Preflight operational export resources recursively; reject symbolic links, broken links, and Windows junctions before destination creation"
+  ],
+  "checks": [
+    {
+      "command": "& C:/Program Files/Python313/python.exe self_checks.py",
+      "result": "PASS with one skipped test",
+      "tests_run": 8,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 1,
+      "covered": [
+        "Existing init/update/check API behavior",
+        "Review append and audit history",
+        "Unknown, malformed, duplicate, stale reviews and empty reason leave ledger bytes unchanged",
+        "Old snapshot and writer final QA retain HOLD",
+        "Budget reserve/use/both, overuse rejection, excess readiness HOLD, invalid argument atomicity",
+        "CLI review and budget operations, invalid choices and amounts",
+        "Actual two-process same-revision race gives one success and one stale rejection",
+        "Normal evaluation export and omission of root tests/oracles/results and expected case fields"
+      ],
+      "skipped_check": "Real symbolic-link scenarios: Windows denied symlink creation with WinError 1314"
+    }
+  ],
+  "defects": [],
+  "repairs": [],
+  "limitations": [
+    "Developer self-checks are not independent QA; coordinator review follows",
+    "Real symbolic-link creation and rejection could not be exercised on this Windows host due to WinError 1314; implementation inspected",
+    "No acceptance tests, peer outputs, or private coordinator material inspected",
+    "No race-defense or permission changes added, per contract"
+  ],
+  "nested_delegation": false,
+  "observed_model": null,
+  "token_telemetry": null,
+  "frozen": true,
+  "delivered_at_utc": "2026-10-31T10:57:16.1101254Z"
+}

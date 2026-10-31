@@ -53,7 +53,8 @@ class ExportTests(unittest.TestCase):
 
     def test_link_preflight_precedes_explicit_and_temporary_destinations(self):
         original = Path.is_symlink
-        linked = self.root / 'scripts' / 'example.txt'
+        # Match the canonical path used by export_inputs (Windows may expand 8.3 temp paths).
+        linked = (self.root / 'scripts' / 'example.txt').resolve()
         with mock.patch.object(Path, 'is_symlink', lambda p: p == linked or original(p)), \
                 mock.patch.object(exporter.tempfile, 'mkdtemp') as create_temp:
             for output in (self.output, None):

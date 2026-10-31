@@ -1,0 +1,87 @@
+{
+  "kind": "single_task_repository_maintenance_pilot",
+  "baseline_commit": "6055037c6fc9e7429347facc3e5345e39ff2c64e",
+  "contract_sha256": "3abafb615087af40fed12583b5239c59933bc3fa346dc6ff6d53de637c6def97",
+  "acceptance_sha256": "94c7a20f1e3c358fac971d2a63b407ad66766b238b5223b6774954c234d3769b",
+  "source_skill_snapshot_sha256": {
+    "agents/openai.yaml": "ac2fcf8f116de6d62e0e1202ac9a8363aae71c9fe825e6e1f47baeb12084ddcf",
+    "references/agent-contracts.md": "f55e9c1e483ac6957ad5896aa230dc98cc3cd49f7e6b9fb070bf7668404bf1fa",
+    "references/control-policy.md": "6ae4ff4cbf0bb87cf0bdafd0b850e6b2b80c16d489884e1e7c1bc1c4365416a8",
+    "references/debate-governance.md": "9bdd2bdaf77407bc682de84735c2616a5e9ef7877a121ec4bcf626302bb2cb20",
+    "references/governance-defaults.json": "75603644bca6dc29628f050ce101afdc99e6ad12ea28289fac781f448d4f08dd",
+    "references/model-profiles.json": "ef4924c48a87ba9de5298a6187453c6627876c4f7ae31d683c1212db0cf3c736",
+    "references/model-routing.md": "2915ea60cbb6aeb3edfbafbd55ee93858c0db228cdb89a4cde8854ce2ef99337",
+    "references/quality-safety.md": "ed32572dbbaf89357e229edd5d6b24cae6dfad46499b18a469b44bba5d05ab24",
+    "references/task-ledger.md": "e5156b7d72ac7a76f05758630e820454624448066c6e542a8c0df456a9f5de36",
+    "references/workflow.md": "e560636663dc11844e83f6d217f8496c8099bc8247719d1848f70bac2bb21a66",
+    "SKILL.md": "2f3674cab7ed7b6f659567c55d572a1e3368be73d5e7e4e07ebadd6895b4031e"
+  },
+  "model_selection": "Same parent runtime inheritance, no override for all roles/modes",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "runs": {
+    "solo": {
+      "unique_agents": 1,
+      "dispatches_including_role_handoffs": 1,
+      "parallel_implementation_writers": 1,
+      "tests_run": 15,
+      "skipped_windows": 5,
+      "passed_available_checks": true,
+      "accepted_all_checks_windows": false,
+      "token_usage": null,
+      "cost": null,
+      "elapsed_seconds": null,
+      "implementation_sha256": {
+        "coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+        "export_evaluation_inputs.py": "bd3ad0c8b64d837cbc801a33650246c049a86f2ce72168c6402bf2011c23c141",
+        "task_ledger.py": "eb51665155e35884d5fbaa1399bbb230cf5c4551e693c823c5f672a028610056"
+      },
+      "qa": "not independent"
+    },
+    "auto": {
+      "unique_agents": 2,
+      "dispatches_including_role_handoffs": 2,
+      "parallel_implementation_writers": 1,
+      "tests_run": 15,
+      "skipped_windows": 5,
+      "passed_available_checks": true,
+      "accepted_all_checks_windows": false,
+      "token_usage": null,
+      "cost": null,
+      "elapsed_seconds": null,
+      "implementation_sha256": {
+        "coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+        "export_evaluation_inputs.py": "37ab07960414f21c96ec69eaa7aa0e4c6f1924b7dca78988977b8151b62279b4",
+        "task_ledger.py": "100a7bbb18ce8c5d3894d9bd658888bf5caeade7ebc864b9b0d5ad7cbfba73ab"
+      },
+      "qa": "independent PASS; native symlink coverage limited"
+    },
+    "full_team": {
+      "unique_agents": 4,
+      "dispatches_including_role_handoffs": 6,
+      "parallel_implementation_writers": 2,
+      "tests_run": 15,
+      "skipped_windows": 5,
+      "passed_available_checks": true,
+      "accepted_all_checks_windows": false,
+      "token_usage": null,
+      "cost": null,
+      "elapsed_seconds": null,
+      "implementation_sha256": {
+        "coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+        "export_evaluation_inputs.py": "bec5971c3d6d39420d37ce37f245683e367d13fb91f93c5be66b4155850d814c",
+        "task_ledger.py": "63c1572c38556e17f6478990b82b26793c7c9565fa5634447b9bef99fed215fb"
+      },
+      "qa": "independent PASS; native symlink coverage limited"
+    }
+  },
+  "limitations": [
+    "One feature task from this same repository, not independent production sampling; one run per mode.",
+    "No reliable comparative latency: runs overlap and dispatch/poll timing is uncontrolled.",
+    "Windows cannot create native symbolic links: five coordinator tests skipped; real symlink replay must run on Linux.",
+    "Instruction-scoped isolation, full transcripts unavailable, telemetry unavailable.",
+    "No hidden acceptance feedback or post-acceptance repair; preserve first delivered snapshots.",
+    "This pilot exercises parallel ownership, plan gate and final independent QA; it does not inject cancelled agents or exercise every recovery branch."
+  ]
+}

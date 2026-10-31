@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "name": "normal API, omissions, ignores, payload, temporary output",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight SKILL.md",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight references",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight scripts",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight agents",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight references/nested/link",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight scripts/nested/link",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight agents/nested/link",
+      "status": "PASS"
+    },
+    {
+      "name": "simulated nofollow preflight references/__pycache__/link",
+      "status": "PASS"
+    },
+    {
+      "name": "native Windows junction rejected before destination allocation",
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "Native symlink checks unavailable: [WinError 1314] A required privilege is not held by the client: '<temporary-path>' -> '<temporary-path>'"
+  ],
+  "independent_qa": false,
+  "passed": 10,
+  "failed": 0
+}

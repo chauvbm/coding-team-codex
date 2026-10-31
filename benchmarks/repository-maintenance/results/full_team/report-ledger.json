@@ -1,0 +1,13 @@
+{
+  "role": "Developer",
+  "scope": "ledger",
+  "spec": "s1",
+  "plan": "p1",
+  "checks": 8,
+  "failures": 0,
+  "errors": 0,
+  "status": "PASS",
+  "repair_batches": 0,
+  "command": "python -B ledger-selfchecks.py",
+  "source": "<pilot>\\full_team\\scripts\\task_ledger.py"
+}
