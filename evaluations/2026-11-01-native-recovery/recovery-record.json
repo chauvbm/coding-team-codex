@@ -1,0 +1,178 @@
+{
+  "spec": "s1",
+  "plan": "p2",
+  "mode": "AUTO",
+  "required_plan_qa": true,
+  "gate": "PASS",
+  "operating_state": "ACTIVE",
+  "original_review_deadline": "2026-10-31T22:54:50.947793+00:00",
+  "review_deadline_note": "Conservative remaining portion of original12minute assignment; not renewed by successor",
+  "counts": {
+    "revisions": 1,
+    "repair_batches": 1,
+    "diagnostics": 0,
+    "recovery_total": 2,
+    "review_recovery": 1,
+    "writer_recovery": 1
+  },
+  "events": [
+    {
+      "event": "plan_review",
+      "reviewer": "native_review_original",
+      "spec": "s1",
+      "plan": "p1",
+      "verdict": "REJECTED",
+      "finding": "QA-TENANT-ISOLATION-001",
+      "gate": "HOLD",
+      "evidence": "plan-review-original.json"
+    },
+    {
+      "event": "native_interrupt",
+      "target": "native_review_original",
+      "tool_result": {
+        "previous_status": "running"
+      },
+      "at": "2026-10-31T22:43:36.303918+00:00",
+      "reason": "controlled cancellation fault injection; historical rejection preserved"
+    },
+    {
+      "event": "successor_reassessment",
+      "verdict": "APPROVED",
+      "spec": "s1",
+      "plan": "p2",
+      "evidence": "plan-review-successor.json",
+      "gate": "PASS"
+    },
+    {
+      "event": "writer_interrupt_and_takeover",
+      "tool_result": {
+        "previous_status": "running"
+      },
+      "writer": "native_wip_writer",
+      "new_writer": "root",
+      "inspected_wip_sha256": "0035c06c8541526f2db5c6b6589bc53689592dfcbddf5dd82967ec01866d64cc",
+      "ownership_exclusive": true
+    },
+    {
+      "event": "root_completed_wip",
+      "acceptance": "4testsPASS",
+      "snapshot": "C1",
+      "sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b"
+    },
+    {
+      "event": "independent_final_qa",
+      "snapshot": "C1",
+      "verdict": "PASS",
+      "evidence": "finalQA-C1.json"
+    },
+    {
+      "event": "post_qa_material_change",
+      "snapshot": "C2",
+      "cause": "controlled integration regression fault injection by coordinator",
+      "invalidates": [
+        "C1 finalQA tenant-isolation scope"
+      ],
+      "delivery": "HOLD",
+      "sha256": "81b848aad02f3f21b4e7b1de69da408222a29599c5297968ae0b0452a3e05d82"
+    },
+    {
+      "event": "affected_reassessment",
+      "snapshot": "C2",
+      "verdict": "FAIL",
+      "finding": "QA-TENANT-ISOLATION-001",
+      "evidence": "finalQA-C2.json"
+    },
+    {
+      "event": "bounded_repair",
+      "snapshot": "C3",
+      "repair_batches": 1,
+      "sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b",
+      "check": "4testsPASS",
+      "delivery": "HOLD awaiting affected independent QA"
+    },
+    {
+      "event": "affected_reassessment",
+      "snapshot": "C3",
+      "verdict": "PASS",
+      "evidence": "finalQA-C3.json"
+    }
+  ],
+  "original_rejection": "plan-review-original.json",
+  "review_transfer": {
+    "from": "native_review_original",
+    "to": "native_review_successor",
+    "reason": "root native interrupt running reviewer after rejection",
+    "retained_findings": [
+      "QA-TENANT-ISOLATION-001",
+      "QA-IMMUTABILITY-002"
+    ],
+    "counters_preserved": true
+  },
+  "delivery": "PASS",
+  "final_review_deadline": "2026-10-31T22:56:01.375553+00:00",
+  "final_review_deadline_note": "Conservative anchor at C1 snapshot, before final QA handoff; unchanged for C2/C3.",
+  "limitations": [
+    "Coordinator-authored tiny synthetic task and injected faults; tests recovery mechanics, not coding quality or savings.",
+    "Cancellation used interrupt_agent, observed previous_status running; not a host crash or hostile-worker sandbox.",
+    "Root enforced gates/ownership and wrote this record; no native write-lock enforcement or transcript attestation.",
+    "Not a FULL_TEAM three-role plan review: AUTO with a required scoped independent-QA plan gate.",
+    "All reviews completed inside their original phase deadlines; two distinct operation recoveries used, no chained reviewer replacement."
+  ],
+  "published_snapshots": {
+    "wip-billing.txt": {
+      "original_bytes_sha256": "0035c06c8541526f2db5c6b6589bc53689592dfcbddf5dd82967ec01866d64cc",
+      "published_utf8_lf_sha256": "cfa88fdd691fad2bf66f4df63777d6cf11158cc894c470aa97e5d464d84fdbd3",
+      "original_newline_sequences": [
+        "\n",
+        "\n",
+        "\n",
+        "\r\n"
+      ]
+    },
+    "C1-billing.txt": {
+      "original_bytes_sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b",
+      "published_utf8_lf_sha256": "860477b54ac610fead9e0f9c0f674ef0b2471045173d8be9987c61ebcc52d2a4",
+      "original_newline_sequences": [
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n"
+      ]
+    },
+    "C2-billing.txt": {
+      "original_bytes_sha256": "81b848aad02f3f21b4e7b1de69da408222a29599c5297968ae0b0452a3e05d82",
+      "published_utf8_lf_sha256": "b9c522c2efcaa0df20adace57620c12766b5e79911946c3563b1730254fedc0b",
+      "original_newline_sequences": [
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n"
+      ]
+    },
+    "C3-billing.txt": {
+      "original_bytes_sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b",
+      "published_utf8_lf_sha256": "860477b54ac610fead9e0f9c0f674ef0b2471045173d8be9987c61ebcc52d2a4",
+      "original_newline_sequences": [
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n",
+        "\r\n"
+      ]
+    }
+  },
+  "canonical_issue_classification": {
+    "QA-TENANT-ISOLATION-001": {
+      "original_severity": "P1",
+      "coordination_severity": "MAJOR",
+      "reason": "tenant data exposed or missing-tenant lookup incorrect"
+    },
+    "QA-IMMUTABILITY-002": {
+      "original_severity": "P2",
+      "coordination_severity": "MINOR",
+      "reason": "verification completeness note; plan scan itself did not mutate"
+    }
+  }
+}

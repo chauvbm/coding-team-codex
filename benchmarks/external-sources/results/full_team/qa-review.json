@@ -1,0 +1,57 @@
+{
+  "stage": "final-independent-QA",
+  "spec": "s1",
+  "plan": "p1",
+  "representative": "/root/external_full_qa",
+  "verdict": "APPROVED_WITH_NOTES",
+  "tests_run": 16,
+  "failures": [],
+  "errors": [],
+  "metrics": {
+    "small_combination_cases": 2047,
+    "huge_combination_seconds": 0.00018049999994218524,
+    "huge_combination_peak_bytes": 760
+  },
+  "doctests": {
+    "boltons": {
+      "attempted": 10,
+      "failed": 0,
+      "output": ""
+    },
+    "more_itertools": {
+      "attempted": 140,
+      "failed": 2,
+      "output": "**********************************************************************\nFile \"<pilot>\\full_team\\more_itertools\\module.py\", line 1348, in qa_more_itertools.multinomial\nFailed example:\n    from more_itertools import distinct_permutations, ilen\nException raised:\n    Traceback (most recent call last):\n      File \"C:\\Program Files\\Python313\\Lib\\doctest.py\", line 1395, in __run\n        exec(compile(example.source, filename, \"single\",\n        ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                     compileflags, True), test.globs)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n      File \"<doctest qa_more_itertools.multinomial[0]>\", line 1, in <module>\n        from more_itertools import distinct_permutations, ilen\n    ImportError: cannot import name 'distinct_permutations' from 'more_itertools' (unknown location)\n**********************************************************************\nFile \"<pilot>\\full_team\\more_itertools\\module.py\", line 1349, in qa_more_itertools.multinomial\nFailed example:\n    ilen(distinct_permutations('abracadabra'))\nException raised:\n    Traceback (most recent call last):\n      File \"C:\\Program Files\\Python313\\Lib\\doctest.py\", line 1395, in __run\n        exec(compile(example.source, filename, \"single\",\n        ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                     compileflags, True), test.globs)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n      File \"<doctest qa_more_itertools.multinomial[1]>\", line 1, in <module>\n        ilen(distinct_permutations('abracadabra'))\n        ^^^^\n    NameError: name 'ilen' is not defined. Did you mean: 'len'?\n**********************************************************************\n1 item had failures:\n   2 of   5 in qa_more_itertools.multinomial\n***Test Failed*** 2 failures and 6 skipped tests.\n"
+    },
+    "dotenv": {
+      "attempted": 0,
+      "failed": 0,
+      "output": ""
+    }
+  },
+  "source_hashes_before": {
+    "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+    "more_itertools/module.py": "ae0976daf95fd4b525e7099f5dadf9aa3af4de86233f5bb4bb5966394490ad22",
+    "dotenv/module.py": "634e2c03f454d96464c0d2c5b57c678f4fcfbc17b909d18b14968b53951a38cd"
+  },
+  "source_hashes_after": {
+    "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+    "more_itertools/module.py": "ae0976daf95fd4b525e7099f5dadf9aa3af4de86233f5bb4bb5966394490ad22",
+    "dotenv/module.py": "634e2c03f454d96464c0d2c5b57c678f4fcfbc17b909d18b14968b53951a38cd"
+  },
+  "source_stable": true,
+  "production_edits": [],
+  "findings": [],
+  "reviewed_source": [
+    "Read actual clamp_iter, combination_index, __all__, parse_mapping, and affected existing functions. Compared directly against TASK s1 and previously inspected baseline source."
+  ],
+  "doctest_classification": {
+    "boltons": "PASS: 10/10 examples",
+    "more_itertools": "138/140 examples pass; 2 existing multinomial examples are environment BLOCKED: missing full-package distinct_permutations and ilen import, then dependent NameError. No feature regression indicated by those failures.",
+    "dotenv": "NOT_APPLICABLE: 0 examples"
+  },
+  "limitations": [
+    "Complete upstream package test suites are unavailable in the isolated three-source workspace; more_itertools doctest run includes two explicitly reported environment-related failures.",
+    "Runtime model/effort metadata are unverified."
+  ]
+}

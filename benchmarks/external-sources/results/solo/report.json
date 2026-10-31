@@ -1,0 +1,118 @@
+{
+  "mode": "SOLO",
+  "task_contract": "TASK.md s1",
+  "verification": "self-check only; no independent QA",
+  "implementation_batches": 1,
+  "self_check_batches": 1,
+  "checks": [
+    {
+      "name": "__main__.ClampChecks.test_comparable_types_and_identity",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.ClampChecks.test_lazy_one_shot_and_one_item_per_request",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.ClampChecks.test_reversed_bounds_deferred_and_empty",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.ClampChecks.test_scalar_and_bits_regressions",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.ClampChecks.test_unbounded_and_empty_inputs",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.CombinationChecks.test_billion_domain_short_combinations",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.CombinationChecks.test_empty_and_boundary_ranks",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.CombinationChecks.test_exhaustive_lexicographic_inverse_small_domains",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.CombinationChecks.test_invalid_types_and_indices",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.CombinationChecks.test_one_shot_integer_protocol_and_public_export",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.MappingChecks.test_comments_keys_empty_duplicate_order_and_literals",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.MappingChecks.test_mapping_agrees_with_parse_stream_and_stream_api",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.MappingChecks.test_non_strict_skips_and_continues",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.MappingChecks.test_quotes_escapes_multiline_export_bom_and_newlines",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.MappingChecks.test_strict_original_starting_line_including_multiline",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.PreservationChecks.test_existing_affected_function_doctests",
+      "status": "PASS"
+    },
+    {
+      "name": "__main__.PreservationChecks.test_existing_definitions_unchanged_and_licenses_preserved",
+      "status": "PASS"
+    }
+  ],
+  "tests_run": 17,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "defects": [],
+  "repairs": {
+    "self_check_triggered": 0,
+    "qa_triggered": 0,
+    "hidden_acceptance_triggered": 0
+  },
+  "measurements": {
+    "billion_domain": {
+      "seconds": 9.820000002491724e-05,
+      "peak_traced_bytes": 352
+    },
+    "exhaustive_combinations": 2047,
+    "affected_existing_doctests": {
+      "attempted": 11,
+      "failed": 0
+    }
+  },
+  "elapsed_seconds": 0.037439500000004955,
+  "baseline_source_sha256": {
+    "boltons": "f832235006d1a1fac34ff0d83f0f9819d00a3086cfb4df6169212b4d8d31d4fe",
+    "more_itertools": "468ab191bbb5fd62e8603d741e6983acdfa9d697d0ff9252b0c56ffdd24ca9bc",
+    "dotenv": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae"
+  },
+  "delivered_source_sha256": {
+    "boltons": "8f94f9a0c3f5d0ad88bb9897e437e216ff19e1bb6065747d14b275a0b32e667b",
+    "more_itertools": "c3868eee2043603aa96ba7f91980902fc67941b063bc5fcc4d5c1687c4ec70ba",
+    "dotenv": "b682dbfd56255de7588447b7d99496af43e0ef7bcee09184f12cabf0af138bf0"
+  },
+  "limitations": [
+    "All verification is authored and run by the implementing SOLO agent; it is not independent QA.",
+    "No full upstream test suites were present or run; regression checks cover unchanged AST definitions, licenses, affected doctests, and selected behaviors.",
+    "Runtime model and effort settings were inherited; their observed values are unverified.",
+    "Measured memory and timing describe only this self-check run."
+  ],
+  "frozen": true,
+  "final_timestamp_utc": "2026-10-31T22:50:25.773559+00:00"
+}

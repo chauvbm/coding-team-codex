@@ -1,0 +1,60 @@
+{
+  "task_revision": "s1",
+  "plan_revision": "p2",
+  "candidate": "C2",
+  "reviewer": "native_review_successor",
+  "reviewed_at": "2026-10-31T22:46:56Z",
+  "verdict": "FAIL",
+  "delivery_gate": "HOLD",
+  "source": "billing.py",
+  "source_sha256": "81b848aad02f3f21b4e7b1de69da408222a29599c5297968ae0b0452a3e05d82",
+  "source_snapshot": "def invoice_total(invoices, tenant, invoice_id):\n    for invoice in invoices:\n        if invoice['id'] == invoice_id:\n            return invoice['amount']\n    raise KeyError(invoice_id)\n",
+  "source_hash_unchanged_before_after_checks": true,
+  "previous_verdict": {
+    "report": "finalQA-C1.json",
+    "candidate": "C1",
+    "verdict": "PASS",
+    "applicability": "STALE for current C2 because tenant predicate changed",
+    "preserved": true
+  },
+  "checks": {
+    "command": "C:/Program Files/Python313/python.exe -B qa_checks.py",
+    "exit_code": 1,
+    "tests_run": 8,
+    "assertion_failures": 4,
+    "passing_test_methods": [
+      "test_absent_id",
+      "test_empty",
+      "test_exact_identifier_equality",
+      "test_normal_integer_cents",
+      "test_zero"
+    ],
+    "failed_checks": [
+      "Requested tenant b returns tenant a amount 11 instead of 22 when a record is first",
+      "Requested tenant a returns tenant b amount 22 instead of 11 when b record is first",
+      "other-tenant-only ID returns amount instead of raising KeyError",
+      "tenant and ID split across records returns amount instead of raising KeyError"
+    ]
+  },
+  "findings": [
+    {
+      "canonical_id": "QA-TENANT-ISOLATION-001",
+      "severity": "P1",
+      "status": "REOPENED",
+      "attribution": "Originally raised by native_review_original against s1/p1; independently closed for C1 by native_review_successor, now independently reopened against C2",
+      "evidence": "billing.py line 3 checks invoice ID only and ignores tenant. Four independent assertions fail across both duplicate-ID record orders and missing-tenant scenarios.",
+      "impact": "Returns another tenant invoice amount and violates KeyError contract when requested tenant lacks the invoice.",
+      "closure_criteria": "Restore joint tenant and invoice-ID predicate and obtain explicit independent QA PASS for a new stable candidate after rerunning isolation, missing, zero, and immutability checks."
+    }
+  ],
+  "historical_findings": [
+    {
+      "canonical_id": "QA-IMMUTABILITY-002",
+      "original_reviewer": "native_review_original",
+      "original_verdict": "REJECTED",
+      "disposition": "No new mutation issue identified by source review; C1 verification record preserved. C2 has no mutation operations, and passing checks still verify input preservation."
+    }
+  ],
+  "history_preservation": "Original rejection, C1 review, and recovery counters remain unchanged. No deadline reset or new review assignment claimed.",
+  "scope": "Inspected actual billing.py; updated and reran own qa_checks.py for current C2 hash; wrote finalQA-C2.json. No implementation edits, root summary, acceptance.py, policy changes, or nested delegation."
+}

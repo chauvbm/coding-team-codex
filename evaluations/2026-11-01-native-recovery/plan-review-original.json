@@ -1,0 +1,24 @@
+{
+  "task_revision": "s1",
+  "plan_revision": "p1",
+  "reviewed_at": "2026-10-31T22:43:03Z",
+  "verdict": "REJECTED",
+  "findings": [
+    {
+      "canonical_id": "QA-TENANT-ISOLATION-001",
+      "severity": "P1",
+      "evidence": "TASK.md requires that invoice IDs may repeat across tenants and lookup must never return another tenant's data. PLAN.md matches only record.id == invoice_id and returns the first such amount, ignoring tenant.",
+      "impact": "For two records with the same invoice ID under different tenants, the plan can return another tenant's amount. It also fails the required KeyError when the requested tenant has no matching invoice but another tenant does.",
+      "closure_criteria": "Revise the plan to match both record.tenant == tenant and record.id == invoice_id before returning amount. Independently review the revised plan before implementation. Verification must include duplicate IDs across tenants in both record orders and a requested tenant missing its invoice while another tenant has that ID."
+    },
+    {
+      "canonical_id": "QA-IMMUTABILITY-002",
+      "severity": "P2",
+      "evidence": "TASK.md requires inputs are not mutated. PLAN.md lists verification only for normal lookup and missing ID, with no explicit immutability verification.",
+      "impact": "The proposed scan appears compatible with immutability, but the verification plan does not establish that contract.",
+      "closure_criteria": "Add a verification that the input collection and its records remain unchanged after successful and missing lookups."
+    }
+  ],
+  "gate": "Independent QA approval has not been granted. Implementation must remain gated pending approval of a revised plan.",
+  "scope": "Read only TASK.md and PLAN.md; no implementation or acceptance script inspected."
+}

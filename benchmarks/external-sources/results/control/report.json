@@ -1,0 +1,125 @@
+{
+  "condition": "no-skill control",
+  "status": "frozen",
+  "frozen_at_utc": "2026-10-31T22:49:54.317615+00:00",
+  "checks": [
+    {
+      "name": "clamp scalar equivalence and comparable types",
+      "passed": true,
+      "seconds": 4.8300000003109744e-05,
+      "detail": null
+    },
+    {
+      "name": "clamp no eager consumption and infinite source",
+      "passed": true,
+      "seconds": 6.600000006073969e-06,
+      "detail": null
+    },
+    {
+      "name": "clamp reversed bounds on first iteration including empty",
+      "passed": true,
+      "seconds": 9.000000090964022e-06,
+      "detail": null
+    },
+    {
+      "name": "boltons existing doctests and Bits smoke",
+      "passed": true,
+      "seconds": 0.012684100000001308,
+      "detail": {
+        "doctest_attempted": 10
+      }
+    },
+    {
+      "name": "combination exhaustive lexicographic ranks and inverse",
+      "passed": true,
+      "seconds": 0.002096400000027643,
+      "detail": {
+        "combinations_checked": 1023
+      }
+    },
+    {
+      "name": "combination large n without pool",
+      "passed": true,
+      "seconds": 1.190000000406144e-05,
+      "detail": null
+    },
+    {
+      "name": "combination invalid types",
+      "passed": true,
+      "seconds": 1.8700000055105193e-05,
+      "detail": null
+    },
+    {
+      "name": "combination invalid ranges and ordering",
+      "passed": true,
+      "seconds": 9.69999996414117e-06,
+      "detail": null
+    },
+    {
+      "name": "combination index protocol and export",
+      "passed": true,
+      "seconds": 2.740000002177112e-05,
+      "detail": null
+    },
+    {
+      "name": "mapping keys empties duplicates and insertion order",
+      "passed": true,
+      "seconds": 0.00022590000003219757,
+      "detail": null
+    },
+    {
+      "name": "mapping quote escape multiline and no interpolation",
+      "passed": true,
+      "seconds": 0.0017547999999578678,
+      "detail": null
+    },
+    {
+      "name": "mapping invalid recovery and strict original line",
+      "passed": true,
+      "seconds": 0.0003874000000223532,
+      "detail": null
+    },
+    {
+      "name": "parse_stream binding API and BOM newline variants",
+      "passed": true,
+      "seconds": 0.00012140000001181761,
+      "detail": null
+    },
+    {
+      "name": "license files unchanged",
+      "passed": true,
+      "seconds": 0.0004129000000148153,
+      "detail": {
+        "files_checked": 3
+      }
+    }
+  ],
+  "checks_passed": 14,
+  "checks_failed": 0,
+  "implementation_batches": 1,
+  "selfcheck_batches": 1,
+  "defects_found": [],
+  "repair_count": 0,
+  "qa_triggered_repairs": 0,
+  "independent_review": false,
+  "baseline_source_sha256": {
+    "boltons\\module.py": "f832235006d1a1fac34ff0d83f0f9819d00a3086cfb4df6169212b4d8d31d4fe",
+    "more_itertools\\module.py": "468ab191bbb5fd62e8603d741e6983acdfa9d697d0ff9252b0c56ffdd24ca9bc",
+    "dotenv\\module.py": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae"
+  },
+  "delivered_source_sha256": {
+    "boltons\\module.py": "b63de5cde47ec3d3812c81dbf4f4d7499fc0e9f0c98159d62fd0cb23fd73b752",
+    "more_itertools\\module.py": "87f07f28d58e3abe638ba49146fc18256897e4d0c5f7a0e74b56e85a2458d653",
+    "dotenv\\module.py": "74b35a110dd03a260592ecda793340955c839c17171d4153c47fa11b4d82286b"
+  },
+  "license_sha256": {
+    "boltons\\LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+    "dotenv\\LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+    "more_itertools\\LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46"
+  },
+  "limitations": [
+    "Self-authored checks only; no independent review or hidden acceptance observed.",
+    "Inherited runtime model and reasoning effort not independently observable.",
+    "No external upstream full test suite was available in the assigned workspace."
+  ]
+}

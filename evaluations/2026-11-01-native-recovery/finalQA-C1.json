@@ -1,0 +1,53 @@
+{
+  "task_revision": "s1",
+  "plan_revision": "p2",
+  "candidate": "C1",
+  "reviewer": "native_review_successor",
+  "phase": "independent final implementation QA",
+  "reviewed_at": "2026-10-31T22:46:24Z",
+  "verdict": "PASS",
+  "source": "billing.py",
+  "source_sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b",
+  "source_hash_unchanged_before_after_checks": true,
+  "evidence": {
+    "source_review": "The implementation scans records, requires both tenant and invoice ID equality before returning amount, and raises KeyError after exhaustion. It performs no assignments or mutations to inputs, uses no dependencies, and calls no external services.",
+    "command": "C:/Program Files/Python313/python.exe -B qa_checks.py",
+    "exit_code": 0,
+    "tests_run": 8,
+    "result": "OK",
+    "coverage": [
+      "normal integer cents",
+      "zero amount",
+      "duplicate IDs across tenants in both record orders and both requested tenants",
+      "other-tenant-only invoice raises KeyError",
+      "absent ID raises KeyError",
+      "tenant and ID split across records raises KeyError",
+      "empty input raises KeyError",
+      "exact identifier equality",
+      "deep input content and record identity unchanged after every success and failure"
+    ]
+  },
+  "findings": [],
+  "historical_findings": [
+    {
+      "canonical_id": "QA-TENANT-ISOLATION-001",
+      "original_reviewer": "native_review_original",
+      "original_task_revision": "s1",
+      "original_plan_revision": "p1",
+      "original_verdict": "REJECTED",
+      "disposition": "CLOSED_VERIFIED_C1",
+      "evidence": "Direct source review and independent duplicate-ID/order/tenant tests plus other-tenant-only and split-match tests passed."
+    },
+    {
+      "canonical_id": "QA-IMMUTABILITY-002",
+      "original_reviewer": "native_review_original",
+      "original_task_revision": "s1",
+      "original_plan_revision": "p1",
+      "original_verdict": "REJECTED",
+      "disposition": "CLOSED_VERIFIED_C1",
+      "evidence": "Independent checks compare deep input contents and record identities after every successful and missing lookup; all passed."
+    }
+  ],
+  "history_preservation": "Historical rejection, previous plan review, and recovery counters were not overwritten or reset. This report adds a current C1 verdict only.",
+  "scope": "Inspected TASK.md, PLAN.md, and billing.py; wrote and ran only own qa_checks.py and wrote this finalQA-C1.json. No acceptance.py or root check summary read. No implementation, policy, configuration, or recovery record edited. No nested delegation."
+}

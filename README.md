@@ -38,6 +38,8 @@ Use `/coding-team status` to inspect eligibility, `/coding-team off` for this ch
 
 Licensed under [MIT](LICENSE).
 
+Vendored upstream modules in the optional external-source benchmark retain their own adjacent licenses and attribution; see [that benchmark's provenance](benchmarks/external-sources/README.md).
+
 ### Optional automatic controls
 
 The shipped skill permits implicit invocation for matching tasks; AUTO still selects the smallest useful workflow. To have the agent handle persistent ON/OFF controls even before selecting the skill, optionally run `python <skill-directory>/scripts/coding_team_policy.py install-global-instructions`. This adds only the marked coding-team block to your Codex AGENTS.md, preserving unrelated instructions. It embeds the setup interpreter; regenerate it if that interpreter moves. Start a fresh chat after installation.
@@ -118,6 +120,8 @@ If the Codex skill-creator validator is available in your environment, run its `
 ## Independent behavioral evaluation
 
 The [lean-workflow evaluation](evaluations/2026-10-31-lean-workflow/README.md) adds eight mode/level scenarios and records the unedited 11/14 initial result, independent adjudication and targeted 1/1 STOP_HOLD retest. The [repository-maintenance pilot](benchmarks/repository-maintenance/README.md) uses actual repository scripts and two parallel Developers in FULL_TEAM; all modes still tie on available checks. Neither record establishes a cost or quality advantage.
+
+The [full policy rerun](evaluations/2026-11-01-policy/README.md) evaluates all 42 existing cases on one snapshot (raw 40/42) and 12 less leading scenarios with a no-skill control (11/12 versus 10/12; ambiguity prevents benefit inference). A [native recovery exercise](evaluations/2026-11-01-native-recovery/README.md) records actual reviewer/WIP interruptions, preserved dissent, successor reassessment and post-QA invalidation. The [external-source pilot](benchmarks/external-sources/README.md) adds three pinned upstream modules and four conditions, all 18/18; its timestamps are observational and token/cost telemetry remains unavailable.
 
 The fixtures contain:
 

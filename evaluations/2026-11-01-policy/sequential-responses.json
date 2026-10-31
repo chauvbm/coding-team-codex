@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sequence_evidence_cutoff",
+    "action": "evidence_action",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "EVIDENCE_MODE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "End the two unchanged argument exchanges. Reserve the remaining diagnostic action for a bounded read-only in-memory reproduction of I-7, with a retry-duplication hypothesis, an assigned evidence owner, finite scope and an observable reproduction criterion. No implementation correction is identified or assigned, so this immediate action does not authorize affected writes or consume another repair batch. Preserve revision 1, I-7 repairs 2 and all other history; the human continuation covers necessary repair/verification beyond repair limits but does not extend diagnostics, recovery or deadlines."
+  },
+  {
+    "id": "sequence_diagnostic_stalls",
+    "action": "hold",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "STOP_HOLD",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "The bounded evidence action produced no usable evidence or correction and exhausted diagnostics at 1/1. Stop the stalled I-7 loop; neither another unchanged rebuttal nor a replacement diagnostic is justified. Preserve revision 1, four repair batches, I-7 repairs 2 and recovery 0/3. General human repair continuation does not extend this diagnostic stop. The smallest next step requires material new evidence, an external change, or concrete authority addressing the stopping reason; no speculative renewal question is needed."
+  },
+  {
+    "id": "sequence_relabel_does_not_resume",
+    "action": "hold",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "STOP_HOLD",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "Preserve canonical I-7 and its complete history; I-70 is merely a proposed alias for the same defect. Renaming the failed reproduction verification supplies neither evidence nor continuation authority and cannot reset diagnostics 1/1, repair batches 4, I-7 repairs 2, revision 1 or recovery 0/3. Keep the stalled loop stopped until material evidence, external change or applicable human authority addresses its stopping reason. No speculative user renewal is required."
+  },
+  {
+    "id": "sequence_new_evidence_resumes_repair",
+    "action": "repair_verify",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": true,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 5,
+    "rationale": "The external deterministic test and trace supply material new evidence and a distinct concrete idempotency correction, addressing the prior stalled-loop stop. Under the existing human repair authority, reserve the fifth task repair batch and third I-7 repair for the assigned Developer with exclusive affected-file ownership, then verify against the new regression and applicable existing checks. Preserve revision 1, diagnostics 1/1, recovery 0/3 and all historical findings; do not rerun the exhausted diagnostic or claim PASS before verification."
+  }
+]

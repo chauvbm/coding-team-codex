@@ -1,0 +1,65 @@
+{
+  "role": "independent QA",
+  "representative": "/root/external_full_qa",
+  "stage": "plan-review",
+  "spec": "s1",
+  "plan": "p1",
+  "scope": [
+    "boltons/module.py",
+    "more_itertools/module.py",
+    "dotenv/module.py"
+  ],
+  "verdict": "APPROVED_WITH_NOTES",
+  "gate": "HOLD pending Leader verification of three distinct current approvals",
+  "independence": "Initial verdict derived from TASK.md, PLAN.md, skill guidance, and actual baseline source; no peer verdicts or coordinator acceptance inspected.",
+  "findings": [],
+  "notes": [
+    {
+      "id": "QA-N1",
+      "severity": "MINOR",
+      "topic": "clamp_iter acceptance",
+      "text": "Test laziness before the first next() and between next() calls with a stateful one-shot iterator; reversed bounds must fail on first iteration even when values is empty. Compare Decimal, Fraction, string/custom comparable values against scalar clamp with explicit suitable bounds. Keep scalar clamp, ceil, floor, and Bits source behavior unchanged."
+    },
+    {
+      "id": "QA-N2",
+      "severity": "MINOR",
+      "topic": "combination_index acceptance",
+      "text": "Independently exhaust small n against itertools.combinations and check inversion with existing nth_combination. Include empty n=0, singleton, first/last combinations, generator positions, repeated/decreasing/out-of-range indices, invalid n, floats/strings/None, and bool rejection in n and positions. Check billion-size n with short positions without invoking nth_combination on that huge range. O(k) binomial expressions are feasible; the claim concerns expression count, not constant-cost arbitrary-precision arithmetic."
+    },
+    {
+      "id": "QA-N3",
+      "severity": "MINOR",
+      "topic": "parse_mapping acceptance",
+      "text": "Use Binding.original.line for strict diagnostics, including errors after blank lines and after multiline values; Reader marks before consuming leading multiline whitespace. Preserve that existing original-start convention rather than recomputing a physical key line. Test recovery after errors, comments/blanks, key-only versus explicit empty, repeated keys with first insertion order, BOM/CRLF, quoted/escaped/multiline values, and literal environment references. Check parse_stream Binding outputs remain unchanged."
+    }
+  ],
+  "source_observations": [
+    "clamp already checks upper < lower and uses min(max(x, lower), upper), allowing direct reuse without numeric coercion.",
+    "more_itertools imports math.comb and maintains a public __all__; nth_combination currently materializes its input pool and should remain untouched.",
+    "parse_stream emits Binding with error and original.line; parse_mapping can be a small consumer without changing existing parser functions or environment state."
+  ],
+  "checks": [
+    {
+      "name": "TASK.md and PLAN.md contract review",
+      "result": "PASS"
+    },
+    {
+      "name": "skill/SKILL.md plus debate-governance, quality-safety, agent-contracts, governance-defaults",
+      "result": "PASS"
+    },
+    {
+      "name": "actual baseline source inspection of all three modules",
+      "result": "PASS"
+    },
+    {
+      "name": "implementation execution and final integrated behavioral tests",
+      "result": "NOT_RUN",
+      "reason": "Plan review only; writers have not been authorized by this worker and final QA awaits explicit freeze handoff."
+    }
+  ],
+  "implementation_edits": [],
+  "limitations": [
+    "Approval is for s1/p1 plan feasibility and testability only; no integrated implementation has been reviewed or accepted.",
+    "Runtime model and effort metadata are unverified."
+  ]
+}

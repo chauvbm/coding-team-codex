@@ -1,0 +1,2 @@
+# Plan p2 for s1
+Scan records for both tenant == requested tenant AND id == invoice_id, return amount without mutating records. If no match raise KeyError including when another tenant has that ID. Verify normal and zero amount, duplicate IDs across tenants in both orders, absent ID and other-tenant-only ID, plus input unchanged after success/failure. Do not implement until independent successor directly reassesses original findings and explicitly approves current s1/p2. Scope billing.py.

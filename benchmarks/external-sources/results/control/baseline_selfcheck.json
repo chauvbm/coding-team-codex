@@ -1,0 +1,12 @@
+{
+  "sources": {
+    "boltons\\module.py": "f832235006d1a1fac34ff0d83f0f9819d00a3086cfb4df6169212b4d8d31d4fe",
+    "more_itertools\\module.py": "468ab191bbb5fd62e8603d741e6983acdfa9d697d0ff9252b0c56ffdd24ca9bc",
+    "dotenv\\module.py": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae"
+  },
+  "licenses": {
+    "boltons\\LICENSE": "c301912653a8d8c99eab6212aa3aea8d164ea249d8ad53c941e0558a0a5ac1e3",
+    "dotenv\\LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+    "more_itertools\\LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46"
+  }
+}

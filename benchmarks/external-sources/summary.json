@@ -1,0 +1,123 @@
+{
+  "kind": "single_bundle_external_source_pilot",
+  "skill_source_commit": "dd30de44b3566f95045ea00b263cda74c7c9145f",
+  "contract_sha256_utf8_lf": "4c265f9e40b454071e69d24fc8ea1172895f6c0e3df93b443dbb180a0262ec66",
+  "acceptance_sha256_utf8_lf": "cb44778ca3422543991a6781038db4bd3359c53a383275571945a7ab3f2a2ced",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "model_selection": "same parent runtime model/effort inheritance, no override",
+  "runs": {
+    "control": {
+      "tests_run": 18,
+      "accepted": true,
+      "skipped": 0,
+      "independent_qa": false,
+      "unique_subagents": 1,
+      "dispatches_including_stage_handoffs": 1,
+      "parallel_implementation_writers": 1,
+      "timestamps": {
+        "started_at": "2026-10-31T22:49:04.435679+00:00",
+        "delivery_observed_at": "2026-10-31T22:50:19.839917+00:00"
+      },
+      "coordinator_observed_wall_seconds": 75.404238,
+      "wall_time_is_comparable": false,
+      "tokens": null,
+      "cost": null,
+      "file_sha256_utf8_lf": {
+        "boltons/module.py": "b32f71d25709e8afa007834c4785b3e11b113b474ec861d56c24a19e43e7500d",
+        "boltons/LICENSE": "617273daf4b7b4fbc0e3068bca7df3e3dbc29b4c5641e185917c775cf1795111",
+        "more_itertools/module.py": "b11567207d67608fa8bd52db9a696d158941abc4c294ea193a4437ef2c6334d0",
+        "more_itertools/LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "dotenv/module.py": "b682dbfd56255de7588447b7d99496af43e0ef7bcee09184f12cabf0af138bf0",
+        "dotenv/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+      }
+    },
+    "solo": {
+      "tests_run": 18,
+      "accepted": true,
+      "skipped": 0,
+      "independent_qa": false,
+      "unique_subagents": 1,
+      "dispatches_including_stage_handoffs": 1,
+      "parallel_implementation_writers": 1,
+      "timestamps": {
+        "started_at": "2026-10-31T22:49:12.577100+00:00",
+        "delivery_observed_at": "2026-10-31T22:51:01.011660+00:00"
+      },
+      "coordinator_observed_wall_seconds": 108.43456,
+      "wall_time_is_comparable": false,
+      "tokens": null,
+      "cost": null,
+      "file_sha256_utf8_lf": {
+        "boltons/module.py": "8f94f9a0c3f5d0ad88bb9897e437e216ff19e1bb6065747d14b275a0b32e667b",
+        "boltons/LICENSE": "617273daf4b7b4fbc0e3068bca7df3e3dbc29b4c5641e185917c775cf1795111",
+        "more_itertools/module.py": "c3868eee2043603aa96ba7f91980902fc67941b063bc5fcc4d5c1687c4ec70ba",
+        "more_itertools/LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "dotenv/module.py": "b682dbfd56255de7588447b7d99496af43e0ef7bcee09184f12cabf0af138bf0",
+        "dotenv/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+      }
+    },
+    "auto": {
+      "tests_run": 18,
+      "accepted": true,
+      "skipped": 0,
+      "independent_qa": true,
+      "unique_subagents": 2,
+      "dispatches_including_stage_handoffs": 2,
+      "parallel_implementation_writers": 1,
+      "timestamps": {
+        "started_at": "2026-10-31T22:49:20.739096+00:00",
+        "implementation_observed_at": "2026-10-31T22:51:33.744358+00:00",
+        "qa_delivery_observed_at": "2026-10-31T22:53:53.942464+00:00"
+      },
+      "coordinator_observed_wall_seconds": 273.203368,
+      "wall_time_is_comparable": false,
+      "tokens": null,
+      "cost": null,
+      "file_sha256_utf8_lf": {
+        "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+        "boltons/LICENSE": "617273daf4b7b4fbc0e3068bca7df3e3dbc29b4c5641e185917c775cf1795111",
+        "more_itertools/module.py": "8fb129c5122bca64a37963c1c16b5da84996ba03c07581afb689e3db52aab292",
+        "more_itertools/LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "dotenv/module.py": "61ee7c762f80ab77381710aabc10625be0c99ebd34e62bcc4dbe55ca7bbbeda4",
+        "dotenv/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+      }
+    },
+    "full_team": {
+      "tests_run": 18,
+      "accepted": true,
+      "skipped": 0,
+      "independent_qa": true,
+      "unique_subagents": 4,
+      "dispatches_including_stage_handoffs": 6,
+      "parallel_implementation_writers": 2,
+      "timestamps": {
+        "started_at": "2026-10-31T22:49:30.712830+00:00",
+        "implementation_observed_at": "2026-10-31T22:51:50.660161+00:00",
+        "qa_delivery_observed_at": "2026-10-31T22:53:53.942464+00:00"
+      },
+      "coordinator_observed_wall_seconds": 263.229634,
+      "wall_time_is_comparable": false,
+      "tokens": null,
+      "cost": null,
+      "file_sha256_utf8_lf": {
+        "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+        "boltons/LICENSE": "617273daf4b7b4fbc0e3068bca7df3e3dbc29b4c5641e185917c775cf1795111",
+        "more_itertools/module.py": "ae0976daf95fd4b525e7099f5dadf9aa3af4de86233f5bb4bb5966394490ad22",
+        "more_itertools/LICENSE": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+        "dotenv/module.py": "634e2c03f454d96464c0d2c5b57c678f4fcfbc17b909d18b14968b53951a38cd",
+        "dotenv/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+      }
+    }
+  },
+  "limitations": [
+    "Three small requested feature additions to isolated modules from three pinned upstream repositories, not upstream reported bugs or full repository tasks.",
+    "One bundled run per condition; no repetitions/randomization or matched total agent compute budget.",
+    "Conditions ran concurrently; timestamps include coordinator scheduling, waiting and role handoffs. They cannot establish comparative latency advantage.",
+    "Per-agent token/cost/observed-model metadata unavailable; account quota deltas are not task telemetry.",
+    "No hidden acceptance feedback repair; no spontaneous production defect found by independent QA.",
+    "Author full-team DevA selfcheck batch had a Bits assertion mistake plus two full-package-dependent doctest failures; recorded honestly, production unchanged.",
+    "Instruction-scoped isolation, original full tool/model transcripts not bundled."
+  ]
+}

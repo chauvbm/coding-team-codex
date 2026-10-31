@@ -1,0 +1,52 @@
+{
+  "role": "Developer-A",
+  "spec": "s1",
+  "plan": "p1",
+  "stage": "initial_implementation_and_selfcheck",
+  "checks": {
+    "command": "C:/Program Files/Python313/python.exe selfcheck-devA.py",
+    "unittest_run": 9,
+    "failures": 0,
+    "errors": 1,
+    "doctests": {
+      "boltons": {
+        "attempted": 10,
+        "failed": 0
+      },
+      "more_itertools": {
+        "attempted": 140,
+        "failed": 2
+      }
+    },
+    "metrics": {
+      "small_combinations_checked": 1023,
+      "billion_seconds": 7.200000004559115e-05,
+      "billion_peak_bytes": 328
+    }
+  },
+  "status": "FAIL",
+  "defects": [
+    {
+      "scope": "selfcheck-devA.py",
+      "kind": "harness_error",
+      "description": "Legacy smoke check assumes int(Bits(5)) works; baseline Bits does not implement that conversion. New-feature checks passed. No module repair performed."
+    },
+    {
+      "scope": "upstream more_itertools doctest examples",
+      "kind": "environment_limitation",
+      "description": "Two multinomial examples import package-level distinct_permutations/ilen unavailable in this isolated renamed source module. Other 138 attempted examples passed. No source repair performed."
+    }
+  ],
+  "repair_batches": 0,
+  "freeze_at": "2026-10-31T22:51:37.601947+00:00",
+  "sha256": {
+    "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+    "more_itertools/module.py": "ae0976daf95fd4b525e7099f5dadf9aa3af4de86233f5bb4bb5966394490ad22"
+  },
+  "limitations": [
+    "Self-check evidence only; integrated independent QA remains pending.",
+    "Runtime model/effort inherited; observed settings unverified.",
+    "No hidden acceptance feedback inspected.",
+    "Whole batch reports FAIL due to the recorded harness error and two unavailable package-level doctest examples; this is not an independent QA pass."
+  ]
+}

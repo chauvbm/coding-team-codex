@@ -1,0 +1,48 @@
+{
+  "role": "Developer-B",
+  "worker": "external_parser_dev",
+  "spec": "s1",
+  "plan": "p1",
+  "status": "FROZEN",
+  "frozen_at": "2026-10-31T22:51:41.520850+00:00",
+  "changed_paths": [
+    "dotenv/module.py",
+    "selfcheck-devB.py",
+    "report-devB.json"
+  ],
+  "implementation": "Appended parse_mapping consuming parse_stream; existing parser functions and notices unchanged. Invalid bindings skip or raise with binding.original.line. Mapping assignment preserves first key insertion order and final value.",
+  "checks": [
+    {
+      "command": "& 'C:/Program Files/Python313/python.exe' selfcheck-devB.py",
+      "exit_code": 0,
+      "outcome": "PASS",
+      "tests": 7
+    }
+  ],
+  "coverage": [
+    "BOM/comments/blank lines",
+    "key-only versus explicit empty",
+    "duplicates and insertion order",
+    "export and quoted keys",
+    "single/double quote escapes",
+    "multiline values",
+    "literal variable references and unchanged environment",
+    "CRLF invalid binding recovery",
+    "strict original starting line after multiline and blank whitespace",
+    "parse_stream exact Binding output"
+  ],
+  "defects": [],
+  "repairs": [],
+  "implementation_batches": 1,
+  "selfcheck_batches": 1,
+  "independent_qa": "NOT_RUN by this worker; coordinator owns independent QA",
+  "limitations": [
+    "No upstream test suite or hidden acceptance inspected or run.",
+    "Strict errors deliberately use Binding.original.line, including leading whitespace covered by the parser mark.",
+    "Inherited parent model/effort; observed runtime settings unverified."
+  ],
+  "sha256": {
+    "dotenv/module.py": "634e2c03f454d96464c0d2c5b57c678f4fcfbc17b909d18b14968b53951a38cd",
+    "selfcheck-devB.py": "6d757e07ccf690257cebc96834eb674ba7539b6a4925c057ae9bd4b36ab54594"
+  }
+}

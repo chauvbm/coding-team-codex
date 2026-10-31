@@ -1,0 +1,110 @@
+{
+  "contract": "s1",
+  "mode": "AUTO",
+  "status": "FROZEN_FOR_INDEPENDENT_QA",
+  "timestamp_utc": "2026-10-31T22:51:09Z",
+  "scope": [
+    "boltons/module.py",
+    "more_itertools/module.py",
+    "dotenv/module.py"
+  ],
+  "changes": [
+    "Added lazy clamp_iter; validates reversed bounds at first iteration even for empty input and delegates item semantics to scalar clamp.",
+    "Added and exported combination_index; validates integer indices excluding bool and uses binomial arithmetic over only the supplied positions.",
+    "Added parse_mapping as a parse_stream consumer, retaining key-only/empty values and first insertion order with last values; strict errors include Binding.original.line."
+  ],
+  "checks": [
+    {
+      "command": "C:/Program Files/Python313/python.exe selfcheck.py",
+      "phase": "initial",
+      "status": "FAIL",
+      "unit_tests": {
+        "run": 9,
+        "failures": 0,
+        "errors": 1
+      },
+      "doctests": {
+        "boltons": {
+          "attempted": 10,
+          "failed": 0
+        },
+        "more_itertools": {
+          "attempted": 140,
+          "failed": 2
+        },
+        "dotenv": {
+          "attempted": 0,
+          "failed": 0
+        }
+      },
+      "findings": [
+        "Self-check LICENSE lookup used forward-slash baseline keys on Windows, while the captured baseline used native backslashes.",
+        "Two upstream multinomial doctest examples import distinct_permutations and ilen, absent from this isolated pinned module."
+      ]
+    },
+    {
+      "command": "C:/Program Files/Python313/python.exe selfcheck.py",
+      "phase": "after_selfcheck_harness_correction",
+      "status": "PASS",
+      "unit_tests": {
+        "run": 9,
+        "failures": 0,
+        "errors": 0
+      },
+      "doctests": {
+        "boltons": {
+          "attempted": 10,
+          "failed": 0
+        },
+        "more_itertools": {
+          "attempted": 140,
+          "failed": 0
+        },
+        "dotenv": {
+          "attempted": 0,
+          "failed": 0
+        }
+      },
+      "coverage": [
+        "Streaming consumption and unbounded prefix; empty reversed bounds; numeric, Decimal and string semantics.",
+        "All 2047 combinations for n from 0 through 10 checked against itertools ordering and nth_combination; type/range/order errors; n=1000000000 short combinations.",
+        "Mapping key-only/empty/duplicates/order, quoting/escapes/multiline, no interpolation, invalid recovery, strict original start lines, CR/BOM and environment preservation.",
+        "Scalar clamp/ceil/floor/Bits and parse_stream spot regressions; all three LICENSE hashes unchanged."
+      ]
+    },
+    {
+      "command": "C:/Program Files/Python313/python.exe -m py_compile boltons/module.py more_itertools/module.py dotenv/module.py selfcheck.py",
+      "status": "PASS",
+      "exit_code": 0
+    }
+  ],
+  "code_defects_found": [],
+  "repairs": [
+    {
+      "scope": "selfcheck.py",
+      "reason": "Correct platform-dependent LICENSE baseline key construction.",
+      "production_code_changed": false
+    },
+    {
+      "scope": "selfcheck.py",
+      "reason": "Skip only the two multinomial examples requiring functions omitted from the supplied isolated source; honor existing upstream skip flags.",
+      "production_code_changed": false
+    }
+  ],
+  "production_implementation_batches": 1,
+  "hidden_acceptance_feedback_received": false,
+  "independent_review": "NOT_RUN_BY_THIS_WORKER; coordinator dispatches QA after freeze",
+  "limitations": [
+    "Self-authored verification is not independent QA.",
+    "Two package-dependent upstream doctest examples are explicitly skipped in the passing run.",
+    "Full upstream package suites are unavailable in the supplied isolated modules; no network, install or original-repository access was used.",
+    "Parent runtime model and reasoning settings inherited; observed identity and effort are unverified."
+  ],
+  "baseline_hashes": "baseline.json",
+  "frozen_sha256": {
+    "boltons/module.py": "e0e6758f0a6764f853c7611e9eebbe1641359b0654eaefe007ee916e304f3d1f",
+    "more_itertools/module.py": "8fb129c5122bca64a37963c1c16b5da84996ba03c07581afb689e3db52aab292",
+    "dotenv/module.py": "61ee7c762f80ab77381710aabc10625be0c99ebd34e62bcc4dbe55ca7bbbeda4",
+    "selfcheck.py": "2449955987ee8f41327d891b32c36c588c891f38ab70c531f9d60aebf7887415"
+  }
+}

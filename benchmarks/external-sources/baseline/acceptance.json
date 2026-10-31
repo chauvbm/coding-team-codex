@@ -1,0 +1,103 @@
+{
+  "tests_run": 18,
+  "skipped": 0,
+  "accepted": false,
+  "failures": [
+    {
+      "test": "external_acceptance.Combination.test_public_export_and_old_negative_rank",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 85, in test_public_export_and_old_negative_rank\n    self.assertIn('combination_index', self.m.__all__)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'combination_index' not found in ['Stats', 'all_equal', 'batched', 'before_and_after', 'consume', 'convolve', 'dotproduct', 'factor', 'first_true', 'flatten', 'grouper', 'is_prime', 'iter_except', 'iter_index', 'loops', 'matmul', 'multinomial', 'ncycles', 'nth', 'nth_combination', 'pad_none', 'padnone', 'pairwise', 'partition', 'polynomial_derivative', 'polynomial_eval', 'polynomial_from_roots', 'powerset', 'prepend', 'quantify', 'random_combination', 'random_combination_with_replacement', 'random_derangement', 'random_permutation', 'random_product', 'repeatfunc', 'reshape', 'roundrobin', 'running_max', 'running_mean', 'running_median', 'running_min', 'running_statistics', 'sieve', 'sliding_window', 'subslices', 'sum_of_squares', 'tabulate', 'tail', 'take', 'totient', 'transpose', 'triplewise', 'unique', 'unique_everseen', 'unique_justseen']\n"
+    },
+    {
+      "test": "external_acceptance.Clamp.test_boundaries",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 26, in test_boundaries\n    self.assertEqual(list(self.m.clamp_iter(iter([-3, 0, 2, 9]), 0, 3)), [0, 0, 2, 3])\n                          ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_boltons' has no attribute 'clamp_iter'\n"
+    },
+    {
+      "test": "external_acceptance.Clamp.test_comparable_strings",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 44, in test_comparable_strings\n    self.assertEqual(list(self.m.clamp_iter(['a', 'm', 'z'], 'b', 'y')), ['b', 'm', 'y'])\n                          ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_boltons' has no attribute 'clamp_iter'\n"
+    },
+    {
+      "test": "external_acceptance.Clamp.test_defaults_and_empty",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 47, in test_defaults_and_empty\n    self.assertEqual(list(self.m.clamp_iter([])), [])\n                          ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_boltons' has no attribute 'clamp_iter'\n"
+    },
+    {
+      "test": "external_acceptance.Clamp.test_empty_reversed_bounds",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 41, in test_empty_reversed_bounds\n    with self.assertRaises(ValueError): next(iter(self.m.clamp_iter([], 5, 2)))\n                                                  ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_boltons' has no attribute 'clamp_iter'\n"
+    },
+    {
+      "test": "external_acceptance.Clamp.test_streaming",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 34, in test_streaming\n    result = self.m.clamp_iter(source(), 1, 5)\n             ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_boltons' has no attribute 'clamp_iter'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_all_small_ranks",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 63, in test_all_small_ranks\n    self.assertEqual(self.m.combination_index(n, positions), rank)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_invalid_order_and_bounds (n=-1, indices=[])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 77, in test_invalid_order_and_bounds\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_invalid_order_and_bounds (n=3, indices=[2, 1])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 77, in test_invalid_order_and_bounds\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_invalid_order_and_bounds (n=3, indices=[1, 1])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 77, in test_invalid_order_and_bounds\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_invalid_order_and_bounds (n=3, indices=[-1])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 77, in test_invalid_order_and_bounds\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_invalid_order_and_bounds (n=3, indices=[3])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 77, in test_invalid_order_and_bounds\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_large_first_and_last_without_pool",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 71, in test_large_first_and_last_without_pool\n    self.assertEqual(self.m.combination_index(10**9, [0, 1]), 0)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_one_shot_empty",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 67, in test_one_shot_empty\n    self.assertEqual(self.m.combination_index(0, iter(())), 0)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_type_checks (n=True, indices=[])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 82, in test_type_checks\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_type_checks (n=3.0, indices=[])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 82, in test_type_checks\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_type_checks (n=3, indices=[False])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 82, in test_type_checks\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_type_checks (n=3, indices=[1.0])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 82, in test_type_checks\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Combination.test_type_checks (n=3, indices=['1'])",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 82, in test_type_checks\n    self.m.combination_index(n, indices)\n    ^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_more_itertools' has no attribute 'combination_index'\n"
+    },
+    {
+      "test": "external_acceptance.Mapping.test_duplicate_insertion_order",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 97, in test_duplicate_insertion_order\n    result = self.parse('A=1\\nB=2\\nA=3\\n')\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 91, in parse\n    def parse(self, value, **kwargs): return self.m.parse_mapping(io.StringIO(value), **kwargs)\n                                             ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_dotenv' has no attribute 'parse_mapping'. Did you mean: 'parse_binding'?\n"
+    },
+    {
+      "test": "external_acceptance.Mapping.test_non_strict_skips_bad_line",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 106, in test_non_strict_skips_bad_line\n    self.assertEqual(self.parse('A=1\\nBAD=\"unterminated\\nC=3\\n'), {'A': '1', 'C': '3'})\n                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 91, in parse\n    def parse(self, value, **kwargs): return self.m.parse_mapping(io.StringIO(value), **kwargs)\n                                             ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_dotenv' has no attribute 'parse_mapping'. Did you mean: 'parse_binding'?\n"
+    },
+    {
+      "test": "external_acceptance.Mapping.test_quotes_multiline_escape_and_no_interpolation",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 102, in test_quotes_multiline_escape_and_no_interpolation\n    self.assertEqual(self.parse('A=\"one\\ntwo\"\\nB=\"x\\\\ny\"\\nC=${SECRET}\\n'),\n                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 91, in parse\n    def parse(self, value, **kwargs): return self.m.parse_mapping(io.StringIO(value), **kwargs)\n                                             ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_dotenv' has no attribute 'parse_mapping'. Did you mean: 'parse_binding'?\n"
+    },
+    {
+      "test": "external_acceptance.Mapping.test_strict_reports_start_line",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 110, in test_strict_reports_start_line\n    self.parse('A=\"one\\ntwo\"\\nBAD=\"unterminated\\nC=3\\n', strict=True)\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 91, in parse\n    def parse(self, value, **kwargs): return self.m.parse_mapping(io.StringIO(value), **kwargs)\n                                             ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_dotenv' has no attribute 'parse_mapping'. Did you mean: 'parse_binding'?\n"
+    },
+    {
+      "test": "external_acceptance.Mapping.test_values_comments_and_key_only",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 94, in test_values_comments_and_key_only\n    self.assertEqual(self.parse('# comment\\nA=1\\nBARE\\nEMPTY=\\n'), {'A': '1', 'BARE': None, 'EMPTY': ''})\n                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\external-sources\\acceptance.py\", line 91, in parse\n    def parse(self, value, **kwargs): return self.m.parse_mapping(io.StringIO(value), **kwargs)\n                                             ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'bench_dotenv' has no attribute 'parse_mapping'. Did you mean: 'parse_binding'?\n"
+    }
+  ]
+}

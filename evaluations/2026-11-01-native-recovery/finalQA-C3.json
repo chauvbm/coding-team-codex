@@ -1,0 +1,68 @@
+{
+  "task_revision": "s1",
+  "plan_revision": "p2",
+  "candidate": "C3",
+  "reviewer": "native_review_successor",
+  "reviewed_at": "2026-10-31T22:47:46Z",
+  "verdict": "PASS",
+  "source": "billing.py",
+  "source_sha256": "e038ff4c10e0c556f214c83fcf7efae7d60803768a9b5fb9fae5935956beb13b",
+  "source_snapshot": "def invoice_total(invoices, tenant, invoice_id):\n    for invoice in invoices:\n        if invoice['tenant'] == tenant and invoice['id'] == invoice_id:\n            return invoice['amount']\n    raise KeyError(invoice_id)\n",
+  "source_hash_unchanged_before_after_checks": true,
+  "evidence": {
+    "source_review": "Current C3 directly inspected: joint tenant and invoice-ID predicate is restored, unmatched lookup raises KeyError, no input writes, no dependencies or external services.",
+    "command": "C:/Program Files/Python313/python.exe -B qa_checks.py",
+    "exit_code": 0,
+    "tests_run": 8,
+    "failures": 0,
+    "result": "OK",
+    "coverage": [
+      "normal integer cents",
+      "zero amount",
+      "duplicate IDs in both record orders for both tenants",
+      "other-tenant-only ID raises KeyError",
+      "absent ID raises KeyError",
+      "tenant and ID split across records raises KeyError",
+      "empty input",
+      "exact identifier equality",
+      "deep content and record identity unchanged after every success and failure"
+    ]
+  },
+  "findings": [],
+  "historical_findings": [
+    {
+      "canonical_id": "QA-TENANT-ISOLATION-001",
+      "original_reviewer": "native_review_original",
+      "original_verdict": "REJECTED",
+      "history": "s1/p1 rejected; C1 independently passed; C2 independently failed and reopened finding; C3 directly reassessed after repair batch 1",
+      "disposition": "CLOSED_VERIFIED_C3",
+      "evidence": "Source predicate now requires tenant and invoice ID jointly. All four isolation assertions that failed on C2 pass on actual stable C3."
+    },
+    {
+      "canonical_id": "QA-IMMUTABILITY-002",
+      "original_reviewer": "native_review_original",
+      "original_verdict": "REJECTED",
+      "disposition": "CLOSED_VERIFIED_C3",
+      "evidence": "Each success and failure check compares deep input contents and record identities; all passed. Source contains no mutations."
+    }
+  ],
+  "prior_records": [
+    {
+      "report": "finalQA-C1.json",
+      "verdict": "PASS",
+      "preserved": true
+    },
+    {
+      "report": "finalQA-C2.json",
+      "verdict": "FAIL",
+      "preserved": true
+    }
+  ],
+  "assignment": {
+    "phase": "same original final QA assignment",
+    "deadline_renewed": false,
+    "repair_batch": 1
+  },
+  "history_preservation": "Original plan rejection, C1 PASS, C2 FAIL, and recovery counters were not changed or erased. This explicit current C3 PASS follows direct reassessment and fresh checks.",
+  "scope": "Read current billing.py; updated and ran own qa_checks.py; wrote finalQA-C3.json. No implementation edits, acceptance.py or root check summary reads, policy or configuration edits, or nested delegation."
+}

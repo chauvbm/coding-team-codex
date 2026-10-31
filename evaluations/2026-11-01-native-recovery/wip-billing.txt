@@ -1,0 +1,4 @@
+def invoice_total(invoices, tenant, invoice_id):
+    """Return the requested tenant's invoice amount (implementation in progress)."""
+    match = None
+    raise NotImplementedError('work in progress')
