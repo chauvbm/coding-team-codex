@@ -17,7 +17,7 @@ Use supported structured model/effort fields. If overrides require fresh context
 
 ## Full handoff: add when relevant
 
-For gated work, repair, or dependencies across workers, include work-item/dependency IDs, reviewed snapshot and Spec/Plan pair, named gate representative and approval scope, canonical issues/aliases and closure criteria, consumed/reserved counters, operating/gate state, original deadline and recorded human continuation authority. Never omit known gates or findings because a follow-up looks simple. Workers cannot reset counters, extend deadlines or launch follow-up cycles.
+For gated work, repair, or dependencies across workers, include work-item/dependency IDs, reviewed snapshot and Spec/Plan pair, named gate representative and approval scope, canonical issues/aliases and closure criteria, consumed/reserved counters, operating/gate state, original deadline and recorded human continuation authority. Never omit known gates or findings because a follow-up looks simple. Workers cannot reset counters, extend deadlines or launch follow-up cycles. A [controlled reviewer transfer](debate-governance.md#controlled-reviewer-transfer) also carries the recorded unavailability reason/source, old/new reviewer IDs and affected issues/scopes; preserve historical findings and attribution. The independent successor must directly reassess inherited failures and closure evidence on the current version and return an explicit scoped verdict, within the original recovery/deadline allowance.
 
 Keep context scoped to the assignment. Initial reviewers must not see peers' verdicts before their independent pass. Return findings to Leader; do not recruit votes or directly initiate worker debates. Report new evidence or actionable correction instead of repeating an unchanged objection. Leader controls routing and deduplication under [debate governance](debate-governance.md).
 
@@ -51,7 +51,7 @@ Do not edit implementation or spawn agents. Ordinary local build/test artifacts 
 
 ## Specialist
 
-Address a named unresolved domain question with explicit scope and closure criteria. Report evidence, impact and uncertainty to Leader; expertise or a majority does not override another reviewer's finding. Default to read-only review; implementation requires an explicit stage/ownership handoff under the Developer contract. Use a relevant specialist skill when warranted. Do not require this role for routine work.
+Address a named unresolved domain question with explicit scope and closure criteria. Report evidence, impact and uncertainty to Leader; expertise or a majority does not override another reviewer's finding; any reassigned review responsibility must follow controlled reviewer transfer. Default to read-only review; implementation requires an explicit stage/ownership handoff under the Developer contract. Use a relevant specialist skill when warranted. Do not require this role for routine work.
 
 ## Handoff evidence
 
