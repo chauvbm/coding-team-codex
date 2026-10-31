@@ -28,8 +28,10 @@ Reading this repository does not require installing the skill or changing Codex 
 | 6 | [control-policy.md](references/control-policy.md) | ON/OFF commands, precedence, state and bootstrap behavior |
 | 7 | [governance-defaults.json](references/governance-defaults.json) | Single source for numeric operational defaults |
 | 8 | [coding_team_policy.py](scripts/coding_team_policy.py) | Deterministic policy persistence and marked instruction installation |
-| 9 | [openai.yaml](agents/openai.yaml) | Skill UI metadata and implicit-invocation policy |
-| 10 | [tests/](tests/) | Behavioral inputs, expected checks and checker regression tests |
+| 9 | [task-ledger.md](references/task-ledger.md) | Optional durable task records and readiness stages |
+| 10 | [task_ledger.py](scripts/task_ledger.py) | Atomic ledger updates, history and structural readiness checks |
+| 11 | [openai.yaml](agents/openai.yaml) | Skill UI metadata and implicit-invocation policy |
+| 12 | [tests/](tests/) | Behavioral fixtures and checker, policy and ledger regression tests |
 
 For a static quality review, inspect both the operating instructions and the test oracles. For a blind behavioral evaluation, keep the oracles away from the evaluating agent as described below. Generated `graphify-out/` files are local development aids and are not required to review or run the skill.
 
@@ -57,7 +59,7 @@ The skill recognizes `/coding team on`, `/coding team off`, their `all` variants
 
 [Control policy](references/control-policy.md) documents state location, actual chat identity requirements and setup. `init` and `install-global-instructions` are setup operations that write state or instructions; they are not prerequisites for a read-only repository review. When testing the helper, use isolated `--state` and, for instruction-installation tests, `--agents` targets rather than the user's live files.
 
-The helper uses locking and atomic writes for policy storage. It does **not** intercept native agent tools or enforce task counters, file ownership, gate approval or model selection. Those are agent instructions; the host enforces its own permissions and concurrency. Passing behavioral fixtures does not turn the instructions into runtime locks.
+The eligibility helper uses locking and atomic writes for policy storage. The optional [task ledger](references/task-ledger.md) additionally validates recorded counters, ownership, approval versions and readiness. These checks operate on caller-authored records, not native tool calls; neither helper intercepts agents, locks implementation files, authenticates human authority or proves that a claimed review ran. The host enforces its own permissions and concurrency. Passing behavioral fixtures does not turn instructions into runtime locks.
 
 ## Checks you can run locally
 
@@ -68,7 +70,7 @@ python -m unittest discover -s tests -p "test_*.py" -v
 git diff --check
 ```
 
-The unit suite covers the response checker and eligibility helper, including malformed decisions/state, counter resets, hold/pause writes, persistence, concurrent updates and atomic-write failures. It does not execute the skill's behavioral scenarios. Inspect the current test files for the test inventory rather than treating a fixed count as a coverage guarantee.
+The unit suite covers the response checker, eligibility helper and task ledger, including malformed state, counter/history resets, hold/pause readiness, stale approvals, reviewer transfers, path escapes, concurrent updates and atomic-write failures. It does not execute the skill's behavioral scenarios. Inspect the current test files for the test inventory rather than treating a fixed count as a coverage guarantee.
 
 If the Codex skill-creator validator is available in your environment, run its `scripts/quick_validate.py` against this repository as an additional structural check. It is an external development utility, not bundled here, and does not establish behavioral correctness.
 

@@ -25,6 +25,8 @@ A role is not an obligatory additional agent for every coding task. A Developer'
 
 ## Work queue and integration
 
+For durable accounting across handoffs or compaction, see the [optional task ledger](task-ledger.md). Check its plan gate before implementation and its delivery readiness after independent integrated QA; a successful state write alone grants no approval.
+
 Use `max_subagents` from [governance defaults](governance-defaults.json), constrained by runtime capacity, already active agents and user limits. Start only ready work items with distinct objectives and outputs. Record ID, owner, dependencies, file ownership, snapshot/version, status and acceptance evidence. Stage downstream work until its input/interface is settled; keep room for independent QA rather than occupying all slots with writers. Sequence roles when runtime capacity is smaller.
 
 Leader first integrates completed branches and resolves interface mismatches, then identifies a stable snapshot for Test Engineer and QA. A reviewer can examine an already stable independent portion while other portions progress, but their verdict covers only that snapshot/scope. Changes afterward require affected checks again. Finish with independent review and meaningful checks of the integrated delivered state, not just separate branch reports.
