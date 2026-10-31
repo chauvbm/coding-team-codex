@@ -1,0 +1,178 @@
+[
+  {
+    "id": "r01",
+    "action": "direct_work",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": true,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "This is an L0 exact reversible correction. ON permits teamwork but does not require it; make the correction directly and verify proportionately without a new review commitment."
+  },
+  {
+    "id": "r02",
+    "action": "evidence_action",
+    "gate": "HOLD",
+    "operating_state": "EVIDENCE_MODE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Preserve the demonstrated data-loss objection and run one bounded reproduction of duplicate-row preservation, recording the hypothesis and success condition. Majority approval cannot resolve the available reviewer's material rejection; implementation remains held pending correction and reassessment."
+  },
+  {
+    "id": "r03",
+    "action": "direct_work",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Continue the authorized read-only review and report the definite error and suggested correction as a finding. Knowing the fix does not authorize changing implementation in a findings-only request."
+  },
+  {
+    "id": "r04",
+    "action": "targeted_reassessment",
+    "gate": "HOLD",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "The units change materially affects the response contract and downstream acceptance. Obtain explicit affected approvals for the revised Spec/Plan pair; yesterday's approvals cannot cover the new behavior silently."
+  },
+  {
+    "id": "r05",
+    "action": "complete",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "PASS",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "The ungated SOLO task selected self-check verification at initialization, has current directly verified integrated evidence and passing checks, and has no independent-review obligation or unresolved issue. Complete and accurately identify verification as self-check."
+  },
+  {
+    "id": "r06",
+    "action": "targeted_reassessment",
+    "gate": "HOLD",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Use controlled reviewer transfer within the reserved recovery and original deadline. The independent successor must inspect the corrected current plan and directly reassess the inherited tenant-isolation failure, preserving attribution and counters; naming a successor alone supplies no approval."
+  },
+  {
+    "id": "r07",
+    "action": "hold",
+    "gate": "HOLD",
+    "operating_state": "STOP_HOLD",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Stop the exhausted review loop and report the missing review and smallest next step. General authorization to exceed code-repair counts does not extend review recovery or its original deadline, and a volunteer cannot restart the clock. No concrete user decision currently calls for a question."
+  },
+  {
+    "id": "r08",
+    "action": "independent_review",
+    "gate": "HOLD",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Obtain current independent plan reviews with three distinct Architect, Developer and QA representatives for the same scope and pair. Three role labels attached to one identity do not meet the required full-team gate."
+  },
+  {
+    "id": "r09",
+    "action": "hold",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": true,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "The exact model and effort pin prohibits fallback. Report model Z's unavailability and request an actual user choice about the constraint; do not dispatch another model. No required plan gate is stated and no independent work remains."
+  },
+  {
+    "id": "r10",
+    "action": "await_review",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Await or stop the existing writer before inspecting partial output and explicitly transferring exclusive file ownership. A faster second Developer cannot begin writing the shared file while the original writer remains active."
+  },
+  {
+    "id": "r11",
+    "action": "pause",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "PAUSED",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Reliable telemetry reaches the user's explicit quota threshold. Preserve work, findings and cumulative history and pause now; the optional diagnostic does not justify passing the pause checkpoint."
+  },
+  {
+    "id": "r12",
+    "action": "targeted_reassessment",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Have the available QA reviewer directly inspect and rerun affected verification on integrated C2. The serialization change invalidates the affected C1 final verdict; this is delivery verification, with no stated missing plan-gate approval or user decision."
+  },
+  {
+    "id": "r13",
+    "action": "await_review",
+    "gate": "PASS",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Await the assigned writer's required work completion; do not announce delivery while it remains ACTIVE. The existing plan gate stays PASS, but final readiness requires completed work and renewed affected verification on the stable delivered snapshot."
+  },
+  {
+    "id": "r14",
+    "action": "targeted_reassessment",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Preserve A's current delivery rejection and route its objection for direct reassessment and evidence-backed resolution. B's approval cannot erase that obligation merely because no issue record was created. Delivery remains unready; no plan-gate defect is stated."
+  },
+  {
+    "id": "r15",
+    "action": "organize_correction",
+    "gate": "HOLD",
+    "operating_state": "ACTIVE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Use the supported narrow responsibility migration with an exact original-file backup, distinct representatives and a fresh version/snapshot pair. Preserve historical approvals, findings, counters and authority, then require new applicable approvals rather than copying old acceptance. No additional permission decision is missing."
+  },
+  {
+    "id": "r16",
+    "action": "schedule_work",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": true,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "rationale": "Keep the unfinished required item and schedule its completion under valid exclusive ownership and existing task scope. Neither deletion nor unsupported cancellation satisfies unchanged acceptance, and final review does not prove the work unnecessary. No new plan-gate requirement is stated."
+  }
+]

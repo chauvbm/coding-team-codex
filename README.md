@@ -125,7 +125,7 @@ The [lean-workflow evaluation](evaluations/2026-10-31-lean-workflow/README.md) a
 
 The [full policy rerun](evaluations/2026-11-01-policy/README.md) evaluates all 42 existing cases on one snapshot (raw 40/42) and 12 less leading scenarios with a no-skill control (11/12 versus 10/12; ambiguity prevents benefit inference). A [native recovery exercise](evaluations/2026-11-01-native-recovery/README.md) records actual reviewer/WIP interruptions, preserved dissent, successor reassessment and post-QA invalidation. The [external-source pilot](benchmarks/external-sources/README.md) adds three pinned upstream modules and four conditions, all 18/18; its timestamps are observational and token/cost telemetry remains unavailable.
 
-The separate [protocol v3 fixture](tests/realistic_cases_v3.json) clarifies immediate handoff/completion fields and adds four delivery/migration cases. It is prepared for a future fresh blind evaluation, with no published v3 score yet; previous inputs, checks and raw results remain unchanged.
+The separate [protocol v3 evaluation](evaluations/2026-11-01-protocol-v3/README.md) clarifies immediate handoff/completion fields and adds four delivery/migration cases. Fresh input-only agents scored 14/16 with skill and 13/16 without it. Shared failures expose remaining action/permission oracle limitations; this single-run difference does not establish a skill benefit. Previous inputs, checks and raw results remain unchanged.
 
 The fixtures contain:
 

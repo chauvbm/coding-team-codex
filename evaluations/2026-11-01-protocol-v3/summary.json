@@ -1,0 +1,68 @@
+{
+  "kind": "instruction_scoped_decision_evaluation",
+  "protocol": 3,
+  "source_commit": "218e3991c7537b773a82f89601a4b072f3d73db0",
+  "completed_at": "2026-10-31T23:38:19.481510+00:00",
+  "runs": {
+    "skill": {
+      "agent": "/root/v3_skill_blind",
+      "cases": 16,
+      "responses": 16,
+      "passed": 14,
+      "failed_case_ids": [
+        "r15",
+        "r16"
+      ],
+      "failures": [
+        "r15: action='organize_correction'; expected one_of ['plan_repair', 'independent_review', 'hold']",
+        "r16: can_write_affected=True; expected equals False",
+        "r16: action='schedule_work'; expected one_of ['hold', 'organize_correction', 'targeted_reassessment']"
+      ],
+      "response_sha256_utf8_lf": "dd4f31c764a03206619fc4ff1add4064545dafdc76cea36cef0a8000deb7d4a9",
+      "prohibited_resources_reported_read": false
+    },
+    "control": {
+      "agent": "/root/v3_control_blind",
+      "cases": 16,
+      "responses": 16,
+      "passed": 13,
+      "failed_case_ids": [
+        "r03",
+        "r15",
+        "r16"
+      ],
+      "failures": [
+        "r03: action='complete'; expected one_of ['direct_work', 'independent_review', 'verify_integrated']",
+        "r15: action='organize_correction'; expected one_of ['plan_repair', 'independent_review', 'hold']",
+        "r16: can_write_affected=True; expected equals False",
+        "r16: action='schedule_work'; expected one_of ['hold', 'organize_correction', 'targeted_reassessment']"
+      ],
+      "response_sha256_utf8_lf": "4c17b2bc2cfaf36a5c6ef2eda414be5c1c75f7590b36683780855bf93d25f3d5",
+      "prohibited_resources_reported_read": false
+    }
+  },
+  "model_selection": "parent runtime inheritance, no overrides",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "independent_review": {
+    "reviewer": "/root/v3_evidence_qa",
+    "status": "APPROVED_publication_scope",
+    "raw_scores_reproduced": true,
+    "all_rationales_reviewed": true,
+    "report": "independent-review.md",
+    "checks": [
+      "Scorer replay both conditions",
+      "Frozen fixture and response hashes",
+      "All16 rationales each condition",
+      "2 evaluation-record tests",
+      "Scoped git diff --check"
+    ]
+  },
+  "limits": [
+    "One run per condition, all16 scenarios in one context per condition.",
+    "Instruction-scoped isolation on shared filesystem; no enforced sandbox.",
+    "Input schema and scenario facts guide decisions; not an unprompted coding-performance evaluation.",
+    "Raw differences do not establish benefit; inspect rationales and oracle ambiguity."
+  ]
+}
