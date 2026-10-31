@@ -1,4 +1,6 @@
-# Coding Team
+# Coding Team for Codex
+
+Repository: [chauvbm/coding-team-codex](https://github.com/chauvbm/coding-team-codex).
 
 A Codex skill for proportionate delegation, coordinated implementation and independent verification. The Leader selects useful roles, assigns bounded work and owns integration and the final result. Small tasks can stay solo; substantial independent work can use up to eight native subagents within the host's actual capacity.
 
