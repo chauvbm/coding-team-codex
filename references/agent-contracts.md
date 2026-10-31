@@ -2,24 +2,24 @@
 
 Read before spawning. Resolve user overrides, adaptive model/effort selection and role defaults using [the model routing rules](../SKILL.md). Use the actual native subagent API; do not invent parameters or substitute user-visible chat creation.
 
-## Every delegation
+## Compact handoff: always required
 
-Supply a self-contained request with:
-- Role and bounded objective.
-- Selected model/effort and any user-pinned fields; pass supported configuration fields through the tool, not only the prompt.
-- Relevant requirements, Spec/Plan version pair and acceptance criteria.
-- Exact workspace path and file ownership or inspection scope.
-- Work-item ID, dependencies and reviewed snapshot; distinguish a role from its individual worker. Name any gate representative and the scope they can approve.
+Send a self-contained request containing:
+
+- Role, bounded objective, relevant acceptance criteria and expected deliverable/evidence.
+- Exact workspace, ownership or inspection scope, allowed actions and stopping conditions.
 - Stage: investigate, plan-review, implement or verify.
-- Allowed actions and meaningful stopping conditions.
-- Expected evidence and deliverable.
-- Canonical issue IDs/aliases, closure criteria, consumed/reserved counts, current operating state, deadline and recorded human continuation authority. Do not reset counters, extend deadlines or launch a follow-up cycle yourself.
-- Effective root task eligibility and any explicit human task override; agents cannot toggle policy or bypass a saved OFF through their own proposals.
-- An explicit instruction not to spawn other agents.
+- Actual selected model/effort configuration and user pins; distinguish observed metadata from requested settings.
+- Effective root task eligibility and any explicit human task override.
+- An explicit prohibition on nested delegation and policy changes.
 
-Send only the relevant requirements, changes and evidence. Initial reviewers must not see peers' verdicts before their independent pass. After consolidation, return findings to Leader; do not directly start debates with other workers or recruit votes. Report new evidence or an actionable correction instead of repeating an unchanged objection. Leader controls issue routing, deduplication and follow-up under [debate governance](debate-governance.md).
+Use supported structured model/effort fields. If overrides require fresh context, supply the relevant context explicitly; do not assume unpassed history. Disclose fallback selection and unverified model metadata. Prompts alone do not configure models or enforce permissions.
 
-Use supported structured model/effort fields. With an API that permits overrides only for fresh contexts, choose fresh context and include the necessary task information explicitly. Do not rely on inherited history that was not passed. Report fallback selection; missing effective-model metadata is uncertainty, not failure.
+## Full handoff: add when relevant
+
+For gated work, repair, or dependencies across workers, include work-item/dependency IDs, reviewed snapshot and Spec/Plan pair, named gate representative and approval scope, canonical issues/aliases and closure criteria, consumed/reserved counters, operating/gate state, original deadline and recorded human continuation authority. Never omit known gates or findings because a follow-up looks simple. Workers cannot reset counters, extend deadlines or launch follow-up cycles.
+
+Keep context scoped to the assignment. Initial reviewers must not see peers' verdicts before their independent pass. Return findings to Leader; do not recruit votes or directly initiate worker debates. Report new evidence or actionable correction instead of repeating an unchanged objection. Leader controls routing and deduplication under [debate governance](debate-governance.md).
 
 ## Architect
 

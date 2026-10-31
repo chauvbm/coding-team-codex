@@ -16,7 +16,7 @@ Check current eligibility with the control-policy helper before coding-team dele
 - Use Developer for a bounded implementation, or feasibility review before substantial work.
 - Use QA for behavioral coverage, security/data-integrity concerns and independent review of the actual result.
 - Add Investigator for a bounded unresolved question, Test Engineer for useful separate behavioral checks, and Specialist only for a distinct domain need. Several Developers can own separate modules; role count is not a staffing quota.
-- Cover all three core review responsibilities when useful or the user requests FULL_TEAM. Name their representatives; this does not require eight workers or unanimous votes from every worker.
+- Cover all three core review responsibilities when useful or the user requests FULL_TEAM. Name their representatives; this does not require filling capacity or unanimous votes from every worker.
 - Run independent reads concurrently where useful. Sequence dependencies and shared-file writes.
 - When requirements are ambiguous or materially risky, let QA first review the Spec and derive acceptance cases without seeing the proposed solution. Architect then drafts the Plan; Developer and QA review the same Spec/Plan pair independently. Corrections after Spec submission consume the shared revision budget even before the initial Plan exists; do not require a separate requirements round when requirements are already clear.
 - For FULL_TEAM or a selected full-team plan review, use the Consensus Gate in SKILL.md: applicable current approvals and resolved material issues before implementation handoff. Pending or stale sign-offs keep affected implementation HOLD. Continuing evidence work or plan repair never supplies missing approval.
@@ -25,7 +25,7 @@ A role is not an obligatory additional agent for every coding task. A Developer'
 
 ## Work queue and integration
 
-Use the smaller of eight subagents, effective runtime capacity and the user's limit, accounting for already active agents. Start only ready work items with distinct objectives and outputs. Record ID, owner, dependencies, file ownership, snapshot/version, status and acceptance evidence. Stage downstream work until its input/interface is settled; keep room for independent QA rather than occupying all slots with writers. Sequence roles when runtime capacity is smaller.
+Use `max_subagents` from [governance defaults](governance-defaults.json), constrained by runtime capacity, already active agents and user limits. Start only ready work items with distinct objectives and outputs. Record ID, owner, dependencies, file ownership, snapshot/version, status and acceptance evidence. Stage downstream work until its input/interface is settled; keep room for independent QA rather than occupying all slots with writers. Sequence roles when runtime capacity is smaller.
 
 Leader first integrates completed branches and resolves interface mismatches, then identifies a stable snapshot for Test Engineer and QA. A reviewer can examine an already stable independent portion while other portions progress, but their verdict covers only that snapshot/scope. Changes afterward require affected checks again. Finish with independent review and meaningful checks of the integrated delivered state, not just separate branch reports.
 
@@ -33,7 +33,7 @@ Leader first integrates completed branches and resolves interface mismatches, th
 
 Inspect uncommitted and untracked files if Git is available. Preserve them in any review snapshot. If there is no Git repository, record the relevant file baseline without assuming a clean state.
 
-Give each writer exclusive ownership of its assigned files. Before Leader takeover, stop or await the original writer, inspect partial output and transfer ownership explicitly. Do not run tests against files that are actively changing.
+Give each writer exclusive ownership of its assigned files. Before Leader takeover, stop or await the original writer, inspect partial output and transfer ownership explicitly. Do not run tests against files that are actively changing. For parallel checks, use an optional worktree or other stable snapshot when useful, preserving relevant uncommitted/untracked changes. Isolate shared ports, caches, databases and fixtures; separate directories alone do not isolate these resources. A worktree is not required for every task.
 
 Technical choices within the user's request normally need no clarification. Ask when an unresolved product decision, missing acceptance criterion or authorization would materially change the outcome.
 
@@ -41,6 +41,6 @@ Technical choices within the user's request normally need no clarification. Ask 
 
 Replan in response to evidence using the shared ledger in [debate governance](debate-governance.md). Re-review affected portions and dependent conclusions; cosmetic updates do not invalidate the entire plan. Explicitly confirm applicability when carrying an unchanged scope's approval to a new pair. Keep affected gated implementation HOLD until renewed applicable approvals exist.
 
-After two issue exchanges without new evidence or at a revision checkpoint, end repeated argument and use the bounded evidence workflow. Default limits require STOP_HOLD when unresolved unless actual human continuation authority applies. Existing permission for necessary repair past checkpoints permits a recorded, evidenced next batch without a new permission question solely for the count. Preserve totals and all findings; it does not extend tool/reviewer recovery loops or waive a gate. Stop concrete no-progress loops and disclose real blockers rather than repeatedly restarting review.
+Use the [checkpoint decision matrix](debate-governance.md) and its linked [numeric defaults](governance-defaults.json) for evidence transitions, cumulative repair/revision accounting, STOP_HOLD and applicable human continuation. Preserve all findings and totals; do not restart discussion or evade a stopping reason by changing roles or modes.
 
 When review cannot run, report the unmet review condition honestly. Continue independent authorized work where possible, keeping implementation covered by a required gate on HOLD. Completion requires the requested result and an accurate account of checks and remaining limits; a consensus label alone is not evidence.

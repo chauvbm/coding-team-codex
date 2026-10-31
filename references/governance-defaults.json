@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "max_subagents": 8,
+  "no_progress_exchanges": 2,
+  "revision_cycles": {
+    "L0": 0,
+    "L1": 1,
+    "L2": 3,
+    "L3": 3
+  },
+  "repair_attempts_per_defect": 2,
+  "repair_batches": 4,
+  "diagnostic_dispatches": 1,
+  "recovery_per_role_or_operation": 1,
+  "recovery_total": 3,
+  "review_deadline_seconds": 180
+}

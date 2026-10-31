@@ -4,7 +4,7 @@ Read for implementation and review. Markdown instructions do not enforce isolati
 
 ## Verify the delivered state
 
-Inspect relevant workspace changes and preserve user work. Establish one writer per file. Verify a stable integrated result, including relevant uncommitted/untracked files; a clean checkout at HEAD may omit the entire change.
+Inspect relevant workspace changes and preserve user work. Establish one writer per file. Verify a stable integrated result, including relevant uncommitted/untracked files; a clean checkout at HEAD may omit the entire change. Use a worktree or stable snapshot for parallel tests when helpful; isolate shared ports, caches, databases and fixtures as well.
 
 Identify the reviewed snapshot and scope. Test Engineer checks and Developer summaries do not replace an independent QA review of the actual integrated changes. Invalidate affected verification when later integration or repair changes behavior or dependencies; preserve unrelated coverage with an explicit applicability rationale.
 
@@ -28,7 +28,7 @@ Do not infer permission for destructive resets, force pushes, production changes
 - Missing reviewer: use only the remaining bounded retry/deadline allowance, then STOP_HOLD for that loop. Disclose missing independence; do not claim a required review passed.
 - Failed investigation/review tool: reserve only a permitted recovery attempt before retrying; changing tools does not reset the underlying failure or shared recovery count. Exhausted unresolved recovery ends in STOP_HOLD.
 - Conflicting findings: preserve attribution and investigate concrete evidence; ask only for unresolved user decisions.
-- Failed checks: diagnose and repair within scope, record cumulative counts, then rerun affected checks. Apply [debate governance](debate-governance.md): two repairs per defect/four total batches are default limits; existing human authority can permit evidenced necessary repair beyond these checkpoints without asking solely for the count. Continue one bounded next action with a changed testable hypothesis or concrete progress, not repeated argument. Stop no-progress loops and exhausted recovery/deadlines; preserve missing approvals and unresolved findings.
+- Failed checks: diagnose and repair within scope, preserve cumulative counts, then rerun affected checks. Follow the [checkpoint decision matrix](debate-governance.md) and [numeric defaults](governance-defaults.json); applicable human repair continuation does not extend no-progress, diagnostic, recovery or deadline limits, or waive approvals.
 - Invalid assumption: pause affected changes and update the relevant plan/ownership.
 - Cancelled task: stop active writers and report existing changes without resetting them.
 

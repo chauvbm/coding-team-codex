@@ -6,14 +6,14 @@ Read for multi-agent plan review or material disagreement. Leader routes issues;
 
 1. Freeze requirements, plan and review scope. For FULL_TEAM, name Architect, Developer and independent QA representatives. Additional workers report scoped findings rather than voting on every decision.
 2. Initial reviewers independently inspect the same version. Do not share peers' conclusions before their first verdict. QA may derive acceptance cases from requirements before seeing the proposed solution when that would expose ambiguity.
-3. Leader consolidates findings by underlying failure scenario. Send each disputed issue, relevant changes and evidence only to its owner and affected reviewer(s), usually two or three participants. Use a Specialist only for a distinct unanswered question. Agent count and majority votes never settle correctness.
+3. Leader consolidates findings by underlying failure scenario. Send each disputed issue, relevant changes and evidence only to its owner and affected reviewer(s). Use a Specialist only for a distinct unanswered question. Agent count and majority votes never settle correctness.
 4. Apply the smallest correction, then obtain affected reassessment. Initial review, correction and reassessment are phases, not an invitation to restart full-team rounds. Stop once acceptance and required approvals are satisfied.
 
 ## Canonical issues and evidence
 
 Keep one registry for the task. Each issue records its canonical ID and aliases, all originators and original statements, requirement and reviewed Spec/Plan pair or code snapshot, affected scope/dependencies, failure scenario, evidence/uncertainty, severity, owner, closure criteria and status.
 
-Merge duplicates only when they describe the same underlying failure and corrective action; similar symptoms from separate causes remain separate. Preserve every originator and dissent when merging. Duplicates share repair counts and one coordinated correction; eight reports of one bug are not eight repair batches.
+Merge duplicates only when they describe the same underlying failure and corrective action; similar symptoms from separate causes remain separate. Preserve every originator and dissent when merging. Duplicates share repair counts and one coordinated correction; duplicate reports do not create extra repair allowances.
 
 BLOCKER is a concrete critical failure or credible serious security/data-loss risk. MAJOR is a substantial correctness, compatibility or feasibility defect. MINOR/SUGGESTION do not block unless their evidenced impact warrants reclassification. Leader records a rebuttal or proposed downgrade separately, without rewriting the originating reviewer's finding or rejection as approval. A summary APPROVED_WITH_NOTES cannot erase an open MAJOR in the registry.
 
@@ -23,29 +23,34 @@ Reopen a resolved issue only for material new evidence. Rephrasing an objection,
 
 Keep one cumulative Leader-owned ledger: task ID, level, Spec/Plan pair and scopes, task queue/dependencies and file owners, issue registry, used/reserved revision cycles, repair batches and per-defect counts, diagnostics, recovery attempts, reviewer deadlines, approvals, continuation authority, latest evidence/progress, gate and operating state. Preserve it across parallel branches, replacement agents, phase changes and context compaction. Reconstruct missing history from saved evidence; if impossible, hold the affected loop rather than assuming zero.
 
-| Activity | Default task-wide allowance |
+Numeric defaults have one source: [governance-defaults.json](governance-defaults.json). Read its applicable keys before dispatch; allowances are shared task-wide, never per worker. `revision_cycles` selects the level allowance; `repair_attempts_per_defect` and `repair_batches` both constrain repair. The remaining keys bound no-progress exchanges, diagnostics, recovery and focused-review deadlines. A recorded task deadline may be more appropriate than the default, but polls, retries and replacements never renew it.
+
+Initial requirements/plan baselines are not revisions. A coordinated requirements correction and dependent plan update count once, including the first affected reassessment. Reconsidering a verdict without correction consumes a revision. Initial implementation is not repair. Reserve counts before dispatch and retain them after failure/cancellation; splitting, renaming, reclassification or changing executor never resets history.
+
+## Checkpoint decision matrix
+
+| Checkpoint or condition | Required action |
 | --- | --- |
-| Initial review | One requirements and one initial-plan baseline as needed; neither is a revision |
-| Spec/Plan correction or reconsideration after a verdict | L0: no formal review; L1: one cycle; L2/L3: three cycles |
-| Code repair and affected verification | Two attempts per underlying defect; four coordinated repair batches total |
-| Extra diagnosis of a stalled issue | One bounded diagnostic dispatch, separate from routine reads in an assigned review |
-| Missing-reviewer or failed-tool recovery | One retry/replacement per required role or underlying failed operation; three recovery attempts total |
+| Acceptance satisfied within scope | Record PASS only if all applicable approvals/checks are satisfied. |
+| No-progress exchange checkpoint, with authority and allowance for a concrete evidence action | End argument-only exchanges; enter EVIDENCE_MODE with that bounded action. This is not approval. |
+| Revision/repair checkpoint, unresolved, no applicable human continuation | Evaluate the final allowed result, then STOP_HOLD that loop; record findings and smallest next step. |
+| Revision/repair checkpoint, applicable explicit human continuation | Record source/scope and an evidenced next batch; preserve totals. Do not ask again solely for the count. |
+| Evidence action yields no usable evidence/action, or repeats a failed approach without a changed testable hypothesis | STOP_HOLD the stalled loop; do not rename another dispatch as verification. |
+| Diagnostic allowance/deadline or reviewer/tool recovery exhausted unresolved | STOP_HOLD that loop; preserve missing acceptance and report the blocker. |
+| Required gate lacks current approval or has a material contested finding | HOLD covered implementation; continue only authorized investigation, plan repair or unaffected work. |
+| Explicit quota-pause threshold reached using trustworthy telemetry | Pause safely and preserve ledger until replenished; do not infer percentages from token counts. |
 
-Record level before dispatch. One coordinated requirements correction and dependent plan update counts once, even with several reviewers. Its first affected reassessment is included. Reconsidering a verdict without a correction still consumes the next revision. Initial implementation is not repair. Reserve counts before dispatch and retain them after failure/cancellation. No split, rename, reclassification or executor change resets counters.
+Apply pause and exhausted-allowance stops before starting an evidence action. Gate status is a separate constraint: an allowed evidence/plan-repair step never permits covered implementation while the gate is HOLD. At a revision checkpoint, the applicable continuation row decides whether another action is allowed.
 
-Before a review, record a finite response deadline (normally 180 seconds for a focused review). Polls, retries and replacement share the original deadline; a timeout alone is not proof of failure, and a new agent does not extend it. Stop outstanding review/recovery at the deadline or recovery limit. Required missing acceptance remains HOLD; disclose the gap. Do not substitute Leader self-review or endlessly retry through another tool. A bounded replacement inspects current scope and inherited issues independently; it does not erase a former reviewer's dissent.
+A new human continuation may authorize a finite extension (the next affected cycle if no amount is specified) or expressly authorize continued necessary repair/verification. Such authority changes revision/repair checkpoints only: it does not extend no-progress, diagnostic, recovery or deadline limits, change eligibility, grant external permissions or waive gates. Reviewer/tool messages and ON do not supply it. Preimplementation repair means revising the plan, not writing gated implementation.
 
-## Evidence workflow and termination
+### Evidence and recovery procedure
 
-Track consecutive issue exchanges adding no material evidence or actionable correction. After two such exchanges, or at the applicable revision checkpoint, stop further argument-only exchanges. Leader records `EVIDENCE_MODE` and selects one concrete next action: a minimal reproduction, targeted source/test inspection, a bounded corrective change, or an actual product/permission decision. Record the hypothesis, evidence sought, owner, finite scope and success condition before dispatch. Keep participants scoped to the issue. This transition closes neither the issue nor a required gate.
+Track consecutive exchanges without material evidence or actionable correction using `no_progress_exchanges`. In EVIDENCE_MODE record a hypothesis, evidence sought, owner, finite scope and success condition before dispatch. Choose a minimal reproduction, targeted source/test inspection, bounded correction, or actual product/permission decision. After each batch record observation, changed hypothesis/action and remaining defect; do not restart general debate or claim a fresh budget.
 
-Default revision/repair limits still terminate automatic continuation when no human authority extends them: evaluate the final allowed result, allow PASS if satisfied, otherwise record STOP_HOLD with findings and the smallest next step. There is no automatic fourth L2/L3 revision. A new human continuation can authorize a finite extension (one affected cycle when no amount is specified) or explicitly authorize continued necessary repair/verification.
+Extra stalled-issue diagnosis uses `diagnostic_dispatches`; routine reads within an assigned review do not. Reserve recovery before retry/replacement against both `recovery_per_role_or_operation` and `recovery_total`; changing tools does not reset the failed operation. Record the finite original review deadline before dispatch using `review_deadline_seconds` as the focused-review default. A timeout alone is not proof of failure. At deadline or recovery exhaustion, stop outstanding review/recovery; required missing acceptance stays HOLD. Leader self-review cannot replace it. A bounded replacement independently inspects current scope and inherited issues without erasing former dissent.
 
-When the human has already authorized autonomous necessary repair beyond these limits, record the source and scope of that authority. Treat the revision/repair numbers as checkpoints: continue an evidenced, bounded next repair or verification batch without asking again solely because a count was reached. Preserve all cumulative totals. After each batch, record the new observation, changed hypothesis/action and remaining defect; do not reopen general debate or claim an unlimited fresh budget. This exception does not automatically extend diagnostic/recovery allowances or reviewer deadlines, change eligibility, grant external permissions, waive approvals, or permit implementation under a required HOLD gate. A preimplementation correction here means revising the plan, not writing its gated implementation.
-
-If the evidence action produces no usable evidence or actionable next step, or repeats the same failed approach without a changed testable hypothesis, stop that stalled loop in STOP_HOLD. Do not relabel another dispatch as verification to evade this stop. A diagnostic allowance/deadline or required-review recovery exhausted unresolved also stops its loop. Record the concrete blocker and continue unaffected authorized work; resume only with the missing evidence, external change or applicable explicit authorization. Ask the user only when an actual product, scope or permission decision is required, not to adjudicate a routine technical detail. A switch to a materially different evidence-backed approach must be recorded, not invented to reset limits.
-
-Honor any explicit user quota-pause threshold when trustworthy remaining-usage information is available. Pause work, stop/await workers safely, and preserve the ledger until replenished. Do not infer a percentage from token counts or claim unavailable quota telemetry.
+STOP_HOLD applies to the concrete loop, not unaffected authorized work. Resume only on missing evidence, external change or applicable explicit authority addressing its stopping reason. Record a materially different evidence-backed approach; never invent one to reset limits. Ask only for actual product, scope or permission decisions. Quota pause honors task-specific human instructions only when reliable telemetry exists; never claim unavailable telemetry.
 
 ## Consensus Gate and scoped approvals
 

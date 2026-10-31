@@ -2,7 +2,7 @@
 
 Repository: [chauvbm/coding-team-codex](https://github.com/chauvbm/coding-team-codex).
 
-A Codex skill for proportionate delegation, coordinated implementation and independent verification. The Leader selects useful roles, assigns bounded work and owns integration and the final result. Small tasks can stay solo; substantial independent work can use up to eight native subagents within the host's actual capacity.
+A Codex skill for proportionate delegation, coordinated implementation and independent verification. The Leader selects useful roles, assigns bounded work and owns integration and the final result. Small tasks can stay solo; substantial independent work can use bounded native subagents within the host's actual capacity and the [governance defaults](references/governance-defaults.json).
 
 This README is a repository guide for users, maintainers and independent reviewers. [SKILL.md](SKILL.md) is the operational entrypoint; its linked references define the detailed workflow. The README does not add authority, approvals or competing operating rules.
 
@@ -26,9 +26,10 @@ Reading this repository does not require installing the skill or changing Codex 
 | 4 | [debate-governance.md](references/debate-governance.md) | Canonical issues, evidence, counters, termination and scoped approvals |
 | 5 | [quality-safety.md](references/quality-safety.md) | Verification, recovery and accurate reporting |
 | 6 | [control-policy.md](references/control-policy.md) | ON/OFF commands, precedence, state and bootstrap behavior |
-| 7 | [coding_team_policy.py](scripts/coding_team_policy.py) | Deterministic policy persistence and marked instruction installation |
-| 8 | [openai.yaml](agents/openai.yaml) | Skill UI metadata and implicit-invocation policy |
-| 9 | [tests/](tests/) | Behavioral inputs, expected checks and checker regression tests |
+| 7 | [governance-defaults.json](references/governance-defaults.json) | Single source for numeric operational defaults |
+| 8 | [coding_team_policy.py](scripts/coding_team_policy.py) | Deterministic policy persistence and marked instruction installation |
+| 9 | [openai.yaml](agents/openai.yaml) | Skill UI metadata and implicit-invocation policy |
+| 10 | [tests/](tests/) | Behavioral inputs, expected checks and checker regression tests |
 
 For a static quality review, inspect both the operating instructions and the test oracles. For a blind behavioral evaluation, keep the oracles away from the evaluating agent as described below. Generated `graphify-out/` files are local development aids and are not required to review or run the skill.
 
@@ -36,25 +37,23 @@ For a static quality review, inspect both the operating instructions and the tes
 
 The core responsibilities are Architect, Developer and independent QA/Reviewer, coordinated by the Leader. Investigator, Test Engineer and Specialist roles support specific needs; multiple Developers can own independent work items. Roles are responsibilities, not a required number of agents.
 
-The skill's ceiling is eight concurrent subagents, excluding Leader, constrained further by runtime capacity, already active agents and user limits. `FULL_TEAM` covers the three core review responsibilities; it does not require filling eight slots. Shared files have one writer at a time. Independent QA examines a stable integrated result, rather than relying on individual workers' summaries.
+The concurrency ceiling is `max_subagents` in [governance defaults](references/governance-defaults.json), excluding Leader and constrained by runtime capacity, active agents and user limits. `FULL_TEAM` covers the core review responsibilities without requiring all slots. Shared files have one writer at a time. Independent QA examines a stable integrated result, rather than relying on individual workers' summaries.
 
-Review starts independently on an identified version. Leader then merges duplicate findings without losing attribution and routes each issue to its relevant owner and reviewers, usually two or three participants. Majority votes do not resolve defects. Material changes require affected reassessment; unrelated valid reviews need not restart indiscriminately.
+Review starts independently on an identified version. Leader then merges duplicate findings without losing attribution and routes each issue only to its relevant owner and reviewers. Majority votes do not resolve defects. Material changes require affected reassessment; unrelated valid reviews need not restart indiscriminately.
 
 ## Preventing repetitive debate
 
 The authoritative rules and accounting details are in [debate governance](references/debate-governance.md). The distinctions important to a review are:
 
-- Two consecutive issue exchanges without material new evidence or actionable correction trigger `EVIDENCE_MODE`: a bounded reproduction, inspection or other concrete next action replaces further argument.
-- Default limits include one L1 or three L2/L3 formal revision cycles, two repair attempts per underlying defect and four task-wide repair batches. They are shared across workers, not multiplied by team size.
-- Without applicable human continuation authority, an unresolved default limit leads to `STOP_HOLD` for that loop. If the human has already authorized continued necessary repair beyond revision/repair limits, those counts become recorded checkpoints; an evidenced next batch can proceed without another count-only permission request.
-- Such continuation does not automatically extend diagnostics, reviewer/tool recovery or deadlines, authorize external actions, reset history, or supply missing gate approval. Concrete no-progress loops still stop.
-- A required consensus gate remains `HOLD` until its applicable approvals and material findings are resolved. Ending a discussion does not approve the implementation.
+- Numeric allowances live only in [governance-defaults.json](references/governance-defaults.json): concurrency, no-progress exchanges, per-level revision cycles, per-defect/task repair, diagnostics, recovery and focused-review deadlines. They are shared across workers, not multiplied by team size.
+- The [checkpoint decision matrix](references/debate-governance.md) defines evidence transitions and STOP_HOLD. Without applicable human continuation, unresolved revision/repair limits stop the loop. Prior explicit authority can permit an evidenced next batch without another count-only permission request.
+- Continuation preserves history and cannot extend no-progress, diagnostic, recovery or deadline limits, grant external permissions or supply missing approval. A required gate remains HOLD until its current approvals and material findings are resolved.
 
 Human continuation authority and any quota-pause preference are task context, not assumptions every installation inherits. Tests explicitly supply the relevant context for each scenario. The skill honors an applicable quota threshold only when trustworthy remaining-usage information is available.
 
 ## Policy controls and enforcement boundary
 
-The skill recognizes `/coding team on`, `/coding team off`, their `all` variants, `/coding team status` and `/coding team inherit`. Chat policy takes precedence over the global default; an explicit human request can authorize team use for its task. ON permits relevant delegation but does not dispatch work, approve a plan or reset a ledger.
+The skill recognizes `/coding team on`, `/coding team off`, their `all` variants, `/coding team status` and `/coding team inherit`, with `/coding-team` accepted for every command. Policy is checked for direct controls, before applying coding-team and freshly before each dispatch; routine SOLO explanations need no per-turn shell check. Chat policy takes precedence over the global default; an explicit human request can authorize team use for its task. ON permits relevant delegation but does not dispatch work, approve a plan or reset a ledger.
 
 [Control policy](references/control-policy.md) documents state location, actual chat identity requirements and setup. `init` and `install-global-instructions` are setup operations that write state or instructions; they are not prerequisites for a read-only repository review. When testing the helper, use isolated `--state` and, for instruction-installation tests, `--agents` targets rather than the user's live files.
 
@@ -69,7 +68,7 @@ python -m unittest discover -s tests -p "test_*.py" -v
 git diff --check
 ```
 
-The unit suite currently has six tests for the response checker, including rejection of missing/duplicate results, unsafe counter resets and writes during a hold or pause. It does not execute the skill's behavioral scenarios or exercise the eligibility helper's persistence behavior.
+The unit suite covers the response checker and eligibility helper, including malformed decisions/state, counter resets, hold/pause writes, persistence, concurrent updates and atomic-write failures. It does not execute the skill's behavioral scenarios. Inspect the current test files for the test inventory rather than treating a fixed count as a coverage guarantee.
 
 If the Codex skill-creator validator is available in your environment, run its `scripts/quick_validate.py` against this repository as an additional structural check. It is an external development utility, not bundled here, and does not establish behavioral correctness.
 
