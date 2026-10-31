@@ -1,80 +1,71 @@
 # Bounded technical review
 
-Read for full-team planning or material disagreement. Review should converge on a workable, testable solution.
+Read for multi-agent plan review or material disagreement. Leader routes issues; workers do not run an all-to-all debate. More execution capacity does not increase review-cycle allowances.
 
-## Review sequence
+## Review sequence and issue routing
 
-1. Freeze a concise scope and plan version. For full-team planning, Architect owns design; Developer checks feasibility; QA checks acceptance, failure modes and verification.
-2. **R0:** reviewers independently inspect the same version. Do not give one reviewer's initial answer to another before their independent pass.
-3. **R1:** consolidate findings with attribution. Address concrete correctness, security, integrity, compatibility and feasibility issues with the smallest justified revision.
-4. **R2, only if needed:** reviewers check affected changes and unresolved issues. Stop repetitive debate when it produces no evidence; investigate, change approach or identify the decision needed.
+1. Freeze requirements, plan and review scope. For FULL_TEAM, name Architect, Developer and independent QA representatives. Additional workers report scoped findings rather than voting on every decision.
+2. Initial reviewers independently inspect the same version. Do not share peers' conclusions before their first verdict. QA may derive acceptance cases from requirements before seeing the proposed solution when that would expose ambiguity.
+3. Leader consolidates findings by underlying failure scenario. Send each disputed issue, relevant changes and evidence only to its owner and affected reviewer(s), usually two or three participants. Use a Specialist only for a distinct unanswered question. Agent count and majority votes never settle correctness.
+4. Apply the smallest correction, then obtain affected reassessment. Initial review, correction and reassessment are phases, not an invitation to restart full-team rounds. Stop once acceptance and required approvals are satisfied.
 
-These passes operate within the single task budget below. New defects stay recorded, but do not create more automatic allowance. A budget stop never resolves a defect or grants approval.
+## Canonical issues and evidence
 
-## Cumulative task budget and termination
+Keep one registry for the task. Each issue records its canonical ID and aliases, all originators and original statements, requirement and reviewed Spec/Plan pair or code snapshot, affected scope/dependencies, failure scenario, evidence/uncertainty, severity, owner, closure criteria and status.
 
-Keep one Leader-owned ledger for the user task, with three separate cumulative allowances: Spec/Plan revision, investigation/retry, and implementation repair. Moving between activities cannot evade a stop or reset any counter. Defaults are conservative starting limits, not benchmark-derived optima.
+Merge duplicates only when they describe the same underlying failure and corrective action; similar symptoms from separate causes remain separate. Preserve every originator and dissent when merging. Duplicates share repair counts and one coordinated correction; eight reports of one bug are not eight repair batches.
 
-| Activity | Automatic allowance per task |
+BLOCKER is a concrete critical failure or credible serious security/data-loss risk. MAJOR is a substantial correctness, compatibility or feasibility defect. MINOR/SUGGESTION do not block unless their evidenced impact warrants reclassification. Leader records a rebuttal or proposed downgrade separately, without rewriting the originating reviewer's finding or rejection as approval. A summary APPROVED_WITH_NOTES cannot erase an open MAJOR in the registry.
+
+Reopen a resolved issue only for material new evidence. Rephrasing an objection, adding votes, changing an agent/model, renaming an issue or restating a preference is not new evidence.
+
+## Task ledger and default limits
+
+Keep one cumulative Leader-owned ledger: task ID, level, Spec/Plan pair and scopes, task queue/dependencies and file owners, issue registry, used/reserved revision cycles, repair batches and per-defect counts, diagnostics, recovery attempts, reviewer deadlines, approvals, continuation authority, latest evidence/progress, gate and operating state. Preserve it across parallel branches, replacement agents, phase changes and context compaction. Reconstruct missing history from saved evidence; if impossible, hold the affected loop rather than assuming zero.
+
+| Activity | Default task-wide allowance |
 | --- | --- |
-| Initial review | One baseline review of Spec and one of its initial Plan, as needed; neither consumes a revision |
-| Spec/Plan revision or reconsideration after a verdict | L0: no formal review required; L1: at most one cycle when needed; L2/L3: at most three shared cycles |
-| Code repair plus verification | At most two attempts per underlying defect; at most four repair batches total across the task |
-| Extra diagnosis of stalled debate/repair | At most one bounded diagnostic dispatch; only before a stopping limit is reached |
-| Recovery from missing reviewers or failed investigation/review tools | One retry/replacement per required role or underlying failed tool operation; at most three recovery attempts shared task-wide |
+| Initial review | One requirements and one initial-plan baseline as needed; neither is a revision |
+| Spec/Plan correction or reconsideration after a verdict | L0: no formal review; L1: one cycle; L2/L3: three cycles |
+| Code repair and affected verification | Two attempts per underlying defect; four coordinated repair batches total |
+| Extra diagnosis of a stalled issue | One bounded diagnostic dispatch, separate from routine reads in an assigned review |
+| Missing-reviewer or failed-tool recovery | One retry/replacement per required role or underlying failed operation; three recovery attempts total |
 
-Record the level before dispatch. Reclassification does not replenish an allocated budget. A user-requested formal team review on an otherwise L0 task uses the L1 allowance. L3's exceptional fourth Spec/Plan cycle requires explicit human authorization, an evidenced unresolved BLOCKER/MAJOR, a bounded new corrective proposal within scope, and verification criteria. Never autonomously dispatch it. Stop early once required approvals and acceptance are satisfied; unused capacity is not a reason to seek more objections.
+Record level before dispatch. One coordinated requirements correction and dependent plan update counts once, even with several reviewers. Its first affected reassessment is included. Reconsidering a verdict without a correction still consumes the next revision. Initial implementation is not repair. Reserve counts before dispatch and retain them after failure/cancellation. No split, rename, reclassification or executor change resets counters.
 
-Drafting the initial Spec/Plan is not a revision. Once the relevant document is submitted for its first formal review, correcting it in response to findings consumes a cycle, even if the first Plan has not yet been written. One coordinated Spec correction and dependent Plan update counts once. Freeze the affected Spec/Plan pair for that cycle; its first affected review is included, not a second charge. A fresh reconsideration request after a verdict consumes the next cycle even when neither document changes. Multiple reviewers in the same batch count once, not once per reviewer. Repeated review, baseline drafting or evidence gathering must not become an unmetered debate loop. Routine reads within a bounded assigned review are included; additional diagnosis/recovery uses the separate allowance below.
+Before a review, record a finite response deadline (normally 180 seconds for a focused review). Polls, retries and replacement share the original deadline; a timeout alone is not proof of failure, and a new agent does not extend it. Stop outstanding review/recovery at the deadline or recovery limit. Required missing acceptance remains HOLD; disclose the gap. Do not substitute Leader self-review or endlessly retry through another tool. A bounded replacement inspects current scope and inherited issues independently; it does not erase a former reviewer's dissent.
 
-Before requesting a review, declare a finite total response deadline appropriate to expected runtime (default 180 seconds for a focused review). Polls and retries share that deadline; restarting an agent cannot extend it. A wait timeout alone is not necessarily an agent failure, but reaching the declared deadline or exhausting the permitted recovery allowance with no verdict ends automatic recovery. Stop/cancel outstanding work where supported, preserve output and leave the gate HOLD. Do not repeatedly start new waits after that stopping condition. A user-requested longer deadline can be recorded before dispatch.
+## Evidence workflow and termination
 
-Reserve a revision, repair, diagnostic or recovery attempt before dispatch, retain it after failure/cancellation, and count all agents working on the same requested correction as one coordinated batch. Parallel branches share the same task totals. Re-review of that correction is included in its cycle; repeatedly requesting reconsideration without a correction consumes the next cycle. Initial coding under a passed plan is not a repair attempt. A new defect consumes the same total repair budget; aliases and duplicate Issue IDs share the underlying defect's count.
+Track consecutive issue exchanges adding no material evidence or actionable correction. After two such exchanges, or at the applicable revision checkpoint, stop further argument-only exchanges. Leader records `EVIDENCE_MODE` and selects one concrete next action: a minimal reproduction, targeted source/test inspection, a bounded corrective change, or an actual product/permission decision. Record the hypothesis, evidence sought, owner, finite scope and success condition before dispatch. Keep participants scoped to the issue. This transition closes neither the issue nor a required gate.
 
-Use a compact ledger with task ID, level, current Spec/Plan pair, used/reserved revision cycles, total repair batches and per-defect counts, extra diagnostic count, shared recovery count, per-role/per-operation retries and reviewer deadlines, gate and automatic state ACTIVE/PASS/STOP_HOLD. Include ledger state and remaining allowance in handoffs; preserve it across context compaction and reassigned agents. If history is unavailable, reconstruct it from saved evidence; do not assume zero and continue. If it cannot be reconstructed, stop the affected loop and report the missing history.
+Default revision/repair limits still terminate automatic continuation when no human authority extends them: evaluate the final allowed result, allow PASS if satisfied, otherwise record STOP_HOLD with findings and the smallest next step. There is no automatic fourth L2/L3 revision. A new human continuation can authorize a finite extension (one affected cycle when no amount is specified) or explicitly authorize continued necessary repair/verification.
 
-After the last permitted correction/repair returns, evaluate it: if acceptance/approvals are satisfied, PASS is allowed at the limit. Otherwise STOP_HOLD immediately. Do not dispatch a further diagnostic, correction or review merely because it would be read-only, a new approach or likely to work. Evidence of a new serious flaw still blocks the affected result; new evidence does not replenish allowance. Reopen resolved findings only for material new evidence, using the same ledger.
+When the human has already authorized autonomous necessary repair beyond these limits, record the source and scope of that authority. Treat the revision/repair numbers as checkpoints: continue an evidenced, bounded next repair or verification batch without asking again solely because a count was reached. Preserve all cumulative totals. After each batch, record the new observation, changed hypothesis/action and remaining defect; do not reopen general debate or claim an unlimited fresh budget. This exception does not automatically extend diagnostic/recovery allowances or reviewer deadlines, change eligibility, grant external permissions, waive approvals, or permit implementation under a required HOLD gate. A preimplementation correction here means revising the plan, not writing its gated implementation.
 
-Plan version changes, new issue IDs, different models/agents, Leader takeover, R0 restarts, phase changes, context resets and splitting the same task into subtasks do not reset or extend limits. Tool retries count even if they return no useful evidence; retrying the same failure through another tool does not create a new allowance. No agent can replenish them. Resume beyond STOP_HOLD only on an explicit new human instruction to continue that affected work; preserve prior usage and record a finite added allowance (one affected cycle by default if the user gives no amount). Such continuation does not waive the gate, safety or scope requirements. Reviewer proposals, automated messages and unrelated user questions are not human continuation.
+If the evidence action produces no usable evidence or actionable next step, or repeats the same failed approach without a changed testable hypothesis, stop that stalled loop in STOP_HOLD. Do not relabel another dispatch as verification to evade this stop. A diagnostic allowance/deadline or required-review recovery exhausted unresolved also stops its loop. Record the concrete blocker and continue unaffected authorized work; resume only with the missing evidence, external change or applicable explicit authorization. Ask the user only when an actual product, scope or permission decision is required, not to adjudicate a routine technical detail. A switch to a materially different evidence-backed approach must be recorded, not invented to reset limits.
 
-At STOP_HOLD, report unresolved findings and missing approvals, consumed budget, evidence and the smallest viable next step; terminate automatic dispatch for the stopped work instead of silently continuing another cycle. This is an operational termination outcome, not a claim the technical issue was solved or a requirement that the user decide a routine implementation detail.
+Honor any explicit user quota-pause threshold when trustworthy remaining-usage information is available. Pause work, stop/await workers safely, and preserve the ledger until replenished. Do not infer a percentage from token counts or claim unavailable quota telemetry.
 
-## Findings and verdicts
+## Consensus Gate and scoped approvals
 
-For each material objection capture:
-- A stable ID and originating reviewer.
-- Requirement and plan version.
-- Specific failure scenario, evidence and uncertainty.
-- Severity, minimal corrective action and current resolution.
-
-BLOCKER means a concrete critical failure or credible serious security/data-loss risk. MAJOR means a substantial correctness, compatibility or feasibility defect. MINOR and SUGGESTION do not block implementation unless their actual impact warrants reclassification with evidence.
-
-Preserve original reviewer statements. Record Leader's disagreement separately; never rewrite a rejection as approval. Reviewers may update their own verdict after checking a fix. Reject out-of-scope preferences with a reason; do not silently implement them.
-
-## Consensus and disagreement
-
-Only report full-team consensus when Architect, Developer and QA explicitly accept the same current Spec/Plan pair and no material issue remains open or contested. Silence, an absent agent and Leader self-review are not consensus.
-
-### Gate record and implementation handoff
-
-When the Consensus Gate in SKILL.md applies, record:
+For FULL_TEAM, a selected full-team plan review or a user-required gate, record:
 
 ```text
-SPEC / PLAN: <current Spec version / Plan version and scope>
-ARCHITECT: <Spec/Plan pair + design acceptance or pending>
-DEVELOPER: <Spec/Plan pair + independent verdict or pending>
-QA: <Spec/Plan pair + independent verdict or pending>
-MATERIAL_ISSUES: <IDs + current state; none if resolved>
+SPEC / PLAN / SCOPE: <current pair and affected scope>
+ARCHITECT: <named representative, scope, version, design acceptance or pending>
+DEVELOPER: <named representative, scope, version, independent verdict or pending>
+QA: <named independent representative, scope, version, verdict or pending>
+OTHER_AFFECTED_REVIEWS: <required specialist/owner verdicts, if applicable>
+MATERIAL_ISSUES: <canonical IDs and current states>
 GATE: PASS | HOLD
-REASON / NEXT_ACTION: <evidence or missing review>
+OPERATING_STATE: ACTIVE | EVIDENCE_MODE | STOP_HOLD | PASS
+CONTINUATION: <default allowance or actual human authority, with source/scope>
+NEXT_ACTION: <evidence, owner and success condition, or blocker>
 ```
 
-PASS requires all current-pair approvals, no open or contested material issue, adequate acceptance tests and valid authorization. HOLD prohibits implementing the reviewed work even if the change is reversible or no reviewer has yet reported a defect. Diagnostic reproductions may continue only within remaining allowances before STOP_HOLD; unaffected independent work can continue. Only after PASS does Leader transfer write ownership.
+PASS requires explicit current applicable approvals from the three representatives and any required scoped reviewers, no open/contested material issue from any worker, testable acceptance and valid authorization. Silence, vote totals, a replacement agent, Leader rebuttal or a closed discussion do not supply acceptance. Under a required gate the originating reviewer must explicitly reassess their contested finding; if that acceptance is unavailable, keep HOLD and report it. Transfer implementation ownership only after PASS.
 
-Material changes to behavior, interfaces, persistence, scope or tests require an updated plan and renewed affected approvals. A material Spec change invalidates affected approvals even when the Plan text/version has not changed. Record renewed explicit acceptance of the current Spec/Plan pair; old Spec approvals cannot silently transfer. Use a concise requirement version label rather than requiring a separate Spec file for simple work. If a reviewer approves with notes but an unresolved MAJOR remains in the issue registry, request reconciliation; the summary label does not erase the issue.
+Material changes to behavior, interfaces, persistence, requirements, scope or acceptance tests invalidate affected approvals and dependent conclusions. Obtain explicit affected reassessment of the new pair. An unchanged reviewer may carry acceptance forward only through an explicit applicability confirmation for the new pair/scope; Leader cannot silently copy it. Cosmetic edits can retain approval with a recorded no-impact rationale. A version label alone does not require every worker to repeat the entire review. Keep covered implementation HOLD while affected approval is missing; unaffected authorized work can proceed.
 
-An evidence-based rebuttal is not the origin reviewer's sign-off. Send the relevant evidence for a targeted reassessment; preserve dissent until that reviewer updates the finding/verdict. If a required reviewer cannot respond, keep HOLD and report the missing review. Do not manufacture approval or waive the gate automatically.
-
-AUTO work does not require unanimous full-team consensus on every task. Leader can make reasoned technical decisions supported by evidence while accurately disclosing dissent. Do not proceed with an affected operation while a credible serious defect remains unresolved.
-
-Ask the user when the disagreement requires a product, scope or authorization decision that cannot be resolved technically. User approval is separate from engineering review and is needed only when their instructions or the actual operation require it. Do not ask the user to adjudicate a routine implementation detail merely because reviewers disagree.
+Ordinary AUTO work has no universal unanimity requirement. Leader can resolve nonmaterial disagreements with evidence and preserve dissent accurately; credible unresolved serious defects still block affected delivery. Plan consensus never replaces independent review and meaningful checks of the final stable integrated changes.

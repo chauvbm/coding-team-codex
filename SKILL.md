@@ -27,7 +27,7 @@ ON permits relevant use as before; it does not require using the skill or a team
 - **SOLO**: respect the user's request for no delegation; verify directly and disclose missing independent review when material.
 - **PLAN_ONLY**: investigate and plan; write planning artifacts only when requested. Do not change implementation.
 - **REVIEW_ONLY**: inspect and perform appropriate checks; report findings without fixing implementation.
-- **FULL_TEAM**: use Architect, Developer and QA when the user explicitly asks for all three; require the Consensus Gate below before implementing the reviewed plan. Report capability limitations without pretending a role participated.
+- **FULL_TEAM**: cover Architect, Developer and independent QA responsibilities; it does not mean filling all eight slots. Name the three gate representatives and require the Consensus Gate below before implementing the reviewed plan. Add workers only for useful independent work. Report missing capabilities honestly.
 - **STRICT_MODEL**: require the user's exact model/effort selection, or the role defaults if none was specified, when the user asks for this constraint. Do not adapt pinned fields or substitute them without authorization; if unavailable, explain the limitation and ask for a choice.
 - **USER_APPROVAL_REQUIRED**: wait for plan approval when the user explicitly requires it; existing approval remains valid for the agreed scope.
 
@@ -37,8 +37,11 @@ ON permits relevant use as before; it does not require using the skill or a team
 | --- | --- | --- | --- |
 | Leader | Current chat model | Current chat effort | Requirements, coordination, integration and acceptance |
 | Architect | gpt-6.1-sol | medium | Investigation and technical design |
+| Investigator | gpt-6-luna | medium | Bounded code/documentation investigation and reproductions |
 | Developer | gpt-6-luna | medium | Feasibility review and implementation |
+| Test Engineer | gpt-6.1-sol | medium | Acceptance cases and integrated behavioral checks |
 | QA / Reviewer | gpt-6.1-sol | medium | Independent acceptance criteria, diff review and checks |
+| Specialist | gpt-6.1-sol | medium | A specific unresolved domain question, when needed |
 
 Keep role defaults and adaptive routing in this section; references must not define competing model mappings. Pass structured model/effort fields only when supported. If the API forbids overrides with inherited history, use its fresh-context option and supply a self-contained task. A prompt mentioning a model does not select it.
 
@@ -58,17 +61,25 @@ Minimize total work per successful task: send bounded context, avoid duplicate i
 
 If a preference is unavailable, disclose the fallback and use the runtime default unless STRICT_MODEL was requested. Distinguish requested configuration from observed metadata; absent metadata means unverified, not a confirmed mismatch. Do not claim a model or review actually ran without evidence.
 
-Use at most three concurrent subagents, within the runtime limit, and prohibit nested delegation. Reuse roles when useful. Before spawning, read [agent contracts](references/agent-contracts.md) and provide the applicable role contract, scope and deliverable. This skill requests delegation for substantial work where it helps and runtime policy permits it; it cannot override a higher-priority prohibition.
+### Team capacity and coordination
+
+Use at most eight concurrent native subagents, excluding Leader, and always respect the smaller effective runtime capacity and any user limit. Account for other active agents; do not assume eight slots are available or change runtime configuration to obtain them. If capacity is unknown, start small and sequence work; a rejected spawn is not evidence of participation. Prohibit nested delegation.
+
+Choose team size by independent work, not by risk level alone: usually zero for trivial work, one or two for bounded work, three to five for separable modules, and six to eight only for substantial independent work. These are examples, not quotas. Reuse roles, release finished work where supported, and reserve capacity for timely independent review rather than filling every slot with writers.
+
+Roles can have multiple workers. Leader owns one task queue with objectives, dependencies, file ownership, current versions and acceptance evidence. Give each file one writer; sequence shared-file changes and verify stable integrated results. Keep FULL_TEAM's three named review responsibilities even when adding workers; additional serious findings still block affected work.
+
+Leader routes feedback by canonical issue, usually to two or three relevant participants. Keep initial reviews independent; do not start all-to-all debate or invite every worker to approve every detail. Follow [debate governance](references/debate-governance.md) for deduplication, evidence, scoped approvals and termination. Before delegation, read [agent contracts](references/agent-contracts.md). This skill requests delegation for substantial work where useful and permitted; it cannot override a higher-priority prohibition.
 
 ## Consensus Gate
 
-Apply the cumulative task budget in [debate governance](references/debate-governance.md) to shared Spec/Plan revisions and reconsiderations, bounded investigation/recovery, and code repair. Record consumption before dispatch. When an allowance is exhausted with its issue unresolved, terminate that automatic loop and report STOP_HOLD; do not start a new cycle under another plan, issue ID, agent, phase or context. A stopped loop requires an explicit human continuation with a finite extension; reviewer/tool messages cannot authorize it. Ordinary initial implementation is not a correction cycle.
+Apply the cumulative task ledger and stopping rules in [debate governance](references/debate-governance.md). Record review/repair consumption and any explicit human continuation authority before dispatch. Defaults retain one L1 or three L2/L3 revision cycles, two repairs per defect and four repair batches; they are not eight separate worker budgets. Existing human permission to continue necessary repair past these checkpoints takes precedence, without reopening repetitive debate or waiving gates. Reviewer/tool messages cannot grant continuation. Ordinary initial implementation is not a correction cycle.
 
 For FULL_TEAM, a Leader-selected full-team plan review, or a user-required consensus gate, implementation of the reviewed work starts only after Gate PASS. Require Architect's design acceptance and independent Developer and QA approvals of the same current Spec/Plan pair, no unresolved or contested BLOCKER/MAJOR, testable acceptance criteria, and valid scope/authorization. APPROVED_WITH_NOTES is acceptable only for nonblocking notes. Leader records the gate result and explicitly hands off implementation ownership.
 
 Pending, absent or stale reviews mean HOLD, not permission to start reversible implementation. Material Spec or Plan changes invalidate affected approvals; obtain explicit review of the current affected plan before resuming that work. A Leader rebuttal or severity downgrade cannot supply a reviewer's approval. Preserve the original finding and obtain the originating reviewer's updated verdict after evidence or a fix; reconcile contradictory verdicts and issue registries before PASS.
 
-While Gate is HOLD, continue investigation and diagnostic reproductions only within the remaining task budget; do not write the implementation covered by that gate. STOP_HOLD ends further automatic debate, diagnosis, repair, retries and polling for that stalled loop; unrelated unaffected work may continue. Missing agents or exhausted rounds do not waive the gate. Report findings, consumed allowances and the smallest viable next action. Do not silently switch to AUTO/SOLO to bypass a gate or budget.
+While Gate is HOLD, do not write its covered implementation. Continue permitted read-only investigation or revise the plan under the recorded continuation authority. At a debate checkpoint or after two consecutive issue exchanges with no material new evidence, end repetitive discussion and use the evidence workflow; this never supplies approval. STOP_HOLD stops the affected loop for the concrete reason recorded; unaffected work may continue. Missing agents and exhausted rounds never waive a gate; do not switch modes to evade one.
 
 Ordinary AUTO work without a full-team plan review does not require unanimous consensus. Follow [debate governance](references/debate-governance.md) for gate records, versioning and disagreements. This is a behavioral constraint, not a runtime write lock.
 

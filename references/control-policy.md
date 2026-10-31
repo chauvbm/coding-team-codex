@@ -40,7 +40,7 @@ Use the helper's structured result to confirm global policy, chat policy and eff
 
 Policy commands never clear ledgers, extend budgets, approve a plan or waive a gate. ON is not explicit continuation beyond STOP_HOLD. OFF keeps existing required gates and unresolved findings: do not switch to direct implementation merely to evade them. For affected in-flight work in the current chat, stop further coding-team dispatch and safely stop/await existing writers before transferring ownership. Save partial output and the existing ledger; do not erase user changes. Do not message or cancel other chats merely because a global default changed.
 
-Task continuation after STOP_HOLD still requires the explicit finite allowance in [debate governance](debate-governance.md), independently of saved ON/OFF. Permission to use coding-team does not authorize more review cycles or any external action.
+Task continuation follows the recorded human authority and stopping reason in [debate governance](debate-governance.md), independently of saved ON/OFF. Existing explicit permission for necessary repair beyond revision/repair checkpoints does not require a new permission question solely for those counts; it does not automatically resume a concrete no-progress or exhausted reviewer/tool recovery loop. Permission to use coding-team alone grants neither continuation nor external actions.
 
 ## Global bootstrap
 
