@@ -1,6 +1,6 @@
 # Workflow and planning
 
-Read for substantial implementation or replanning. Models are defined only in [the roster](../SKILL.md).
+Read for substantial implementation or replanning. Model preferences and dispatch resolution are defined in [model routing](model-routing.md) and its linked profiles.
 
 ## Task baseline
 
@@ -19,7 +19,7 @@ Check current eligibility with the control-policy helper before coding-team dele
 - Cover all three core review responsibilities when useful or the user requests FULL_TEAM. Name their representatives; this does not require filling capacity or unanimous votes from every worker.
 - Run independent reads concurrently where useful. Sequence dependencies and shared-file writes.
 - When requirements are ambiguous or materially risky, let QA first review the Spec and derive acceptance cases without seeing the proposed solution. Architect then drafts the Plan; Developer and QA review the same Spec/Plan pair independently. Corrections after Spec submission consume the shared revision budget even before the initial Plan exists; do not require a separate requirements round when requirements are already clear.
-- For FULL_TEAM or a selected full-team plan review, use the Consensus Gate in SKILL.md: applicable current approvals and resolved material issues before implementation handoff. Pending or stale sign-offs keep affected implementation HOLD. Continuing evidence work or plan repair never supplies missing approval.
+- For FULL_TEAM or a selected full-team plan review, use the [Consensus Gate and scoped approvals](debate-governance.md#consensus-gate-and-scoped-approvals): applicable current approvals and resolved material issues before implementation handoff. Pending or stale sign-offs keep affected implementation HOLD. Continuing evidence work or plan repair never supplies missing approval.
 
 A role is not an obligatory additional agent for every coding task. A Developer's review before implementation does not replace independent review of their own code afterward.
 

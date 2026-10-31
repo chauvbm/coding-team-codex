@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "active_profile": "runtime",
+  "profiles": {
+    "runtime": {
+      "Architect": {"model": null, "effort": null},
+      "Investigator": {"model": null, "effort": null},
+      "Developer": {"model": null, "effort": null},
+      "Test Engineer": {"model": null, "effort": null},
+      "QA / Reviewer": {"model": null, "effort": null},
+      "Specialist": {"model": null, "effort": null}
+    },
+    "named_preferences": {
+      "Architect": {"model": "gpt-6.1-sol", "effort": "medium"},
+      "Investigator": {"model": "gpt-6-luna", "effort": "medium"},
+      "Developer": {"model": "gpt-6-luna", "effort": "medium"},
+      "Test Engineer": {"model": "gpt-6.1-sol", "effort": "medium"},
+      "QA / Reviewer": {"model": "gpt-6.1-sol", "effort": "medium"},
+      "Specialist": {"model": "gpt-6.1-sol", "effort": "medium"}
+    }
+  }
+}

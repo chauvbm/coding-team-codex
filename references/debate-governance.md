@@ -52,6 +52,8 @@ Extra stalled-issue diagnosis uses `diagnostic_dispatches`; routine reads within
 
 STOP_HOLD applies to the concrete loop, not unaffected authorized work. Resume only on missing evidence, external change or applicable explicit authority addressing its stopping reason. Record a materially different evidence-backed approach; never invent one to reset limits. Ask only for actual product, scope or permission decisions. Quota pause honors task-specific human instructions only when reliable telemetry exists; never claim unavailable telemetry.
 
+At STOP_HOLD, report the blocker and smallest next step. Do not ask for a speculative renewal merely because an automatic allowance or deadline expired; ask only when completing the requested task actually requires a concrete user decision or authorization.
+
 ## Consensus Gate and scoped approvals
 
 For FULL_TEAM, a selected full-team plan review or a user-required gate, record:

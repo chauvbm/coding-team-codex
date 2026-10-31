@@ -373,6 +373,131 @@ class LedgerTests(unittest.TestCase):
         delivery = subprocess.run(command + ['--stage', 'delivery'], capture_output=True, text=True, timeout=15)
         self.assertEqual(delivery.returncode, 1, delivery.stdout + delivery.stderr)
 
+    def narrow_cli(self, action, revision, payload=None, *extra):
+        command = [sys.executable, str(HELPER), action, '--ledger', str(self.path),
+                   '--expected-revision', str(revision), '--reason', 'targeted ledger operation']
+        if payload is not None:
+            source = self.root / 'operation.json'
+            source.write_text(json.dumps(payload), encoding='utf-8')
+            command += ['--input', str(source)]
+        return subprocess.run(command + list(extra), capture_output=True, text=True, timeout=15)
+
+    def test_record_review_preserves_history_and_stale_approval_holds(self):
+        state = self.start()
+        original_audit = copy.deepcopy(state['audit'])
+        rejection = self.review(state, verdict='REJECTED')
+        first = self.narrow_cli('record-review', 0, rejection)
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        stale = {**rejection, 'id': 'stale', 'verdict': 'APPROVED', 'snapshot': 'old-tree'}
+        second = self.narrow_cli('record-review', 1, stale)
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        self.assertEqual(json.loads(second.stdout)['delivery'], 'HOLD')
+        saved = ledger.read_json(self.path)
+        self.assertEqual(saved['reviews'], [rejection, stale])
+        self.assertEqual(saved['audit'][:1], original_audit)
+        self.assertEqual(saved['audit'][-1]['action'], 'record-review')
+        current = {**rejection, 'id': 'current', 'verdict': 'APPROVED'}
+        third = self.narrow_cli('record-review', 2, current)
+        self.assertEqual(json.loads(third.stdout)['delivery'], 'PASS')
+
+    def test_issue_operations_cannot_supply_independent_closure(self):
+        state = self.start()
+        self.material(state)
+        issue = state['issues'][0]
+        result = self.narrow_cli('add-issue', 0, issue)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        writer = self.review(state, person='writer', issues=['bug'])
+        self.assertEqual(self.narrow_cli('record-review', 1, writer).returncode, 0)
+        result = self.narrow_cli('update-issue', 2,
+                                 {'id': 'bug', 'status': 'RESOLVED', 'closed_by': writer['id']})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(json.loads(result.stdout)['delivery'], 'HOLD')
+        qa = self.review(state, issues=['bug'])
+        self.assertEqual(self.narrow_cli('record-review', 3, qa).returncode, 0)
+        result = self.narrow_cli('update-issue', 4, {'id': 'bug', 'closed_by': qa['id']})
+        self.assertEqual(json.loads(result.stdout)['delivery'], 'HOLD')  # original dissent remains
+        origin = self.review(state, person='original', issues=['bug'])
+        result = self.narrow_cli('record-review', 5, origin)
+        self.assertEqual(json.loads(result.stdout)['delivery'], 'PASS')
+        self.assertEqual(ledger.read_json(self.path)['issues'][0]['originators'], issue['originators'])
+
+    def test_issue_attribution_appends_and_cannot_be_rewritten(self):
+        state = self.start()
+        self.material(state)
+        self.assertEqual(self.narrow_cli('add-issue', 0, state['issues'][0]).returncode, 0)
+        extra = {'reviewer': 'other', 'statement': 'same reproduced failure'}
+        result = self.narrow_cli('update-issue', 1,
+                                 {'id': 'bug', 'append_aliases': ['duplicate'], 'append_originators': [extra]})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        saved = ledger.read_json(self.path)
+        self.assertEqual(saved['issues'][0]['originators'], state['issues'][0]['originators'] + [extra])
+        before = self.path.read_bytes()
+        result = self.narrow_cli('update-issue', 2, {'id': 'bug', 'originators': [extra]})
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_narrow_invalid_payloads_preserve_file(self):
+        state = self.start()
+        review = self.review(state)
+        for payload in (None, [], {}, {**review, 'audit': []}, {**review, 'issues': ['missing']},
+                        {**review, 'directly_verified': 1}):
+            before = self.path.read_bytes()
+            # None must still be delivered as JSON null, not omitted CLI input.
+            source = self.root / 'invalid.json'
+            source.write_text(json.dumps(payload), encoding='utf-8')
+            command = [sys.executable, str(HELPER), 'record-review', '--ledger', str(self.path),
+                       '--input', str(source), '--expected-revision', '0', '--reason', 'invalid']
+            with self.subTest(payload=payload):
+                result = subprocess.run(command, capture_output=True, text=True, timeout=15)
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                self.assertEqual(self.path.read_bytes(), before)
+
+    def test_budget_operations_reserve_use_and_recovery_totals(self):
+        self.start()
+        reserve = self.narrow_cli('consume-budget', 0, None, '--counter', 'recoveries',
+                                  '--key', 'QA/all', '--phase', 'reserve')
+        self.assertEqual(reserve.returncode, 0, reserve.stdout + reserve.stderr)
+        used = self.narrow_cli('consume-budget', 1, None, '--counter', 'recoveries',
+                               '--key', 'QA/all', '--phase', 'use')
+        self.assertEqual(used.returncode, 0, used.stdout + used.stderr)
+        saved = ledger.read_json(self.path)
+        self.assertEqual(saved['counters']['recoveries']['QA/all'], {'reserved': 1, 'used': 1})
+        self.assertEqual(saved['counters']['recovery_total'], {'reserved': 1, 'used': 1})
+        extra = self.narrow_cli('consume-budget', 2, None, '--counter', 'recoveries', '--key', 'QA/all')
+        self.assertEqual(extra.returncode, 0)
+        self.assertEqual(json.loads(extra.stdout)['gate'], 'HOLD')  # recorded excess never waived
+
+    def test_invalid_budget_operations_never_reset_or_write(self):
+        self.start()
+        for options in ({'amount': 0}, {'amount': -1}, {'amount': True}, {'counter_name': 'unknown'},
+                        {'counter_name': 'defects'}, {'key': 'not-allowed'}, {'phase': 'reset'},
+                        {'phase': 'use'}):
+            before = self.path.read_bytes()
+            kwargs = {'counter_name': 'repairs', **options}
+            with self.subTest(options=options), self.assertRaises(ValueError):
+                ledger.mutate(self.path, 'consume-budget', 0, 'invalid', **kwargs)
+            self.assertEqual(self.path.read_bytes(), before)
+
+    def test_concurrent_narrow_mutations_have_one_cas_winner(self):
+        self.start()
+        command = [sys.executable, str(HELPER), 'consume-budget', '--ledger', str(self.path),
+                   '--expected-revision', '0', '--reason', 'concurrent reservation',
+                   '--counter', 'repairs', '--phase', 'reserve']
+        processes = [subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                     for _ in range(2)]
+        try:
+            outputs = [p.communicate(timeout=15) for p in processes]
+            self.assertEqual(sorted(p.returncode for p in processes), [0, 2], outputs)
+            saved = ledger.read_json(self.path)
+            self.assertEqual(saved['revision'], 1)
+            self.assertEqual(saved['counters']['repairs'], {'reserved': 1, 'used': 0})
+            self.assertEqual(len(saved['audit']), 2)
+        finally:
+            for process in processes:
+                if process.poll() is None:
+                    process.kill()
+                    process.communicate(timeout=5)
+
 
 if __name__ == '__main__':
     unittest.main()

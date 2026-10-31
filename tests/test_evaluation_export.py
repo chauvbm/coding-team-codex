@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 SCRIPT = Path(__file__).resolve().parents[1] / 'scripts/export_evaluation_inputs.py'
 SPEC = importlib.util.spec_from_file_location('export_evaluation', SCRIPT)
@@ -46,6 +47,35 @@ class ExportTests(unittest.TestCase):
     def test_invalid_cases_are_rejected_before_output_creation(self):
         self.fixture.write_text(json.dumps({'instructions': 'decide', 'cases': [
             {'id': 'a', 'input': 'one'}, {'id': 'a', 'input': 'two'}]}))
+        with self.assertRaises(ValueError):
+            exporter.export_inputs(self.root, self.fixture, self.output)
+        self.assertFalse(self.output.exists())
+
+    def test_link_preflight_precedes_explicit_and_temporary_destinations(self):
+        original = Path.is_symlink
+        linked = self.root / 'scripts' / 'example.txt'
+        with mock.patch.object(Path, 'is_symlink', lambda p: p == linked or original(p)), \
+                mock.patch.object(exporter.tempfile, 'mkdtemp') as create_temp:
+            for output in (self.output, None):
+                with self.assertRaises(ValueError):
+                    exporter.export_inputs(self.root, self.fixture, output)
+            create_temp.assert_not_called()
+        self.assertFalse(self.output.exists())
+
+    def test_real_links_are_rejected_without_copy_or_output(self):
+        external = self.root.parent / 'private.txt'
+        external.write_text('private')
+        link = self.root / 'scripts' / 'linked'
+        try:
+            link.symlink_to(external)
+        except OSError as error:
+            self.skipTest('Host cannot create symbolic links: ' + str(error))
+        with self.assertRaises(ValueError):
+            exporter.export_inputs(self.root, self.fixture, self.output)
+        self.assertFalse(self.output.exists())
+        self.assertEqual(external.read_text(), 'private')
+        link.unlink()
+        link.symlink_to(self.root / 'absent')
         with self.assertRaises(ValueError):
             exporter.export_inputs(self.root, self.fixture, self.output)
         self.assertFalse(self.output.exists())

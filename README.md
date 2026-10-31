@@ -18,7 +18,6 @@ git clone https://github.com/chauvbm/coding-team-codex.git $skillPath
 if ($LASTEXITCODE -ne 0) { throw 'Clone failed; inspect the existing destination.' }
 python "$skillPath/scripts/coding_team_policy.py" init
 if ($LASTEXITCODE -ne 0) { throw 'State initialization failed; preserve and inspect it.' }
-python "$skillPath/scripts/coding_team_policy.py" install-global-instructions
 ```
 
 POSIX shell (use your installed interpreter if named differently):
@@ -26,11 +25,10 @@ POSIX shell (use your installed interpreter if named differently):
 ```sh
 skill_path="$HOME/.agents/skills/coding-team"
 git clone https://github.com/chauvbm/coding-team-codex.git "$skill_path" &&
-python3 "$skill_path/scripts/coding_team_policy.py" init &&
-python3 "$skill_path/scripts/coding_team_policy.py" install-global-instructions
+python3 "$skill_path/scripts/coding_team_policy.py" init
 ```
 
-Setup creates policy state and installs only the marked coding-team block in the user's Codex AGENTS.md. Existing valid state and unrelated instructions are preserved. The generated commands embed the interpreter used for setup; regenerate the block if that interpreter moves. Missing/corrupt state is not silently reset. See [control policy](references/control-policy.md) for custom paths and scope.
+Setup creates eligibility state with global ON; it does not install global instructions. Existing valid state is preserved; missing/corrupt state is not silently reset during use. See [control policy](references/control-policy.md) for custom paths and scope. An explicit task request can authorize relevant team use when saved eligibility cannot be established; it never supplies a missing runtime capability or waives a required gate.
 
 Start a fresh chat to load updated instructions, then ask:
 
@@ -40,6 +38,12 @@ Use `/coding-team status` to inspect eligibility, `/coding-team off` for this ch
 
 Licensed under [MIT](LICENSE).
 
+### Optional automatic controls
+
+The shipped skill permits implicit invocation for matching tasks; AUTO still selects the smallest useful workflow. To have the agent handle persistent ON/OFF controls even before selecting the skill, optionally run `python <skill-directory>/scripts/coding_team_policy.py install-global-instructions`. This adds only the marked coding-team block to your Codex AGENTS.md, preserving unrelated instructions. It embeds the setup interpreter; regenerate it if that interpreter moves. Start a fresh chat after installation.
+
+For an explicit-only installation, locally change `policy.allow_implicit_invocation` to `false` in `agents/openai.yaml`, then invoke `$coding-team` when wanted. Preserve other YAML fields. This is a host skill-selection option; it does not replace saved per-chat ON/OFF controls, stop running workers, or change existing gated work.
+
 ## Start here
 
 Review the exact branch or commit supplied by the owner. Record the checked-out revision before assessing findings or test results:
@@ -48,7 +52,7 @@ Review the exact branch or commit supplied by the owner. Record the checked-out 
 git rev-parse HEAD
 ```
 
-Reading this repository does not require installing the skill or changing Codex configuration. The Python helper and checker tests use the standard library. Executing real delegated work additionally requires a host exposing native subagent tools and suitable authorization. Model preferences and fallback behavior are defined in SKILL.md; model availability is not supplied by this repository.
+Reading this repository does not require installing the skill or changing Codex configuration. The Python helper and checker tests use the standard library. Executing real delegated work additionally requires a host exposing native subagent tools and suitable authorization. [Model routing](references/model-routing.md) and [profiles](references/model-profiles.json) describe configuration and fallback; model availability is not supplied by this repository.
 
 ## Repository map and reading order
 
@@ -66,6 +70,8 @@ Reading this repository does not require installing the skill or changing Codex 
 | 10 | [task_ledger.py](scripts/task_ledger.py) | Atomic ledger updates, history and structural readiness checks |
 | 11 | [openai.yaml](agents/openai.yaml) | Skill UI metadata and implicit-invocation policy |
 | 12 | [tests/](tests/) | Behavioral fixtures and checker, policy and ledger regression tests |
+
+Read references conditionally as directed by SKILL.md; the numbered map is for repository review, not a mandatory runtime reading list. Model profiles default to inheriting the runtime configuration; users can configure role preferences once without hardcoding account-specific models into the entrypoint. See [CONTRIBUTING.md](CONTRIBUTING.md) for maintenance and portable release archives.
 
 For a static quality review, inspect both the operating instructions and the test oracles. For a blind behavioral evaluation, keep the oracles away from the evaluating agent as described below. Generated `graphify-out/` files are local development aids and are not required to review or run the skill.
 

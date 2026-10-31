@@ -1,6 +1,6 @@
 # Delegation contracts
 
-Read before spawning. Resolve user overrides, adaptive model/effort selection and role defaults using [the model routing rules](../SKILL.md). Use the actual native subagent API; do not invent parameters or substitute user-visible chat creation.
+Read before spawning. Resolve user overrides, adaptive model/effort selection and role preferences using [model routing](model-routing.md). Use the actual native subagent API; do not invent parameters or substitute user-visible chat creation.
 
 ## Compact handoff: always required
 
@@ -37,7 +37,7 @@ Multiple Developers may implement independent work items. Own assigned files exc
 
 ## Investigator
 
-Answer one bounded code, documentation or root-cause question. Use the project's graph/query workflow where applicable and verify claims against current source or primary documentation. Prefer a minimal reproduction or specific source evidence over speculative alternatives. Work read-only except for explicitly assigned isolated diagnostic artifacts; do not edit implementation, broaden scope or dispatch follow-ups.
+Answer one bounded code, documentation or root-cause question. Follow applicable project investigation instructions and verify claims against current source or primary documentation; this skill requires no particular indexing tool. Prefer a minimal reproduction or specific source evidence over speculative alternatives. Work read-only except for explicitly assigned isolated diagnostic artifacts; do not edit implementation, broaden scope or dispatch follow-ups.
 
 ## Test Engineer
 

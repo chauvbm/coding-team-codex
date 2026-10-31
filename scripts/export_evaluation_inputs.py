@@ -6,6 +6,17 @@ import shutil
 import tempfile
 
 
+def check_resources(root):
+    """Reject linked operational resources before creating an export destination."""
+    pending = [root / name for name in ('SKILL.md', 'references', 'scripts', 'agents')]
+    while pending:
+        path = pending.pop()
+        if path.is_symlink() or (hasattr(path, 'is_junction') and path.is_junction()):
+            raise ValueError('linked skill resource cannot be exported: ' + str(path.relative_to(root)))
+        if path.is_dir():
+            pending.extend(path.iterdir())
+
+
 def export_inputs(skill_root, cases_path, output=None):
     root = Path(skill_root).resolve()
     data = json.loads(Path(cases_path).read_text(encoding='utf-8-sig'))
@@ -16,6 +27,7 @@ def export_inputs(skill_root, cases_path, output=None):
     if (len(ids) != len(cases) or not all(isinstance(i, str) and i for i in ids)
             or len(ids) != len(set(ids)) or not all(isinstance(c.get('input'), str) for c in cases)):
         raise ValueError('cases require unique string IDs and string inputs')
+    check_resources(root)
     if output is None:
         out = Path(tempfile.mkdtemp(prefix='coding-team-eval-'))
     else:

@@ -1,0 +1,75 @@
+{
+  "kind": "instruction_scoped_blind_decision_test",
+  "base_commit": "6055037c6fc9e7429347facc3e5345e39ff2c64e",
+  "source_snapshots_utf8_lf_sha256": {
+    "initial": {
+      "agents/openai.yaml": "ac2fcf8f116de6d62e0e1202ac9a8363aae71c9fe825e6e1f47baeb12084ddcf",
+      "references/agent-contracts.md": "f55e9c1e483ac6957ad5896aa230dc98cc3cd49f7e6b9fb070bf7668404bf1fa",
+      "references/control-policy.md": "6ae4ff4cbf0bb87cf0bdafd0b850e6b2b80c16d489884e1e7c1bc1c4365416a8",
+      "references/debate-governance.md": "9bdd2bdaf77407bc682de84735c2616a5e9ef7877a121ec4bcf626302bb2cb20",
+      "references/governance-defaults.json": "75603644bca6dc29628f050ce101afdc99e6ad12ea28289fac781f448d4f08dd",
+      "references/model-profiles.json": "ef4924c48a87ba9de5298a6187453c6627876c4f7ae31d683c1212db0cf3c736",
+      "references/model-routing.md": "2915ea60cbb6aeb3edfbafbd55ee93858c0db228cdb89a4cde8854ce2ef99337",
+      "references/quality-safety.md": "ed32572dbbaf89357e229edd5d6b24cae6dfad46499b18a469b44bba5d05ab24",
+      "references/task-ledger.md": "e5156b7d72ac7a76f05758630e820454624448066c6e542a8c0df456a9f5de36",
+      "references/workflow.md": "e560636663dc11844e83f6d217f8496c8099bc8247719d1848f70bac2bb21a66",
+      "scripts/coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+      "scripts/export_evaluation_inputs.py": "562cee39d844835903b0b3517aa611a81916bbe10759e713fdf2cce5c4b6c573",
+      "scripts/task_ledger.py": "c5d0afb67be726637fb335394303751a90178debe95d8826b8f2caeef9dcc9c2",
+      "SKILL.md": "2f3674cab7ed7b6f659567c55d572a1e3368be73d5e7e4e07ebadd6895b4031e"
+    },
+    "stop_retest": {
+      "agents/openai.yaml": "ac2fcf8f116de6d62e0e1202ac9a8363aae71c9fe825e6e1f47baeb12084ddcf",
+      "references/agent-contracts.md": "f55e9c1e483ac6957ad5896aa230dc98cc3cd49f7e6b9fb070bf7668404bf1fa",
+      "references/control-policy.md": "6ae4ff4cbf0bb87cf0bdafd0b850e6b2b80c16d489884e1e7c1bc1c4365416a8",
+      "references/debate-governance.md": "9a745c1c86fdd32f88109adf4c310b7aff9818fbede5aefd191f5646535e8866",
+      "references/governance-defaults.json": "75603644bca6dc29628f050ce101afdc99e6ad12ea28289fac781f448d4f08dd",
+      "references/model-profiles.json": "ef4924c48a87ba9de5298a6187453c6627876c4f7ae31d683c1212db0cf3c736",
+      "references/model-routing.md": "2915ea60cbb6aeb3edfbafbd55ee93858c0db228cdb89a4cde8854ce2ef99337",
+      "references/quality-safety.md": "ed32572dbbaf89357e229edd5d6b24cae6dfad46499b18a469b44bba5d05ab24",
+      "references/task-ledger.md": "e5156b7d72ac7a76f05758630e820454624448066c6e542a8c0df456a9f5de36",
+      "references/workflow.md": "e560636663dc11844e83f6d217f8496c8099bc8247719d1848f70bac2bb21a66",
+      "scripts/coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+      "scripts/export_evaluation_inputs.py": "d993b9526212629db459b11d3a1b9f5d66d2bd4bae9947e2a389f9092dceb294",
+      "scripts/task_ledger.py": "c5d0afb67be726637fb335394303751a90178debe95d8826b8f2caeef9dcc9c2",
+      "SKILL.md": "2f3674cab7ed7b6f659567c55d572a1e3368be73d5e7e4e07ebadd6895b4031e"
+    }
+  },
+  "model_selection": "parent inheritance; no model or effort override",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "initial": {
+    "mode_fixture": "tests/mode_cases.json",
+    "mode_passed": 8,
+    "mode_cases": 8,
+    "transfer_fixture": "tests/reviewer_transfer_cases.json",
+    "transfer_passed": 3,
+    "transfer_cases": 6,
+    "raw_passed": 11,
+    "raw_cases": 14,
+    "failures": [
+      "transfer_author_cannot_supply_qa: ownership_handoff enum vs independent_review/targeted_reassessment",
+      "transfer_exhausted_recovery_cannot_restart: ask_user true vs false",
+      "transfer_preserves_history_and_counters: ownership_handoff enum vs expected review/correction enums"
+    ]
+  },
+  "independent_adjudication": {
+    "reviewer": "lean_release_qa",
+    "taxonomy_mismatches": 2,
+    "unnecessary_escalation_deviations": 1,
+    "gate_or_budget_bypasses": 0
+  },
+  "correction": "Clarify STOP_HOLD report-first; ask only for concrete required decision/authorization. Oracles unchanged.",
+  "retest": {
+    "fixture_case": "transfer_exhausted_recovery_cannot_restart",
+    "fresh_evaluator": "stop_forward_retest",
+    "passed": 1,
+    "cases": 1
+  },
+  "limitations": [
+    "Small decision simulation, not runtime enforcement or population reliability estimate.",
+    "Initial raw11/14 retained; targeted1/1 retest is not a fresh14/14 run.",
+    "Instruction-scoped isolation, no filesystem sandbox; full model transcripts unavailable."
+  ]
+}

@@ -37,5 +37,3 @@ Do not infer permission for destructive resets, force pushes, production changes
 Use the user's language. State what changed or was found, why it matters, relevant checks and material limits. Name only agents that actually participated. Mention model uncertainty when material; avoid dumping internal governance fields for a simple task.
 
 Never present self-review as independent QA, silence as consensus, or prompt-level rules as a technically enforced sandbox.
-
-For maintenance of this skill, run the skill validator and the behavioral fixtures in `tests/behavioral_cases.json`. Give independent evaluators only each case's input and the skill; keep expected checks hidden. Use `tests/check_behavioral_results.py` to score their structured decisions. These exercises test planning decisions, not runtime enforcement or actual implementation/test execution.

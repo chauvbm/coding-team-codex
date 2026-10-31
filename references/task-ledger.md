@@ -15,9 +15,27 @@ python scripts/task_ledger.py check --ledger .task/ledger.json --stage gate
 
 `init` accepts a document without `revision` or `audit`. It refuses any existing ledger, including a corrupt one. For `update`, read the current document, preserve its helper-managed revision and audit unchanged, edit the intended fields and supply that document as the candidate. The expected revision prevents a stale writer from overwriting another update. The helper increments it and appends the audit event while holding the OS lock.
 
-`init` and `update` return exit 0 after a structurally valid record is saved, including records on HOLD. `check` returns 0 only for PASS at the selected `--stage gate|delivery` (default `delivery`), 1 for a valid HOLD at that stage, and 2 for malformed JSON, invalid schema, invalid paths or storage errors. Mutating commands return 2 for rejected writes. JSON output distinguishes `valid`, `gate`, `delivery`, `gate_blockers` and delivery `blockers`. Always run `check` before using the record as readiness evidence; a successful save is not permission to act. A caller-supplied `gate`, delivery claim or `operating_state: PASS` cannot supply approvals.
+All mutating commands return exit 0 after a structurally valid record is saved, including records on HOLD. `check` returns 0 only for PASS at the selected `--stage gate|delivery` (default `delivery`), 1 for a valid HOLD at that stage, and 2 for malformed JSON, invalid schema, invalid paths or storage errors. Mutating commands return 2 for rejected writes. JSON output distinguishes `valid`, `revision`, `gate`, `delivery`, `gate_blockers` and delivery `blockers`. Always run `check` before using the record as readiness evidence; a successful save is not permission to act. A caller-supplied `gate`, delivery claim or `operating_state: PASS` cannot supply approvals.
 
 `gate` checks current required plan/scope approvals and material findings; `delivery` additionally requires current independent `FinalQA` evidence for every scope. AUTO tasks may leave `required_reviews` empty. Gated tasks must name Architect, Developer and QA for each scope. A successful plan gate does not replace final QA.
+
+## Small updates without rewriting the ledger
+
+Prefer these commands for routine records. Each reads the current ledger under its OS lock, applies only the requested change, and uses the same schema, transition, readiness and atomic-write checks as `update`. The caller supplies no audit or full candidate document. Every command requires `--expected-revision` and `--reason`; use the returned `revision` for the next operation. A stale revision is rejected without changing the file. The following commands are alternatives; replace `N` with the actual integer revision, not a shell variable.
+
+```text
+python scripts/task_ledger.py record-review --ledger .task/ledger.json --input review.json --expected-revision N --reason "record current QA evidence"
+python scripts/task_ledger.py add-issue --ledger .task/ledger.json --input issue.json --expected-revision N --reason "record reproduced defect"
+python scripts/task_ledger.py update-issue --ledger .task/ledger.json --input issue-change.json --expected-revision N --reason "record reassessment"
+python scripts/task_ledger.py consume-budget --ledger .task/ledger.json --counter repairs --phase reserve --expected-revision N --reason "reserve next repair batch"
+```
+
+- `record-review` appends one complete review object using the schema below; IDs remain unique and past verdicts cannot be edited. Optional `verified_at` is accepted. Versions are explicit, never silently filled from the current baseline: a stale approval saves as historical evidence but cannot satisfy readiness.
+- `add-issue` appends one issue object from the schema below, initially OPEN or CONTESTED. `closed_by` is supplied later through `update-issue`.
+- `update-issue` accepts `{"id":"bug1","status":"RESOLVED","closed_by":"qa1"}`. Its optional `append_aliases` and `append_originators` arrays add attribution without replacing prior entries. Only these fields and `id` are accepted. Original severity, scope, closure criteria and statements remain unchanged. Recording RESOLVED does not supply missing independent QA, current evidence or originator confirmations; readiness stays HOLD until all obligations are met.
+- `consume-budget` increments cumulative counters. `--counter` is `revisions`, `repairs`, `diagnostics`, `recovery_total`, `defects` or `recoveries`. The last two require a stable `--key`; other counters forbid it. Positive integer `--amount` defaults to 1. `--phase reserve` increases only reserved, `--phase use` only used, and `--phase both` (default) increases both. Use cannot exceed reservation. Reserve before dispatch, then record use; retain reservations on cancellation. A `recoveries` increment also increases `recovery_total` in the same transaction. Do not separately increment the total for that same attempt. A per-defect repair and its task-wide repair batch remain separate records because one batch may address several defects.
+
+Unknown input fields and invalid payloads are rejected without a write. These convenience commands do not authenticate review claims or grant continuation: consumption beyond an allowance can be recorded, but the usual readiness HOLD still applies. For baseline changes, work-item ownership, transfers or continuation records, use the full-document `update`; narrow commands cannot rewrite these fields. Audit storage remains cumulative inside the ledger; these operations reduce caller reconstruction, not audit growth.
 
 ## Small schema
 
@@ -27,7 +45,7 @@ The initial document below deliberately has no approvals and therefore produces 
 {
   "schema_version": 1,
   "task_id": "example-task",
-  "project_root": "D:/skill/coding-team",
+  "project_root": "/path/to/existing/project",
   "operating_state": "ACTIVE",
   "baseline": {
     "level": "L2",

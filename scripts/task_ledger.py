@@ -341,25 +341,98 @@ def update(path, candidate, expected_revision, reason):
         return result
 
 
+def mutate(path, action, expected_revision, reason, payload=None, *, counter_name=None,
+           key=None, amount=1, phase='both'):
+    """Apply a narrow change to the current document in one locked transaction."""
+    with locked(path):
+        old = validate(read_json(path))
+        require(type(expected_revision) is int and old['revision'] == expected_revision,
+                'stale expected revision')
+        new = copy.deepcopy(old)
+        if action in ('record-review', 'add-issue', 'update-issue'):
+            require(isinstance(payload, dict), 'operation input must be an object')
+            allowed = {
+                'record-review': {'id', 'reviewer', 'role', 'scope', 'spec', 'plan', 'snapshot',
+                                  'evidence', 'verdict', 'directly_verified', 'issues', 'verified_at'},
+                'add-issue': {'id', 'scope', 'severity', 'status', 'closure_criteria', 'aliases', 'originators'},
+                'update-issue': {'id', 'status', 'closed_by', 'append_aliases', 'append_originators'},
+            }[action]
+            require(set(payload) <= allowed, 'unknown operation input fields')
+            if action == 'record-review':
+                new['reviews'].append(copy.deepcopy(payload))
+            elif action == 'add-issue':
+                require(payload.get('status') in ('OPEN', 'CONTESTED'), 'new issue must start open or contested')
+                new['issues'].append(copy.deepcopy(payload))
+            else:
+                require(nonempty(payload.get('id')), 'issue ID required')
+                issue = next((i for i in new['issues'] if i['id'] == payload['id']), None)
+                require(issue is not None, 'unknown issue ID')
+                require(len(payload) > 1, 'issue update needs a change')
+                for name in ('status', 'closed_by'):
+                    if name in payload:
+                        issue[name] = copy.deepcopy(payload[name])
+                for name in ('aliases', 'originators'):
+                    extra = payload.get('append_' + name, [])
+                    require(isinstance(extra, list), 'appended issue attribution must be a list')
+                    issue[name].extend(copy.deepcopy(extra))
+        elif action == 'consume-budget':
+            require(counter_name in COUNTERS + ('defects', 'recoveries'), 'unknown counter')
+            require(type(amount) is int and amount > 0, 'amount must be a positive integer')
+            require(phase in ('reserve', 'use', 'both'), 'invalid budget phase')
+            grouped = counter_name in ('defects', 'recoveries')
+            require(nonempty(key) if grouped else key is None, 'counter key required only for grouped counters')
+            target = new['counters'][counter_name]
+            if grouped:
+                target = target.setdefault(key, {'reserved': 0, 'used': 0})
+            targets = [target]
+            if counter_name == 'recoveries':
+                targets.append(new['counters']['recovery_total'])
+            for target in targets:
+                for field in ('reserved', 'used'):
+                    if phase == 'both' or (phase == 'reserve' and field == 'reserved') or (phase == 'use' and field == 'used'):
+                        target[field] += amount
+        else:
+            raise ValueError('unknown mutation action')
+        validate(new)
+        transition(old, new)
+        new['revision'] += 1
+        event(new, action, reason)
+        result = readiness(new)
+        save(path, new)
+        return result
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='action', required=True)
-    for name in ('init', 'update', 'check'):
+    operations = ('record-review', 'add-issue', 'update-issue', 'consume-budget')
+    for name in ('init', 'update', 'check') + operations:
         command = sub.add_parser(name)
         command.add_argument('--ledger', required=True, type=Path)
         if name == 'check':
             command.add_argument('--stage', choices=('gate', 'delivery'), default='delivery')
-        if name != 'check':
+        if name not in ('check', 'consume-budget'):
             command.add_argument('--input', required=True, type=Path)
+        if name != 'check':
             command.add_argument('--reason', required=True)
-        if name == 'update':
+        if name == 'update' or name in operations:
             command.add_argument('--expected-revision', required=True, type=int)
+        if name == 'consume-budget':
+            command.add_argument('--counter', required=True, choices=COUNTERS + ('defects', 'recoveries'))
+            command.add_argument('--key')
+            command.add_argument('--amount', type=int, default=1)
+            command.add_argument('--phase', choices=('reserve', 'use', 'both'), default='both')
     args = parser.parse_args(argv)
     try:
         if args.action == 'init':
             result = initialize(args.ledger, read_json(args.input), args.reason)
         elif args.action == 'update':
             result = update(args.ledger, read_json(args.input), args.expected_revision, args.reason)
+        elif args.action == 'consume-budget':
+            result = mutate(args.ledger, args.action, args.expected_revision, args.reason,
+                            counter_name=args.counter, key=args.key, amount=args.amount, phase=args.phase)
+        elif args.action in operations:
+            result = mutate(args.ledger, args.action, args.expected_revision, args.reason, read_json(args.input))
         else:
             result = readiness(read_json(args.ledger))
         print(json.dumps(result, ensure_ascii=False))
