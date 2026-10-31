@@ -1,0 +1,14 @@
+{
+  "source_commit": "45fe43435fd91da2bfdc140ded4ca6f3b9a25436",
+  "fixture": "tests/reviewer_transfer_cases.json",
+  "recorded_date": "2026-10-31",
+  "decisions": 6,
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium",
+  "observed_model": null,
+  "kind": "blind_decision_simulation",
+  "limitations": [
+    "Instruction-scoped isolation only; no scenario implementation occurred.",
+    "Structured outputs available; full transcript and token/cost metrics unavailable."
+  ]
+}

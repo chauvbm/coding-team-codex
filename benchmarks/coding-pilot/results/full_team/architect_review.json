@@ -1,0 +1,50 @@
+{
+  "role": "Architect",
+  "stage": "plan-review",
+  "spec": "s1",
+  "plan": "p1",
+  "verdict": "APPROVED",
+  "scope": "All six TASKS.md contracts; utilities.py only, with local self-checks allowed by plan",
+  "independent_initial_review": true,
+  "issues": [],
+  "design_assessment": [
+    "Six independent functions can be repaired without public signature changes or external dependencies.",
+    "Standard-library copying, heap-based ready-node ordering, csv.reader logical records, instance-owned cache entries, and staged dictionary balance updates provide feasible implementations of the stated contracts.",
+    "TASKS.md supplies observable acceptance for ordering, invalid inputs, generators, alias isolation, expiration equality, explicit empty CSV cells, and atomic input preservation."
+  ],
+  "acceptance_focus": [
+    "paginate offset+limit semantics and generator input; invalid offsets and limits",
+    "deep_merge nested override behavior and bidirectional mutation isolation for lists and dictionaries",
+    "topological_order prerequisite-only nodes, duplicate edges, lexical ready-node selection, cycles",
+    "parse_csv_rows normalized headers, quoted newlines, physical blank rows versus explicit empty fields, exact row widths",
+    "ExpiringCache instance isolation, invalid ttl preserving old entry, falsey values, expiration equality and deletion",
+    "apply_transfers ordered funds checks, bool rejection, self-transfers, generator input, no input mutation after late failure"
+  ],
+  "checks": [
+    {
+      "kind": "source-and-contract-review",
+      "result": "PASS",
+      "paths": [
+        "TASKS.md",
+        "PLAN.md",
+        "utilities.py"
+      ]
+    },
+    {
+      "kind": "scoped-graph-query",
+      "result": "NOT_AVAILABLE",
+      "detail": "graphify query returned graph file not found in assigned workspace. Indexing was not performed because the assignment permits only architect_review.json writes."
+    }
+  ],
+  "implementation_performed": false,
+  "gate_note": "This scoped design acceptance does not establish parent Gate PASS or final implementation acceptance.",
+  "model_configuration": {
+    "supplied": "sol medium, same for all pilot roles",
+    "observed_metadata": "unknown"
+  },
+  "counters": {
+    "revision": 0,
+    "repair": 0,
+    "recovery": 0
+  }
+}

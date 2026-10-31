@@ -1,0 +1,36 @@
+{
+  "kind": "historical_decision_simulation",
+  "source_commit": "a45be4474b95b8f979285f13b9a5ec9a1859ddf2",
+  "recorded_date": "2026-10-31",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium",
+  "observed_model": null,
+  "results": [
+    {
+      "fixture": "behavioral_cases.json",
+      "response_file": "behavioral_responses.json",
+      "decisions": 24,
+      "passed": true,
+      "sha256": "87208001892cf648b73dfb093896e01edfcf938c8d9ca1339d9bb1288017271b"
+    },
+    {
+      "fixture": "sequential_cases.json",
+      "response_file": "sequential_responses.json",
+      "decisions": 4,
+      "passed": true,
+      "sha256": "dac39976ce0e1dbca71a177d28f73c7a0f22581c0552d4d77a32638ef11a2396"
+    }
+  ],
+  "limitations": [
+    "Not a coding benchmark; no fictional implementation or checks were executed.",
+    "Evaluators were instructed not to read expected checks; isolation was instruction-scoped, not a security sandbox.",
+    "No per-task token/cost telemetry was available; do not infer cost or efficiency from this record.",
+    "These are historical results for the pinned source commit, not proof that future revisions pass."
+  ],
+  "protocol_corrections": [
+    "Initial action field was unspecified free text while scorer expected enums; explicit neutral enum was then supplied and evaluator outputs regenerated without expected case answers.",
+    "Oracle accepted ownership_handoff as a valid immediate action when a fully approved implementation was ready.",
+    "Scorer gained global counter/reset and HOLD/PAUSE invariants after independent QA reproduced a false pass."
+  ],
+  "reproducibility": "Original full tool/model transcripts are not bundled; the published artifacts are structured evaluator outputs and coordinator-recorded provenance, not a tamper-proof run log."
+}

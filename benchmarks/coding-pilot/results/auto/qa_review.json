@@ -1,0 +1,18 @@
+{
+  "verdict": "APPROVED",
+  "contract": "s1",
+  "independent": true,
+  "confirmed_defects": [],
+  "checks": [
+    "paginate: 350 generator/slice cases plus rejection and ownership",
+    "deep_merge: recursive replacement and bidirectional nested independence",
+    "topological_order: prerequisite-only/duplicate/generator nodes and 160 exhaustive permutation oracle graphs",
+    "parse_csv_rows: physical blank versus explicit empty, multiline, whitespace, escaping, header and width validation",
+    "ExpiringCache: falsey identity, fractional clocks, exact expiry removal, overwrite, invalid TTL atomicity and instance isolation",
+    "apply_transfers: ordered generators, self transfers, rejected invalid suffix atomicity, 100 randomized conservation sequences"
+  ],
+  "commands": [
+    "& python qa_checks.py"
+  ],
+  "limits": "Contract-scoped synthetic data; no production/general-type guarantees. Developer self-checks and peer outputs were not read."
+}

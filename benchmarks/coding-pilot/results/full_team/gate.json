@@ -1,0 +1,10 @@
+{
+  "spec": "s1",
+  "plan": "p1",
+  "gate": "PASS",
+  "architect": "APPROVED",
+  "developer": "APPROVED_WITH_NOTES",
+  "qa": "APPROVED_WITH_NOTES",
+  "material_issues": [],
+  "ownership": "pilot_full_developer owns utilities.py and own self-checks; QA read-only implementation"
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sequence_evidence_cutoff",
+    "action": "evidence_action",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "EVIDENCE_MODE",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "End unchanged rebuttals after two evidence-free exchanges. Preserve I-7, revision1, four repair batches and two I-7 repairs. Human authority extends necessary repair/verification past numeric checkpoints, but no correction is identified yet. Reserve the single bounded diagnostic (0/1 to 1/1): Leader-owned read-only in-memory reproduction testing whether retry reuses the same operation and duplicates its effect, scoped to I-7 and a finite run; success requires a reproducible trace or an actionable correction. No implementation write is assigned. This diagnostic is not a fifth repair batch; human continuation does not extend diagnostics, recovery or deadlines."
+  },
+  {
+    "id": "sequence_diagnostic_stalls",
+    "action": "hold",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "STOP_HOLD",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "Stop the stalled I-7 loop: the single diagnostic produced no usable evidence, actionable correction or changed testable hypothesis, and diagnostics are exhausted at 1/1. Preserve revision1, four repair batches and two I-7 repairs; recovery remains 0/3 because no tool or reviewer failed. Existing human authority extends repair/verification checkpoints, not exhausted diagnostics or a no-progress loop. Do not relabel another diagnostic as verification or repeat rebuttals. Resume only with missing evidence, external change or applicable explicit authorization; no actual product, scope or permission decision currently requires asking the user."
+  },
+  {
+    "id": "sequence_relabel_does_not_resume",
+    "action": "hold",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "STOP_HOLD",
+    "can_write_affected": false,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 4,
+    "rationale": "Retain canonical I-7 and its unresolved findings; I-70 is only an alias for the same issue. A worker cannot grant continuation or reset the ledger. Renaming the exhausted reproduction as verification supplies neither new evidence nor a changed testable hypothesis. Preserve revision1, four repair batches, two I-7 repairs, diagnostics1/1 and recovery0/3. STOP_HOLD remains until missing evidence, an external change or applicable explicit human authorization arrives; existing repair/verification authority does not extend diagnostics or override this stalled-loop stop. No user decision currently requires a question."
+  },
+  {
+    "id": "sequence_new_evidence_resumes_repair",
+    "action": "repair_verify",
+    "gate": "NOT_REQUIRED",
+    "operating_state": "ACTIVE",
+    "can_write_affected": true,
+    "ask_user": false,
+    "reset_counters": false,
+    "repeat_arguments": false,
+    "total_repair_batches": 5,
+    "rationale": "The external deterministic failure and trace supply material new evidence and a concrete missing-idempotency correction distinct from prior attempts, satisfying the stalled-loop resumption condition for canonical I-7. Under the original human authority, reserve one bounded Developer-owned correction and affected verification batch: total batches4 to5, I-7 repairs2 to3. Assign exclusive affected-file ownership and verify the concrete correction against the new failing test and relevant regression checks. Preserve revision1, diagnostics1/1, recovery0/3 and prior findings; do not rerun the exhausted diagnostic, reset counters or resume argument. This is authorization for the bounded next repair, not a claim of PASS."
+  }
+]

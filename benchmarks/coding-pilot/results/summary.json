@@ -1,0 +1,78 @@
+{
+  "contract": "s1",
+  "source_skill_commit": "151856b",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium",
+  "runs": {
+    "solo": {
+      "started_at": "2026-10-31T10:22:57.243510+00:00",
+      "mode": "SOLO",
+      "participants": [
+        "pilot_solo"
+      ],
+      "implementation_dispatches": 1,
+      "plan_reviewers": 0,
+      "postimplementation_reviewers": 0,
+      "implementation_finished_observed_at": "2026-10-31T10:24:59.472649+00:00",
+      "finished_observed_at": "2026-10-31T10:24:59.472649+00:00",
+      "accepted_tasks": 6,
+      "acceptance_tests": 36,
+      "token_usage": null,
+      "cost": null,
+      "observed_model": null,
+      "implementation_sha256": "2cfa50785ac89e9aa72436936b3a2e1161c0f80c41bef79bdede2b8eb5ae971d"
+    },
+    "auto": {
+      "started_at": "2026-10-31T10:23:16.477360+00:00",
+      "mode": "AUTO",
+      "participants": [
+        "pilot_auto",
+        "pilot_auto_qa"
+      ],
+      "implementation_dispatches": 1,
+      "plan_reviewers": 0,
+      "postimplementation_reviewers": 1,
+      "implementation_finished_observed_at": "2026-10-31T10:25:18.076929+00:00",
+      "finished_observed_at": "2026-10-31T10:26:41.554584+00:00",
+      "accepted_tasks": 6,
+      "acceptance_tests": 36,
+      "token_usage": null,
+      "cost": null,
+      "observed_model": null,
+      "implementation_sha256": "5d12a2e54770d620b2181f457e5661260463d00696025c8b84fe3040ef7fb4f4"
+    },
+    "full_team": {
+      "started_at": "2026-10-31T10:23:46.622449+00:00",
+      "mode": "FULL_TEAM",
+      "participants": [
+        "pilot_architect",
+        "pilot_full_developer",
+        "pilot_full_qa"
+      ],
+      "implementation_dispatches": 1,
+      "plan_reviewers": 3,
+      "postimplementation_reviewers": 1,
+      "plan_gate": "PASS",
+      "plan_gate_at": "2026-10-31T10:25:18.076947+00:00",
+      "implementation_finished_observed_at": "2026-10-31T10:26:41.554584+00:00",
+      "accepted_tasks": 6,
+      "acceptance_tests": 36,
+      "token_usage": null,
+      "cost": null,
+      "observed_model": null,
+      "implementation_sha256": "9075ea6bc48822f140b0dbdf8def74b3297d3f83e231ff98f9af9cd154475ebb",
+      "finished_observed_at": null
+    }
+  },
+  "kind": "single_six_task_synthetic_pilot",
+  "limitations": [
+    "One synthetic batch per mode, no repetitions or representative production sampling.",
+    "Runs overlapped on one host; timestamps include coordinator scheduling and polling, not model compute time; FULL_TEAM finish timestamp was not retained. No reliable latency ranking.",
+    "AUTO staffing was coordinator-selected; adaptive team-size selection itself was not benchmarked.",
+    "Requested model/effort identical; effective backend and per-run token/cost telemetry unavailable.",
+    "Acceptance author read requirements only; withheld by instructions, not filesystem isolation; tests now public.",
+    "No post-holdout repair; all first final snapshots passed. Separate coordinator holdout is outside mode execution.",
+    "Graph procedural deviations and unavailable full transcripts limit compliance claims."
+  ],
+  "hash_encoding": "SHA-256 over UTF-8 text with normalized LF line endings"
+}

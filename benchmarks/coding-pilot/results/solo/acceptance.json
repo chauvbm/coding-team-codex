@@ -1,0 +1,17 @@
+{
+  "tests_run": 36,
+  "tasks": {
+    "Task1": true,
+    "Task2": true,
+    "Task3": true,
+    "Task4": true,
+    "Task5": true,
+    "Task6": true
+  },
+  "tasks_passed": 6,
+  "task_count": 6,
+  "accepted": true,
+  "acceptance_runtime_seconds": 0.0011589999994612299,
+  "failures": [],
+  "skipped": 0
+}

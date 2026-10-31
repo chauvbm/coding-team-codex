@@ -1,0 +1,276 @@
+{
+  "tests_run": 36,
+  "tasks": {
+    "Task1": false,
+    "Task2": false,
+    "Task3": false,
+    "Task4": false,
+    "Task5": false,
+    "Task6": false
+  },
+  "tasks_passed": 0,
+  "task_count": 6,
+  "accepted": false,
+  "acceptance_runtime_seconds": 0.01881859999957669,
+  "failures": [
+    {
+      "test": "pilot_acceptance.Task1.test_generator",
+      "task": "Task1",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 26, in test_generator\n    self.assertEqual(paginate((i * 2 for i in range(5)), 2, 2), [4, 6])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [] != [4, 6]\n\nSecond list contains 2 additional elements.\nFirst extra element 0:\n4\n\n- []\n+ [4, 6]\n"
+    },
+    {
+      "test": "pilot_acceptance.Task1.test_invalid_ranges (offset=-1, limit=2)",
+      "task": "Task1",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 31, in test_invalid_ranges\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task1.test_invalid_ranges (offset=0, limit=0)",
+      "task": "Task1",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 31, in test_invalid_ranges\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task1.test_invalid_ranges (offset=0, limit=-2)",
+      "task": "Task1",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 31, in test_invalid_ranges\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task1.test_order_and_slice",
+      "task": "Task1",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 17, in test_order_and_slice\n    self.assertEqual(paginate([9, 2, 7, 4], 1, 2), [2, 7])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [2] != [2, 7]\n\nSecond list contains 1 additional elements.\nFirst extra element 1:\n7\n\n- [2]\n+ [2, 7]\n"
+    },
+    {
+      "test": "pilot_acceptance.Task2.test_later_input_mutations_do_not_change_result",
+      "task": "Task2",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 80, in test_later_input_mutations_do_not_change_result\n    self.assertEqual(result, {'a': [{'v': [1]}], 'b': {'v': [2]}})\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'a': [{'v': [1, 8]}], 'b': {'v': [2, 9]}} != {'a': [{'v': [1]}], 'b': {'v': [2]}}\n- {'a': [{'v': [1, 8]}], 'b': {'v': [2, 9]}}\n?                ---                  ---\n\n+ {'a': [{'v': [1]}], 'b': {'v': [2]}}\n"
+    },
+    {
+      "test": "pilot_acceptance.Task2.test_recursive_merge",
+      "task": "Task2",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 45, in test_recursive_merge\n    self.assertEqual(\n    ~~~~~~~~~~~~~~~~^\n        deep_merge({'a': {'x': 1, 'y': 2}, 'b': 3},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                   {'a': {'y': 9, 'z': 4}, 'c': 5}),\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        {'a': {'x': 1, 'y': 9, 'z': 4}, 'b': 3, 'c': 5},\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\nAssertionError: {'a': {'y': 9, 'z': 4}, 'b': 3, 'c': 5} != {'a': {'x': 1, 'y': 9, 'z': 4}, 'b': 3, 'c': 5}\n- {'a': {'y': 9, 'z': 4}, 'b': 3, 'c': 5}\n+ {'a': {'x': 1, 'y': 9, 'z': 4}, 'b': 3, 'c': 5}\n?        ++++++++\n\n"
+    },
+    {
+      "test": "pilot_acceptance.Task2.test_result_mutations_do_not_change_inputs",
+      "task": "Task2",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 68, in test_result_mutations_do_not_change_inputs\n    result['nested']['kept'].append(20)\n    ~~~~~~~~~~~~~~~~^^^^^^^^\nKeyError: 'kept'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task3.test_cycles (dependencies={'a': ['a']})",
+      "task": "Task3",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 110, in test_cycles\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task3.test_cycles (dependencies={'a': ['b'], 'b': ['a']})",
+      "task": "Task3",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 110, in test_cycles\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task3.test_cycles (dependencies={'ready': [], 'a': ['b'], 'b': ['a']})",
+      "task": "Task3",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 110, in test_cycles\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task3.test_generator_prerequisites",
+      "task": "Task3",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 103, in test_generator_prerequisites\n    self.assertEqual(topological_order({'c': (x for x in ['b', 'a', 'b'])}),\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                     ['a', 'b', 'c'])\n                     ^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['c'] != ['a', 'b', 'c']\n\nFirst differing element 0:\n'c'\n'a'\n\nSecond list contains 2 additional elements.\nFirst extra element 1:\n'b'\n\n- ['c']\n+ ['a', 'b', 'c']\n"
+    },
+    {
+      "test": "pilot_acceptance.Task3.test_prerequisite_only_nodes_and_duplicates",
+      "task": "Task3",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 91, in test_prerequisite_only_nodes_and_duplicates\n    self.assertEqual(topological_order({'c': ['b', 'a', 'b']}), ['a', 'b', 'c'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['c'] != ['a', 'b', 'c']\n\nFirst differing element 0:\n'c'\n'a'\n\nSecond list contains 2 additional elements.\nFirst extra element 1:\n'b'\n\n- ['c']\n+ ['a', 'b', 'c']\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_blank_physical_rows_are_ignored",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 128, in test_blank_physical_rows_are_ignored\n    self.assertEqual(parse_csv_rows('\\na,b\\n\\n1,2\\n\\n3,4\\n'),\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                     [{'a': '1', 'b': '2'}, {'a': '3', 'b': '4'}])\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [{None: ['a', 'b']}, {None: ['1', '2']}, {None: ['3', '4']}] != [{'a': '1', 'b': '2'}, {'a': '3', 'b': '4'}]\n\nFirst differing element 0:\n{None: ['a', 'b']}\n{'a': '1', 'b': '2'}\n\nFirst list contains 1 additional elements.\nFirst extra element 2:\n{None: ['3', '4']}\n\n- [{None: ['a', 'b']}, {None: ['1', '2']}, {None: ['3', '4']}]\n+ [{'a': '1', 'b': '2'}, {'a': '3', 'b': '4'}]\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_invalid_headers (text='a,a\\n1,2\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 138, in test_invalid_headers\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_invalid_headers (text=' a ,a \\n1,2\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 138, in test_invalid_headers\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_invalid_headers (text='a, \\n1,2\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 138, in test_invalid_headers\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_invalid_headers (text='\"\"\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 138, in test_invalid_headers\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_missing_and_extra_cells (text='a,b\\n1\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 144, in test_missing_and_extra_cells\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_missing_and_extra_cells (text='a,b\\n1,2,3\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 144, in test_missing_and_extra_cells\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_missing_and_extra_cells (text='a,b\\n\"\"\\n')",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 144, in test_missing_and_extra_cells\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task4.test_trim_headers_preserve_cells",
+      "task": "Task4",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 116, in test_trim_headers_preserve_cells\n    self.assertEqual(parse_csv_rows(' name , count \\n Alice ,001\\n'),\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                     [{'name': ' Alice ', 'count': '001'}])\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [{' name ': ' Alice ', ' count ': '001'}] != [{'name': ' Alice ', 'count': '001'}]\n\nFirst differing element 0:\n{' name ': ' Alice ', ' count ': '001'}\n{'name': ' Alice ', 'count': '001'}\n\n- [{' count ': '001', ' name ': ' Alice '}]\n?    -     -           -    -\n\n+ [{'count': '001', 'name': ' Alice '}]\n"
+    },
+    {
+      "test": "pilot_acceptance.Task5.test_expiration_boundary",
+      "task": "Task5",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 153, in test_expiration_boundary\n    self.assertIsNone(cache.get('a', 12.5))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'value' is not None\n"
+    },
+    {
+      "test": "pilot_acceptance.Task5.test_expired_entry_is_removed",
+      "task": "Task5",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 159, in test_expired_entry_is_removed\n    self.assertIsNone(cache.get('a', 11))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'value' is not None\n"
+    },
+    {
+      "test": "pilot_acceptance.Task5.test_instances_and_missing_keys",
+      "task": "Task5",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 188, in test_instances_and_missing_keys\n    self.assertIsNone(second.get('a', 1))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 is not None\n"
+    },
+    {
+      "test": "pilot_acceptance.Task5.test_invalid_ttl_preserves_existing_entry",
+      "task": "Task5",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 180, in test_invalid_ttl_preserves_existing_entry\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task5.test_update_replaces_value_and_expiration",
+      "task": "Task5",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 172, in test_update_replaces_value_and_expiration\n    self.assertIsNone(cache.get('a', 3))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\nAssertionError: 'new' is not None\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_atomic_rollback_after_valid_prefix (invalid=('a', 'b', 8))",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 239, in test_atomic_rollback_after_valid_prefix\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_atomic_rollback_after_valid_prefix (invalid=('b', 'missing', 1))",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 240, in test_atomic_rollback_after_valid_prefix\n    apply_transfers(balances, [('a', 'b', 3), invalid])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 38, in apply_transfers\n    balances[destination] += amount\n    ~~~~~~~~^^^^^^^^^^^^^\nKeyError: 'missing'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_atomic_rollback_after_valid_prefix (invalid=('b', 'a', False))",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 239, in test_atomic_rollback_after_valid_prefix\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_empty_returns_independent_dictionary",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 209, in test_empty_returns_independent_dictionary\n    self.assertIsNot(result, balances)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly identical: {'a': 3}\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=0)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 223, in test_invalid_amount_types_and_values\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=-1)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 223, in test_invalid_amount_types_and_values\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=True)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 223, in test_invalid_amount_types_and_values\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=False)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 223, in test_invalid_amount_types_and_values\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=1.0)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 223, in test_invalid_amount_types_and_values\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount='1')",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 224, in test_invalid_amount_types_and_values\n    apply_transfers(balances, [('a', 'b', amount)])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 37, in apply_transfers\n    balances[source] -= amount\nTypeError: unsupported operand type(s) for -=: 'int' and 'str'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_invalid_amount_types_and_values (amount=None)",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 224, in test_invalid_amount_types_and_values\n    apply_transfers(balances, [('a', 'b', amount)])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 37, in apply_transfers\n    balances[source] -= amount\nTypeError: unsupported operand type(s) for -=: 'int' and 'NoneType'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_missing_accounts (source='missing', destination='b')",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 232, in test_missing_accounts\n    apply_transfers(balances, [(source, destination, 1)])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 37, in apply_transfers\n    balances[source] -= amount\n    ~~~~~~~~^^^^^^^^\nKeyError: 'missing'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_missing_accounts (source='a', destination='missing')",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 232, in test_missing_accounts\n    apply_transfers(balances, [(source, destination, 1)])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 38, in apply_transfers\n    balances[destination] += amount\n    ~~~~~~~~^^^^^^^^^^^^^\nKeyError: 'missing'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_missing_accounts (source='missing', destination='missing')",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 232, in test_missing_accounts\n    apply_transfers(balances, [(source, destination, 1)])\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repository>\\benchmarks\\coding-pilot\\baseline\\utilities.py\", line 37, in apply_transfers\n    balances[source] -= amount\n    ~~~~~~~~^^^^^^^^\nKeyError: 'missing'\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_ordered_transfers_and_conservation",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 202, in test_ordered_transfers_and_conservation\n    self.assertEqual(balances, {'a': 10, 'b': 0, 'c': 2})\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'a': 0, 'b': 3, 'c': 9} != {'a': 10, 'b': 0, 'c': 2}\n- {'a': 0, 'b': 3, 'c': 9}\n?               ^       ^\n\n+ {'a': 10, 'b': 0, 'c': 2}\n?       +        ^       ^\n\n"
+    },
+    {
+      "test": "pilot_acceptance.Task6.test_same_account_with_and_without_sufficient_funds",
+      "task": "Task6",
+      "passed": false,
+      "detail": "Traceback (most recent call last):\n  File \"<pilot>\\acceptance\\test_contract.py\", line 246, in test_same_account_with_and_without_sufficient_funds\n    with self.assertRaises(ValueError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n"
+    }
+  ],
+  "skipped": 0
+}

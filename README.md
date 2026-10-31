@@ -6,6 +6,40 @@ A Codex skill for proportionate delegation, coordinated implementation and indep
 
 This README is a repository guide for users, maintainers and independent reviewers. [SKILL.md](SKILL.md) is the operational entrypoint; its linked references define the detailed workflow. The README does not add authority, approvals or competing operating rules.
 
+## Install and try
+
+Requires Git and Python 3.11 or newer. Clone into your personal skill directory using the folder name `coding-team`. Git refuses an existing nonempty destination; inspect and preserve an existing installation rather than overwriting it.
+
+Windows PowerShell:
+
+```powershell
+$skillPath = Join-Path $env:USERPROFILE '.agents/skills/coding-team'
+git clone https://github.com/chauvbm/coding-team-codex.git $skillPath
+if ($LASTEXITCODE -ne 0) { throw 'Clone failed; inspect the existing destination.' }
+python "$skillPath/scripts/coding_team_policy.py" init
+if ($LASTEXITCODE -ne 0) { throw 'State initialization failed; preserve and inspect it.' }
+python "$skillPath/scripts/coding_team_policy.py" install-global-instructions
+```
+
+POSIX shell (use your installed interpreter if named differently):
+
+```sh
+skill_path="$HOME/.agents/skills/coding-team"
+git clone https://github.com/chauvbm/coding-team-codex.git "$skill_path" &&
+python3 "$skill_path/scripts/coding_team_policy.py" init &&
+python3 "$skill_path/scripts/coding_team_policy.py" install-global-instructions
+```
+
+Setup creates policy state and installs only the marked coding-team block in the user's Codex AGENTS.md. Existing valid state and unrelated instructions are preserved. The generated commands embed the interpreter used for setup; regenerate the block if that interpreter moves. Missing/corrupt state is not silently reset. See [control policy](references/control-policy.md) for custom paths and scope.
+
+Start a fresh chat to load updated instructions, then ask:
+
+> Use $coding-team to repair this bug with proportionate delegation and independent verification. Preserve unrelated changes.
+
+Use `/coding-team status` to inspect eligibility, `/coding-team off` for this chat or `/coding-team on all` for the global default. These are agent-handled controls, not registered native slash commands. Native delegation and model availability depend on the host. Request SOLO when you want no delegation.
+
+Licensed under [MIT](LICENSE).
+
 ## Start here
 
 Review the exact branch or commit supplied by the owner. Record the checked-out revision before assessing findings or test results:
@@ -82,35 +116,19 @@ The fixtures contain:
 | --- | --- | --- |
 | [behavioral_cases.json](tests/behavioral_cases.json) | 24 independent scenarios | Review independence, duplicates, stale approval, vote pressure, capacity, ownership, continuation, missing reviewers and quota pause |
 | [sequential_cases.json](tests/sequential_cases.json) | Four ordered turns of one issue | Evidence cutoff, stopping a stalled diagnostic, rejecting renamed retries and resuming repair on new evidence |
+| [reviewer_transfer_cases.json](tests/reviewer_transfer_cases.json) | Six independent scenarios | Verified successor reassessment, independence, version, deadline and history preservation |
 
-Each fixture stores `instructions`, scenario `input` and expected `checks`. These are decision simulations; they do not implement the fictional tasks, dispatch their workers or execute their proposed checks. Evaluator response files are generated artifacts and are not included in this repository. A fresh checkout contains inputs and oracles, not evidence of a completed evaluation.
+Each fixture stores `instructions`, scenario `input` and expected `checks`. These are decision simulations; they do not implement the fictional tasks, dispatch their workers or execute their proposed checks. Historical evaluator outputs and provenance are published in [the decision evaluation record](evaluations/2026-10-31-decisions/README.md). They are pinned to earlier commits and are not evidence of a fresh run on the current checkout.
 
-Use a separate coordinator to prepare blind inputs. The following Python snippet creates an isolated skill snapshot and one input file per case without copying the expected checks into that snapshot:
+Use a separate coordinator to prepare blind inputs with the tested exporter. It creates a temporary skill snapshot and one numbered input file per case, omitting tests, expected checks and published results:
 
-```python
-from pathlib import Path
-import json
-import shutil
-import tempfile
-
-root = Path.cwd()  # repository root
-out = Path(tempfile.mkdtemp(prefix="coding-team-review-"))
-skill = out / "skill"
-skill.mkdir()
-shutil.copy2(root / "SKILL.md", skill / "SKILL.md")
-for name in ("references", "agents", "scripts"):
-    shutil.copytree(root / name, skill / name)
-for filename in ("behavioral_cases.json", "sequential_cases.json"):
-    data = json.loads((root / "tests" / filename).read_text(encoding="utf-8"))
-    folder = out / Path(filename).stem
-    folder.mkdir()
-    for number, case in enumerate(data["cases"], 1):
-        payload = {"instructions": data["instructions"],
-                   "case": {"id": case["id"], "input": case["input"]}}
-        (folder / f"{number:02d}.json").write_text(
-            json.dumps(payload, indent=2), encoding="utf-8")
-print(out)
+```text
+python scripts/export_evaluation_inputs.py --cases tests/behavioral_cases.json
+python scripts/export_evaluation_inputs.py --cases tests/sequential_cases.json
+python scripts/export_evaluation_inputs.py --cases tests/reviewer_transfer_cases.json
 ```
+
+The printed directory contains `skill/` and `inputs/`. An optional `--output` must name a new directory outside this repository; existing destinations are refused. This is coordinator preparation, not access enforcement. For sequential cases reveal each numbered input only after the previous response.
 
 Give a fresh evaluator the isolated skill and only the inputs assigned to it, with permission to write its JSON responses to a separate output location. Do not provide `checks`, the scorer, peer verdicts or previous expected results. Do not reuse an agent that already inspected the oracles as a blind evaluator. Copying files alone is not a security sandbox; control tool/filesystem access if stronger isolation is required.
 
@@ -132,3 +150,7 @@ Provide the full repository at the intended revision, not just this README. A su
 > Review the quality of this Codex skill at the checked-out commit. Read README.md, SKILL.md, the linked references, helper and tests. Work read-only apart from isolated test artifacts. Do not install the skill or change live policy/configuration. Check scope, instruction consistency, proportional delegation, review independence, approval freshness, termination and continuation rules, and whether tests can falsely pass unsafe decisions. For each actionable finding, give severity, file/line evidence, a concrete failure scenario and the smallest correction. Distinguish executed checks from unrun ones and runtime enforcement from behavioral instructions. Do not fix the skill during this review.
 
 An agent performing this static review may inspect the expected checks. If behavioral evaluation is also required, run it afterward in fresh contexts using the blind protocol above. Record the reviewed commit, relevant human authority, evaluator configuration when known, actual outputs, failures and coverage limits. New adversarial scenarios are useful for checking whether the supplied fixtures miss a failure mode.
+
+## Published evaluation evidence
+
+Historical [34 decision responses](evaluations/2026-10-31-decisions/README.md) pin their source commits and protocol corrections. The [six-task coding pilot](benchmarks/coding-pilot/README.md) publishes actual repaired snapshots and withheld acceptance results for SOLO, AUTO and FULL_TEAM. All three passed; this small synthetic sample does not establish a team advantage or cost saving.
