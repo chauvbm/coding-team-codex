@@ -17,3 +17,9 @@ git archive --format=zip --output=../coding-team-codex.zip HEAD
 Use a new output filename if an archive already exists. Git archive includes only committed files, so local graphs, caches, private state and untracked artifacts stay out. `.gitattributes` makes text checkouts LF; historical published SHA256 values refer to UTF-8 text with LF newlines. Do not replace historical evidence merely to make it appear current.
 
 Project-specific tools such as graph indexers are optional development aids, not skill prerequisites. Keep their generated files out of release archives and runtime instructions. New helpers should preserve policy and task history and should not claim to authenticate human authority or intercept native tools.
+
+## Runtime-only installation package
+
+For end users, run `python scripts/build_runtime_package.py --output ../coding-team-runtime.zip` from a stable checkout. Omit `--output` for a new temporary destination. Existing destinations are refused. This package includes only LICENSE, SKILL.md, agents, references and scripts under `coding-team/`, plus a manifest with canonical UTF-8/LF hashes and sizes. It excludes tests, benchmarks, evaluations, vendored benchmark code, Git metadata, graphs and caches. The source Git HEAD is informational: the package captures actual working-tree bytes, so commit and verify a stable checkout before release.
+
+Extract into a staging directory, inspect the manifest, then place its `coding-team` directory in the personal `.agents/skills` directory while preserving an existing installation. The builder does not install, modify policy or change global instructions. It rejects linked operational resources before creating output and requires a filesystem supporting atomic hard-link publication. The complete `git archive` above remains useful for expert review and reproducible evidence; it intentionally includes benchmark/evaluation artifacts and is not a smaller runtime package.

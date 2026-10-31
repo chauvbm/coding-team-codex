@@ -19,6 +19,26 @@ All mutating commands return exit 0 after a structurally valid record is saved, 
 
 `gate` checks current required plan/scope approvals and material findings; `delivery` additionally requires the baseline's verification evidence for every scope. AUTO tasks may leave `required_reviews` empty. Gated tasks must name Architect, Developer and QA with three distinct identities in each scope. Invalid initial assignments are rejected rather than saved; a valid transfer that makes effective representatives collide leaves readiness HOLD. Distinct labels do not establish independence; the coordinator must check actual identities and authorship. The same QA can perform FinalQA. A successful plan gate does not replace final verification.
 
+## Completion and outstanding final verdicts
+
+Delivery additionally requires every required work item to be DONE or validly cancelled. Missing `required` means true for legacy items. PENDING/ACTIVE required work holds delivery even when FinalQA approved; it does not block the plan gate. IDs cannot be removed on update and a required item cannot become optional. New audit events retain work-item snapshots, including cancellation claims.
+
+A required CANCELLED item needs `cancellation` with nonempty `reason`, `authority`, current `spec`/`plan`/`snapshot`, and boolean `acceptance_unchanged`. If cancellation changes acceptance, update the baseline version/snapshot and acceptance criteria in the same update and obtain affected reviews again. Legacy cancelled items without that evidence remain HOLD and can be repaired through normal update. These are caller-authored scope/authority claims, not authenticated human permission or proof that an actual writer stopped.
+
+For each scope, current FinalQA rejections remain obligations even when no issue was recorded. Each rejecting reviewer's latest current verdict must directly approve, or a valid controlled successor must provide that verdict within the original deadline and recovery allowance. Another reviewer's approval alone cannot erase the rejection. SelfCheck uses the same latest-current rejection rule. Existing material-issue closure requirements remain separate and mandatory.
+
+## Repair legacy duplicate assignments
+
+The earlier distinct-identity release rejected pre-existing gated ledgers whose core representatives shared an identity, preventing ordinary resume. Such structurally valid records can now be read and checked as HOLD; new `init` still refuses duplicate assignments. Normal updates cannot erase their responsibilities. Use the explicit narrow migration:
+
+```text
+python scripts/task_ledger.py repair-responsibilities --ledger .task/ledger.json --input corrected-reviewers.json --expected-revision N --reason "correct legacy duplicate assignments" --backup .task/ledger-before-repair.json
+```
+
+The input contains only `spec`, `plan`, `snapshot`, and `required_reviews`. Supply a fresh version/snapshot and the same role/scope responsibilities, correcting reviewer identities while retaining other assignment metadata. This command applies only when the old gated baseline has duplicate core identities and the new assignments are distinct. Other baseline fields, authority, counters, findings, reviews, transfers and old audit entries are retained. New current approvals are required; historical approvals are not copied. Effective transfer collisions can still keep the repaired record HOLD.
+
+The helper checks CAS and transitions under the ledger lock, then creates the backup exclusively (never overwrites an existing path), preserves the exact original bytes, fsyncs it and atomically replaces the ledger. A save failure leaves the original ledger intact and may leave the completed backup; retry with a new backup filename and the still-current revision. The backup is protected from overwrite by this command, not an OS immutable file. Missing/corrupt schema or non-identity violations are not silently repaired. `authority_claims_verified` remains false.
+
 ## Verification policy and SOLO records
 
 `baseline.verification` is `independent_final_qa` or `self_check`. Missing fields retain the original `independent_final_qa` behavior for existing ledgers. That policy requires current directly verified `FinalQA` evidence from outside the writer set, as before.

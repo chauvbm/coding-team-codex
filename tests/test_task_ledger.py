@@ -102,6 +102,129 @@ class LedgerTests(unittest.TestCase):
             ledger.initialize(self.path, state)
         self.assertFalse(self.path.exists())
 
+    def test_unfinished_required_work_blocks_delivery_only(self):
+        state = self.start()
+        self.review(state)
+        for status in ('PENDING', 'ACTIVE', 'DONE', 'CANCELLED'):
+            state['work_items'] = [{'id': 'job', 'owner': 'writer', 'files': ['a.py'], 'status': status}]
+            result = ledger.readiness(state)
+            self.assertEqual(result['gate'], 'PASS')
+            self.assertEqual(result['delivery'], 'PASS' if status == 'DONE' else 'HOLD')
+        state['work_items'][0]['required'] = False
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+
+    def test_required_work_cannot_be_deleted_or_cancelled_to_evade_completion(self):
+        state = self.start()
+        state['work_items'] = [{'id': 'job', 'owner': 'writer', 'files': ['a.py'], 'status': 'ACTIVE'}]
+        ledger.update(self.path, state, 0, 'assign')
+        state = ledger.read_json(self.path)
+        for change in ('delete', 'optional', 'cancel', 'changed_acceptance'):
+            candidate = copy.deepcopy(state)
+            work = candidate['work_items'][0]
+            if change == 'delete': candidate['work_items'] = []
+            elif change == 'optional': work['required'] = False
+            else:
+                work['status'] = 'CANCELLED'
+                if change == 'changed_acceptance':
+                    work['cancellation'] = {'reason': 'scope removed', 'authority': 'user request U1',
+                        'spec': 's1', 'plan': 'p1', 'snapshot': 'tree1', 'acceptance_unchanged': False}
+            before = self.path.read_bytes()
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                ledger.update(self.path, candidate, 1, 'invalid cancellation')
+            self.assertEqual(self.path.read_bytes(), before)
+        state['work_items'][0].update(status='CANCELLED', cancellation={
+            'reason': 'duplicate investigation not needed', 'authority': 'user request U1',
+            'spec': 's1', 'plan': 'p1', 'snapshot': 'tree1', 'acceptance_unchanged': True})
+        ledger.update(self.path, state, 1, 'record cancellation claim')
+        saved = ledger.read_json(self.path)
+        self.assertEqual(saved['audit'][-1]['work_states'], saved['work_items'])
+
+    def test_final_qa_rejection_cannot_be_hidden_by_another_reviewer(self):
+        state = self.start()
+        self.review(state, person='qa-a', verdict='REJECTED')
+        self.review(state, person='qa-b')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.review(state, person='qa-a', snapshot='old')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.review(state, person='qa-a', directly_verified=False)
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.review(state, person='qa-a')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+
+    def test_final_qa_transfer_requires_current_independent_direct_successor(self):
+        state = self.start()
+        self.review(state, person='original', verdict='REJECTED')
+        self.transfer(state)
+        state['review_deadlines']['QA/all']['role'] = 'FinalQA'
+        state['transfers'][0]['role'] = 'FinalQA'
+        self.review(state, person='successor')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+        state['reviews'][-1]['verified_at'] = '2026-10-31T10:02:00+00:00'
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        state['reviews'][-1]['verified_at'] = '2026-10-31T10:00:00+00:00'
+        state['baseline']['writers'].append('successor')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+
+    def legacy_duplicate(self):
+        state = self.start(True)
+        for request in state['baseline']['required_reviews']:
+            request['reviewer'] = 'same'
+        # Emulate a ledger accepted before distinct identities were enforced.
+        for role in ('Architect', 'Developer', 'QA', 'FinalQA'):
+            self.review(state, role, 'same')
+        self.path.write_text(json.dumps(state), encoding='utf-8')
+        return state
+
+    def repair_payload(self):
+        return {'spec': 's2', 'plan': 'p2', 'snapshot': 'tree2', 'required_reviews': [
+            {'role': role, 'reviewer': role.lower(), 'scope': 'all'}
+            for role in ('Architect', 'Developer', 'QA')]}
+
+    def test_legacy_duplicate_check_and_explicit_migration_preserve_evidence(self):
+        old = self.legacy_duplicate()
+        self.assertEqual(ledger.readiness(old)['gate'], 'HOLD')
+        backup = self.root / 'backup.json'
+        before = self.path.read_bytes()
+        result = ledger.repair_responsibilities(self.path, self.repair_payload(), 0, 'correct old assignment', backup)
+        saved = ledger.read_json(self.path)
+        self.assertEqual(backup.read_bytes(), before)
+        self.assertEqual(saved['reviews'], old['reviews'])
+        self.assertEqual(saved['audit'][:1], old['audit'])
+        self.assertEqual(saved['counters'], old['counters'])
+        self.assertEqual(saved['audit'][-1]['previous_required_reviews'], old['baseline']['required_reviews'])
+        self.assertEqual(result['gate'], 'HOLD')  # old approvals never carried forward
+        for role in ('Architect', 'Developer', 'QA', 'FinalQA'):
+            self.review(saved, role, role.lower())
+        ledger.update(self.path, saved, 1, 'new explicit current reviews')
+        self.assertEqual(ledger.readiness(ledger.read_json(self.path))['delivery'], 'PASS')
+
+    def test_migration_rejects_stale_missing_roles_reused_versions_and_backup_overwrite(self):
+        self.legacy_duplicate()
+        before = self.path.read_bytes()
+        backup = self.root / 'backup.json'
+        for change in ('stale', 'missing_role', 'same_version', 'extra_field', 'backup_exists'):
+            payload = self.repair_payload()
+            revision = 1 if change == 'stale' else 0
+            if change == 'missing_role': payload['required_reviews'].pop()
+            if change == 'same_version': payload.update(spec='s1', plan='p1', snapshot='tree1')
+            if change == 'extra_field': payload['verification'] = 'self_check'
+            if change == 'backup_exists': backup.write_text('preserve')
+            with self.subTest(change=change), self.assertRaises((ValueError, FileExistsError)):
+                ledger.repair_responsibilities(self.path, payload, revision, 'invalid migration', backup)
+            self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(backup.read_text(), 'preserve')
+
+    def test_migration_atomic_failure_keeps_original_and_exact_backup(self):
+        self.legacy_duplicate()
+        before = self.path.read_bytes()
+        backup = self.root / 'backup.json'
+        with mock.patch('os.replace', side_effect=OSError('fail')):
+            with self.assertRaises(OSError):
+                ledger.repair_responsibilities(self.path, self.repair_payload(), 0, 'repair', backup)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(backup.read_bytes(), before)
+        ledger.repair_responsibilities(self.path, self.repair_payload(), 0, 'retry', self.root / 'retry.json')
+
     def test_reviewer_transfer_cannot_merge_independent_core_roles(self):
         state = self.start(True)
         for role in ('Architect', 'Developer', 'QA'):

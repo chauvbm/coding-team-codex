@@ -5,6 +5,7 @@ import argparse
 import copy
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path, PureWindowsPath
 import sys
 
@@ -73,6 +74,12 @@ def verification_policy(baseline):
     return baseline.get('verification', 'independent_final_qa')
 
 
+def distinct_core(baseline):
+    return not baseline['gated'] or all(len({r['reviewer'] for r in baseline['required_reviews']
+        if r['scope'] == scope and r['role'] in ('Architect', 'Developer', 'QA')}) == 3
+        for scope in baseline['scopes'])
+
+
 def owned_path(root, value):
     require(nonempty(value), 'owned path must be a relative file')
     path = Path(value)
@@ -119,9 +126,6 @@ def validate(state):
     if b['gated']:
         for scope in b['scopes']:
             require(all((role, scope) in roles for role in ('Architect', 'Developer', 'QA')), 'gated scope requires three core roles')
-            representatives = [r['reviewer'] for r in b['required_reviews']
-                               if r['scope'] == scope and r['role'] in ('Architect', 'Developer', 'QA')]
-            require(len(set(representatives)) == 3, 'gated core representatives must have distinct identities')
     counts = state.get('counters')
     require(isinstance(counts, dict) and set(counts) == set(COUNTERS) | {'defects', 'recoveries'}, 'invalid counters')
     for key in COUNTERS:
@@ -178,6 +182,11 @@ def validate(state):
         fields(work, ('id', 'owner', 'status'), 'work item')
         require(work['status'] in ('PENDING', 'ACTIVE', 'DONE', 'CANCELLED'), 'invalid work status')
         require(isinstance(work.get('files'), list), 'files required')
+        require(type(work.get('required', True)) is bool, 'required work flag must be boolean')
+        if 'cancellation' in work:
+            fields(work['cancellation'], ('reason', 'authority', 'spec', 'plan', 'snapshot'), 'work cancellation')
+            require(type(work['cancellation'].get('acceptance_unchanged')) is bool,
+                    'cancellation must state whether acceptance is unchanged')
         for filename in work['files']:
             path = owned_path(root, filename)
             if work['status'] == 'ACTIVE':
@@ -271,11 +280,23 @@ def readiness(state):
                 accepted = accepted and bool(confirmations) and accepted_review(confirmations[-1])
         block(not accepted, 'unresolved material issue: ' + issue['id'])
     gate_blockers = list(blockers)
+    for work in state['work_items']:
+        if not work.get('required', True):
+            continue
+        cancellation = work.get('cancellation') or {}
+        cancelled = (work['status'] == 'CANCELLED' and bool(cancellation)
+                     and current(cancellation, b))
+        block(work['status'] != 'DONE' and not cancelled, 'unfinished required work: ' + work['id'])
     for scope in b['scopes']:
         role = 'SelfCheck' if verification_policy(b) == 'self_check' else 'FinalQA'
         reviews = [r for r in state['reviews'] if r['role'] == role and r['scope'] == scope and current(r, b)]
         label = 'current direct self-check' if role == 'SelfCheck' else 'independent final QA'
         block(not reviews or not accepted_review(reviews[-1]), 'missing ' + label + ': ' + scope)
+        for predecessor in {r['reviewer'] for r in reviews if r['verdict'] == 'REJECTED'}:
+            person = responsible(predecessor, role, scope)
+            confirmations = [r for r in reviews if r['reviewer'] == person]
+            block(not confirmations or not accepted_review(confirmations[-1]),
+                  'unresolved final verification rejection: ' + predecessor + '/' + scope)
     return {'valid': True, 'revision': state['revision'], 'gate': 'HOLD' if gate_blockers else 'PASS',
             'delivery': 'HOLD' if blockers else 'PASS', 'gate_blockers': gate_blockers, 'blockers': blockers,
             'verification': verification_policy(b),
@@ -291,7 +312,7 @@ def monotonic(old, new):
             require(new[key] >= value, 'cumulative counters cannot decrease')
 
 
-def transition(old, new):
+def transition(old, new, *, repair_responsibilities=False):
     for key in ('task_id', 'project_root', 'schema_version', 'revision', 'audit'):
         require(new.get(key) == old[key], key + ' is helper-managed or immutable')
     require(old['baseline']['level'] == new['baseline']['level'], 'task level cannot reset allowances')
@@ -301,7 +322,20 @@ def transition(old, new):
     require(verification_policy(old['baseline']) != 'independent_final_qa'
             or verification_policy(new['baseline']) == 'independent_final_qa',
             'independent verification policy cannot be downgraded')
-    require(all(request in new['baseline']['required_reviews'] for request in old['baseline']['required_reviews']), 'review responsibilities cannot be removed; use scoped transfers')
+    if repair_responsibilities:
+        require(not distinct_core(old['baseline']) and distinct_core(new['baseline']),
+                'responsibility repair only corrects legacy duplicate core identities')
+        require({(r['role'], r['scope']) for r in old['baseline']['required_reviews']} ==
+                {(r['role'], r['scope']) for r in new['baseline']['required_reviews']},
+                'responsibility repair must retain every role and scope')
+        for previous in old['baseline']['required_reviews']:
+            replacement = next(r for r in new['baseline']['required_reviews']
+                               if (r['role'], r['scope']) == (previous['role'], previous['scope']))
+            require({k: v for k, v in previous.items() if k != 'reviewer'} ==
+                    {k: v for k, v in replacement.items() if k != 'reviewer'},
+                    'responsibility repair can change reviewer identities only')
+    else:
+        require(all(request in new['baseline']['required_reviews'] for request in old['baseline']['required_reviews']), 'review responsibilities cannot be removed; use scoped transfers')
     for key, deadline in old.get('review_deadlines', {}).items():
         require(new.get('review_deadlines', {}).get(key) == deadline, 'original review deadline cannot be renewed or removed')
     old_pair = tuple(old['baseline'][key] for key in ('spec', 'plan', 'snapshot'))
@@ -313,6 +347,17 @@ def transition(old, new):
         require(new_pair not in historical, 'historical version/snapshot cannot be reused')
     for key in ('reviews', 'transfers'):
         require(new[key][:len(old[key])] == old[key], key + ' history cannot be rewritten')
+    for work in old['work_items']:
+        updated = next((w for w in new['work_items'] if w['id'] == work['id']), None)
+        require(updated is not None, 'work history cannot be deleted')
+        require(not work.get('required', True) or updated.get('required', True),
+                'required work cannot become optional')
+        if updated['status'] == 'CANCELLED' and updated != work:
+            cancellation = updated.get('cancellation') or {}
+            require(bool(cancellation) and current(cancellation, new['baseline']),
+                    'cancelling work requires current cancellation evidence and authority claim')
+            require(cancellation['acceptance_unchanged'] or old_pair != new_pair,
+                    'changed cancellation acceptance requires a fresh baseline')
     for issue in old['issues']:
         updated = next((i for i in new['issues'] if i['id'] == issue['id']), None)
         require(updated is not None, 'issue history cannot be deleted')
@@ -331,6 +376,7 @@ def event(state, action, reason):
                            'counters': copy.deepcopy(state['counters']),
                            'continuation': copy.deepcopy(state.get('continuation')),
                            'review_deadlines': copy.deepcopy(state.get('review_deadlines', {})),
+                           'work_states': copy.deepcopy(state['work_items']),
                            'issue_states': [{k: i[k] for k in ('id', 'status', 'closed_by') if k in i} for i in state['issues']]})
 
 
@@ -343,6 +389,7 @@ def initialize(path, candidate, reason='initial baseline'):
     with locked(path):
         require(not Path(path).exists(), 'ledger already exists; never reset it')
         state = copy.deepcopy(candidate)
+        require(distinct_core(state['baseline']), 'gated core representatives must have distinct identities')
         require('audit' not in state and 'revision' not in state, 'init revision/audit are helper-managed')
         state.update(revision=0, audit=[])
         event(state, 'init', reason)
@@ -361,6 +408,33 @@ def update(path, candidate, expected_revision, reason):
         new['revision'] += 1
         event(new, 'update', reason)
         result = readiness(new)
+        save(path, new)
+        return result
+
+
+def repair_responsibilities(path, payload, expected_revision, reason, backup):
+    """Migrate legacy role assignments, preserving the exact pre-migration file."""
+    require(isinstance(payload, dict) and set(payload) == {'spec', 'plan', 'snapshot', 'required_reviews'},
+            'repair input needs only spec, plan, snapshot and required_reviews')
+    with locked(path):
+        original = Path(path).read_bytes()
+        old = validate(read_json(path))
+        require(type(expected_revision) is int and old['revision'] == expected_revision, 'stale expected revision')
+        new = copy.deepcopy(old)
+        new['baseline'].update(copy.deepcopy(payload))
+        validate(new)
+        transition(old, new, repair_responsibilities=True)
+        new['revision'] += 1
+        event(new, 'repair-responsibilities', reason)
+        new['audit'][-1]['previous_required_reviews'] = copy.deepcopy(old['baseline']['required_reviews'])
+        result = readiness(new)
+        backup = Path(backup)
+        require(backup.resolve() != Path(path).resolve(), 'backup cannot replace ledger')
+        backup.parent.mkdir(parents=True, exist_ok=True)
+        with backup.open('xb') as stream:
+            stream.write(original)
+            stream.flush()
+            os.fsync(stream.fileno())
         save(path, new)
         return result
 
@@ -430,7 +504,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='action', required=True)
     operations = ('record-review', 'add-issue', 'update-issue', 'consume-budget')
-    for name in ('init', 'update', 'check') + operations:
+    for name in ('init', 'update', 'check', 'repair-responsibilities') + operations:
         command = sub.add_parser(name)
         command.add_argument('--ledger', required=True, type=Path)
         if name == 'check':
@@ -439,8 +513,10 @@ def main(argv=None):
             command.add_argument('--input', required=True, type=Path)
         if name != 'check':
             command.add_argument('--reason', required=True)
-        if name == 'update' or name in operations:
+        if name in ('update', 'repair-responsibilities') or name in operations:
             command.add_argument('--expected-revision', required=True, type=int)
+        if name == 'repair-responsibilities':
+            command.add_argument('--backup', required=True, type=Path)
         if name == 'consume-budget':
             command.add_argument('--counter', required=True, choices=COUNTERS + ('defects', 'recoveries'))
             command.add_argument('--key')
@@ -452,6 +528,9 @@ def main(argv=None):
             result = initialize(args.ledger, read_json(args.input), args.reason)
         elif args.action == 'update':
             result = update(args.ledger, read_json(args.input), args.expected_revision, args.reason)
+        elif args.action == 'repair-responsibilities':
+            result = repair_responsibilities(args.ledger, read_json(args.input), args.expected_revision,
+                                             args.reason, args.backup)
         elif args.action == 'consume-budget':
             result = mutate(args.ledger, args.action, args.expected_revision, args.reason,
                             counter_name=args.counter, key=args.key, amount=args.amount, phase=args.phase)
