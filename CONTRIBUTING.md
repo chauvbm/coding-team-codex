@@ -4,6 +4,8 @@ Run the stdlib regression suite and `git diff --check` before publishing. When a
 
 For a substantial instruction change, use fresh independent evaluators with realistic requests. Export only inputs and operational resources with `scripts/export_evaluation_inputs.py`; keep the oracle and prior verdicts coordinator-only. Freeze acceptance checks before dispatch. Preserve failures and protocol corrections rather than changing expectations to obtain a pass. Review rationales and actual artifacts as well as structured scores. Instruction-scoped isolation is not a filesystem sandbox.
 
+`tests/realistic_cases_v3.json` is a new protocol, separate from the frozen v2 evaluation. It distinguishes preparation from an actual ownership transfer and defines `can_write_affected` as permission for the immediate next implementation step; completion does not require another write. Four added situations cover unfinished work, unaddressed final-review rejection, legacy responsibility repair and unsupported cancellation. The v3 fixture has not yet been evaluated by a fresh blinded agent; no v2 scores are rewritten or counted as v3 results.
+
 Measure context using an actual tokenizer/host telemetry when available. Word/character counts are useful size indicators but not measured input, output or reasoning tokens. Report unavailable token/cost data as null; account-wide quota deltas cannot attribute usage to a particular worker.
 
 ## Portable archives
