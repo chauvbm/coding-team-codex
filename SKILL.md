@@ -45,13 +45,15 @@ Give each file one writer; sequence shared changes and reserve independent-revie
 
 Read [debate governance](references/debate-governance.md) before full-team plan review, material disagreement or repair/recovery loops. It defines canonical issues, scoped approvals, controlled reviewer transfer and bounded evidence/recovery procedures; numeric limits have one source in governance defaults.
 
-FULL_TEAM, a Leader-selected full-team plan review, or a user-required consensus gate requires PASS **before covered implementation**: current Architect design acceptance and independent Developer/QA approvals of the same Spec/Plan pair, testable acceptance, valid scope/authority and no unresolved or contested BLOCKER/MAJOR. Notes may be nonblocking. Pending, missing or stale approval means HOLD, including reversible implementation. Continue permitted investigation, plan repair or unaffected work.
+FULL_TEAM, a Leader-selected full-team plan review, or a user-required consensus gate requires PASS **before covered implementation**: three distinct representatives providing current Architect design acceptance and independent Developer/QA approvals of the same Spec/Plan pair, testable acceptance, valid scope/authority and no unresolved or contested BLOCKER/MAJOR. Notes may be nonblocking. Pending, missing or stale approval means HOLD, including reversible implementation. Continue permitted investigation, plan repair or unaffected work.
 
 Material changes invalidate affected approvals. Preserve original findings and obtain current reassessment; only the controlled-transfer procedure can assign unavailable reviewers' responsibilities. Replacement, votes, Leader rebuttal, silence or a severity downgrade cannot supply approval. Missing agents never waive a required gate.
 
 Keep cumulative counters and findings across workers, retries and compaction. Do not reset them by renaming issues or changing executors. Follow evidence/STOP_HOLD checkpoints and actual human continuation authority; a repair extension does not extend other limits or waive gates. Honor explicit quota pauses using reliable telemetry.
 
 Use the [optional persistent ledger](references/task-ledger.md) when long, resumed, parallel or gated work makes context-only accounting fragile. Simple tasks need no state file. Ledger checks validate caller-authored records; they do not authenticate authority or intercept tools.
+
+For ungated SOLO records without an independent-review requirement, choose explicit self-check verification at initialization and record actual current checks. Preserve existing independent-QA requirements on resume; self-check evidence is never independent QA.
 
 ## Verify and finish
 

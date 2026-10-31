@@ -99,7 +99,7 @@ The skill recognizes `/coding team on`, `/coding team off`, their `all` variants
 
 [Control policy](references/control-policy.md) documents state location, actual chat identity requirements and setup. `init` and `install-global-instructions` are setup operations that write state or instructions; they are not prerequisites for a read-only repository review. When testing the helper, use isolated `--state` and, for instruction-installation tests, `--agents` targets rather than the user's live files.
 
-The eligibility helper uses locking and atomic writes for policy storage. The optional [task ledger](references/task-ledger.md) additionally validates recorded counters, ownership, approval versions and readiness. These checks operate on caller-authored records, not native tool calls; neither helper intercepts agents, locks implementation files, authenticates human authority or proves that a claimed review ran. The host enforces its own permissions and concurrency. Passing behavioral fixtures does not turn instructions into runtime locks.
+The eligibility helper uses locking and atomic writes for policy storage. The optional [task ledger](references/task-ledger.md) additionally validates recorded counters, ownership, approval versions, distinct gated representatives and readiness. Existing ledgers retain independent FinalQA by default. A new ungated SOLO record can explicitly select self-check verification when no independent review is required; current evidence remains mandatory and an independent policy cannot be downgraded on resume. These checks operate on caller-authored records, not native tool calls; neither helper intercepts agents, locks implementation files, authenticates human authority or proves that a claimed review ran. The host enforces its own permissions and concurrency. Passing behavioral fixtures does not turn instructions into runtime locks.
 
 ## Checks you can run locally
 
@@ -107,6 +107,7 @@ Run commands from the repository root using your Python 3 interpreter:
 
 ```text
 python -m unittest discover -s tests -p "test_*.py" -v
+python scripts/check_model_profiles.py
 git diff --check
 ```
 

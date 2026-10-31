@@ -68,6 +68,11 @@ def current(record, baseline):
     return all(record.get(k) == baseline[k] for k in ('spec', 'plan', 'snapshot'))
 
 
+def verification_policy(baseline):
+    # Missing policy is the original independent-QA contract, never an opt-out.
+    return baseline.get('verification', 'independent_final_qa')
+
+
 def owned_path(root, value):
     require(nonempty(value), 'owned path must be a relative file')
     path = Path(value)
@@ -100,6 +105,10 @@ def validate(state):
     require(isinstance(b.get('acceptance'), list) and b['acceptance'] and all(nonempty(x) for x in b['acceptance']), 'acceptance required')
     require(isinstance(b.get('writers'), list) and all(nonempty(x) for x in b['writers']), 'writers required')
     require(isinstance(b.get('required_reviews'), list), 'required_reviews required')
+    verification = verification_policy(b)
+    require(verification in ('independent_final_qa', 'self_check'), 'invalid verification policy')
+    require(verification != 'self_check' or not b['gated'] and not b['required_reviews'],
+            'self_check requires ungated work without required review responsibilities')
     roles = set()
     for request in b['required_reviews']:
         fields(request, ('role', 'reviewer', 'scope'), 'required review')
@@ -110,6 +119,9 @@ def validate(state):
     if b['gated']:
         for scope in b['scopes']:
             require(all((role, scope) in roles for role in ('Architect', 'Developer', 'QA')), 'gated scope requires three core roles')
+            representatives = [r['reviewer'] for r in b['required_reviews']
+                               if r['scope'] == scope and r['role'] in ('Architect', 'Developer', 'QA')]
+            require(len(set(representatives)) == 3, 'gated core representatives must have distinct identities')
     counts = state.get('counters')
     require(isinstance(counts, dict) and set(counts) == set(COUNTERS) | {'defects', 'recoveries'}, 'invalid counters')
     for key in COUNTERS:
@@ -230,6 +242,12 @@ def readiness(state):
                 return None
             person = matches[0]['to']
             seen.add(person)
+    if b['gated']:
+        for scope in b['scopes']:
+            representatives = [responsible(r['reviewer'], r['role'], scope) for r in b['required_reviews']
+                               if r['scope'] == scope and r['role'] in ('Architect', 'Developer', 'QA')]
+            block(None in representatives or len(set(representatives)) != 3,
+                  'effective gated core representatives are not independent: ' + scope)
     for request in b['required_reviews']:
         person = responsible(request['reviewer'], request['role'], request['scope'])
         reviews = [r for r in state['reviews'] if current(r, b) and r['reviewer'] == person and r['role'] == request['role'] and r['scope'] == request['scope']]
@@ -254,10 +272,13 @@ def readiness(state):
         block(not accepted, 'unresolved material issue: ' + issue['id'])
     gate_blockers = list(blockers)
     for scope in b['scopes']:
-        qa = [r for r in state['reviews'] if r['role'] == 'FinalQA' and r['scope'] == scope and current(r, b)]
-        block(not qa or not accepted_review(qa[-1]), 'missing independent final QA: ' + scope)
+        role = 'SelfCheck' if verification_policy(b) == 'self_check' else 'FinalQA'
+        reviews = [r for r in state['reviews'] if r['role'] == role and r['scope'] == scope and current(r, b)]
+        label = 'current direct self-check' if role == 'SelfCheck' else 'independent final QA'
+        block(not reviews or not accepted_review(reviews[-1]), 'missing ' + label + ': ' + scope)
     return {'valid': True, 'revision': state['revision'], 'gate': 'HOLD' if gate_blockers else 'PASS',
             'delivery': 'HOLD' if blockers else 'PASS', 'gate_blockers': gate_blockers, 'blockers': blockers,
+            'verification': verification_policy(b),
             'authority_claims_verified': False}
 
 
@@ -277,6 +298,9 @@ def transition(old, new):
     require(set(old['baseline']['writers']) <= set(new['baseline']['writers']), 'writer attribution cannot be removed')
     require(set(old['baseline']['scopes']) <= set(new['baseline']['scopes']), 'scope history cannot be removed')
     require(not old['baseline']['gated'] or new['baseline']['gated'], 'required gate cannot be removed')
+    require(verification_policy(old['baseline']) != 'independent_final_qa'
+            or verification_policy(new['baseline']) == 'independent_final_qa',
+            'independent verification policy cannot be downgraded')
     require(all(request in new['baseline']['required_reviews'] for request in old['baseline']['required_reviews']), 'review responsibilities cannot be removed; use scoped transfers')
     for key, deadline in old.get('review_deadlines', {}).items():
         require(new.get('review_deadlines', {}).get(key) == deadline, 'original review deadline cannot be renewed or removed')

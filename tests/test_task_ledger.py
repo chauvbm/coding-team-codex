@@ -92,6 +92,144 @@ class LedgerTests(unittest.TestCase):
                 self.review(state)
                 self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
 
+    def test_gated_core_roles_cannot_share_one_declared_identity(self):
+        state = self.initial(True)
+        for request in state['baseline']['required_reviews']:
+            request['reviewer'] = 'same-person'
+        for role in ('Architect', 'Developer', 'QA', 'FinalQA'):
+            self.review(state, role, 'same-person')
+        with self.assertRaisesRegex(ValueError, 'distinct identities'):
+            ledger.initialize(self.path, state)
+        self.assertFalse(self.path.exists())
+
+    def test_reviewer_transfer_cannot_merge_independent_core_roles(self):
+        state = self.start(True)
+        for role in ('Architect', 'Developer', 'QA'):
+            self.review(state, role, role.lower())
+        self.review(state)
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+        self.transfer(state)
+        state['review_deadlines']['QA/all']['reviewer'] = 'qa'
+        state['transfers'][0].update({'from': 'qa', 'to': 'architect'})
+        self.review(state, 'QA', 'architect')
+        result = ledger.readiness(state)
+        self.assertEqual(result['gate'], 'HOLD')
+        self.assertIn('effective gated core representatives are not independent: all', result['blockers'])
+        # A genuinely separate successor can reassess, without requiring a fourth plan role.
+        state['transfers'][0]['to'] = 'successor'
+        self.review(state, 'QA', 'successor')
+        self.review(state, 'FinalQA', 'successor')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+
+    def test_self_check_policy_supports_solo_but_reports_its_kind(self):
+        state = self.initial()
+        state['baseline']['verification'] = 'self_check'
+        result = ledger.initialize(self.path, state)
+        self.assertEqual(result['gate'], 'PASS')
+        self.assertEqual(result['delivery'], 'HOLD')
+        state = ledger.read_json(self.path)
+        review = self.review(state, 'SelfCheck', 'writer')
+        result = ledger.update(self.path, state, 0, 'direct SOLO verification')
+        self.assertEqual(result['delivery'], 'PASS')
+        self.assertEqual(result['verification'], 'self_check')
+        self.assertFalse(result['authority_claims_verified'])
+        saved = ledger.read_json(self.path)
+        self.assertEqual(saved['reviews'], [review])
+        self.assertEqual(len(saved['audit']), 2)
+
+    def test_self_check_needs_current_direct_latest_evidence_per_scope(self):
+        state = self.initial()
+        state['baseline'].update(verification='self_check', scopes=['all', 'other'])
+        ledger.initialize(self.path, state)
+        state = ledger.read_json(self.path)
+        self.review(state, 'SelfCheck', 'writer')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        other = self.review(state, 'SelfCheck', 'writer', scope='other', directly_verified=False)
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        other['directly_verified'] = True
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+        self.review(state, 'SelfCheck', 'writer', verdict='REJECTED')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.review(state, 'SelfCheck', 'writer', snapshot='old-tree')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.review(state, 'SelfCheck', 'writer')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+        state['baseline']['snapshot'] = 'tree2'
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+
+    def test_self_check_does_not_close_a_material_issue_or_masquerade_as_qa(self):
+        state = self.initial()
+        state['baseline']['verification'] = 'self_check'
+        ledger.initialize(self.path, state)
+        state = ledger.read_json(self.path)
+        self.material(state)
+        closure = self.review(state, 'SelfCheck', 'writer', issues=['bug'])
+        state['issues'][0].update(status='RESOLVED', closed_by=closure['id'])
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.assertIn('unresolved material issue: bug', ledger.readiness(state)['blockers'])
+        closure = self.review(state, 'QA', 'original', issues=['bug'])
+        state['issues'][0]['closed_by'] = closure['id']
+        self.assertEqual(ledger.readiness(state)['delivery'], 'PASS')
+
+    def test_self_check_rejects_required_gate_or_review_responsibilities(self):
+        for gated in (False, True):
+            state = self.initial(gated)
+            state['baseline']['verification'] = 'self_check'
+            if not gated:
+                state['baseline']['required_reviews'] = [{'role': 'QA', 'reviewer': 'qa', 'scope': 'all'}]
+            with self.subTest(gated=gated), self.assertRaisesRegex(ValueError, 'self_check requires ungated'):
+                ledger.initialize(self.path, state)
+            self.assertFalse(self.path.exists())
+
+    def test_legacy_verification_and_explicit_independence_cannot_be_downgraded(self):
+        state = self.start()
+        self.review(state, 'SelfCheck', 'writer')
+        self.assertEqual(ledger.readiness(state)['delivery'], 'HOLD')
+        self.assertEqual(ledger.readiness(state)['verification'], 'independent_final_qa')
+        before = self.path.read_bytes()
+        state['baseline'].update(verification='self_check', plan='p2')
+        with self.assertRaisesRegex(ValueError, 'cannot be downgraded'):
+            ledger.update(self.path, state, 0, 'evade legacy independent QA')
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_self_check_can_upgrade_and_cannot_return_to_self_review(self):
+        state = self.initial()
+        state['baseline']['verification'] = 'self_check'
+        ledger.initialize(self.path, state)
+        state = ledger.read_json(self.path)
+        self.review(state, 'SelfCheck', 'writer')
+        state['baseline']['verification'] = 'independent_final_qa'
+        with self.assertRaisesRegex(ValueError, 'fresh version'):
+            ledger.update(self.path, state, 0, 'silent policy change')
+        state['baseline']['plan'] = 'p2'
+        result = ledger.update(self.path, state, 0, 'upgrade independent review')
+        self.assertEqual(result['delivery'], 'HOLD')
+        state = ledger.read_json(self.path)
+        self.review(state)
+        result = ledger.update(self.path, state, 1, 'independent current check')
+        self.assertEqual(result['delivery'], 'PASS')
+        state = ledger.read_json(self.path)
+        state['baseline'].update(verification='self_check', plan='p3')
+        before = self.path.read_bytes()
+        with self.assertRaisesRegex(ValueError, 'cannot be downgraded'):
+            ledger.update(self.path, state, 2, 'discard independent requirement')
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_invalid_verification_policy_rejects_cli_write_without_mutation(self):
+        state = self.start()
+        before = self.path.read_bytes()
+        for policy in ('none', False, None, {}, []):
+            candidate = copy.deepcopy(state)
+            candidate['baseline'].update(verification=policy, plan='p2')
+            path = self.root / 'candidate.json'
+            path.write_text(json.dumps(candidate), encoding='utf-8')
+            result = subprocess.run([sys.executable, str(HELPER), 'update', '--ledger', str(self.path),
+                '--input', str(path), '--expected-revision', '0', '--reason', 'invalid policy'],
+                capture_output=True, text=True, timeout=15)
+            with self.subTest(policy=policy):
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                self.assertEqual(self.path.read_bytes(), before)
+
     def test_implementation_developer_can_accept_design_but_cannot_be_qa(self):
         state = self.start(True)
         state['baseline']['writers'].extend(['developer', 'architect'])

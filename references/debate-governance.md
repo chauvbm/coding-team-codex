@@ -4,7 +4,7 @@ Read for multi-agent plan review or material disagreement. Leader routes issues;
 
 ## Review sequence and issue routing
 
-1. Freeze requirements, plan and review scope. For FULL_TEAM, name Architect, Developer and independent QA representatives. Additional workers report scoped findings rather than voting on every decision.
+1. Freeze requirements, plan and review scope. For FULL_TEAM, name three distinct Architect, Developer and independent QA representatives in each scope; a reviewer transfer must preserve this separation. The same QA may later perform FinalQA. Additional workers report scoped findings rather than voting on every decision.
 2. Initial reviewers independently inspect the same version. Do not share peers' conclusions before their first verdict. QA may derive acceptance cases from requirements before seeing the proposed solution when that would expose ambiguity.
 3. Leader consolidates findings by underlying failure scenario. Send each disputed issue, relevant changes and evidence only to its owner and affected reviewer(s). Use a Specialist only for a distinct unanswered question. Agent count and majority votes never settle correctness.
 4. Apply the smallest correction, then obtain affected reassessment. Initial review, correction and reassessment are phases, not an invitation to restart full-team rounds. Stop once acceptance and required approvals are satisfied.
