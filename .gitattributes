@@ -2,3 +2,5 @@
 *.png binary
 *.jpg binary
 *.zip binary
+# Retain archived evaluator source verbatim, including its original EOF blank line.
+evaluations/2026-11-01-native-recovery/qa_checks-original.txt whitespace=-blank-at-eof

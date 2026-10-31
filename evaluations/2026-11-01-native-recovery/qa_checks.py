@@ -56,5 +56,3 @@ if __name__ == '__main__':
     result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(InvoiceContract))
     assert hashlib.sha256(SOURCE.read_text(encoding='utf-8').encode('utf-8')).hexdigest() == EXPECTED
     raise SystemExit(0 if result.wasSuccessful() else 1)
-
-
