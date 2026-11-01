@@ -1,0 +1,125 @@
+{
+  "accepted": true,
+  "tests_expected": 28,
+  "tests_run": 28,
+  "tests_passed": 28,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "tests": [
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_dotenv_direct_atomic_and_failure_not_cached",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_earliest_undefined_wins_later_parse",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_empty_valueless_and_disabled_return_behavior",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_first_duplicate_context",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_forward_reference_and_self_reference",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_duplicate_error_has_zero_writes",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_parse_error_has_zero_writes",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_undefined_error_has_zero_writes",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_multiline_undefined_context",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_no_interpolation_keeps_literals_checks_duplicates",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_no_interpolation_still_checks_syntax",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_os_snapshot_precedes_source_read",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_override_false_resolution_and_successful_commit",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_override_true_resolution_and_successful_commit",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_does_not_reject_duplicates",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_error_context_with_leading_blank",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_permissive_recovery",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_strict_success_preserves_bindings",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_path_encoding_precedence_and_stream_ownership",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_permissive_public_warning_duplicates_and_undefined",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_public_error_export",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_skipped_override_key_still_validates",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_valueless_duplicate_is_duplicate",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_values_ordered_resolution_and_valueless",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_atoms_can_be_reused",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_defaults_none_empty_and_literals",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_missing_is_typed",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_permissive_unchanged",
+      "status": "passed"
+    }
+  ],
+  "fixture_failures": [],
+  "captured_output": ""
+}

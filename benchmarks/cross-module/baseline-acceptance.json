@@ -1,0 +1,151 @@
+{
+  "accepted": false,
+  "tests_expected": 28,
+  "tests_run": 28,
+  "tests_passed": 2,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "tests": [
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_dotenv_direct_atomic_and_failure_not_cached",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 188, in test_dotenv_direct_atomic_and_failure_not_cached\n    dotenv = self.main.DotEnv(None, stream=stream, strict=True)\nTypeError: DotEnv.__init__() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_earliest_undefined_wins_later_parse",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 131, in test_earliest_undefined_wins_later_parse\n    self.error(lambda: self.values('A=${NOPE}\\nBAD=\"x\" junk\\n'),\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'undefined', 1, 'A=${NOPE}\\n')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_empty_valueless_and_disabled_return_behavior",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 214, in test_empty_valueless_and_disabled_return_behavior\n    self.assertFalse(self.api.load_dotenv(stream=io.StringIO('# empty\\n'), strict=True))\n                     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: load_dotenv() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_first_duplicate_context",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 120, in test_first_duplicate_context\n    self.error(lambda: self.values('A=one\\nA=two\\nBAD=\"x\" junk\\n'),\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'duplicate', 2, 'A=two\\n')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_forward_reference_and_self_reference",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 139, in test_forward_reference_and_self_reference\n    self.error(lambda: self.values('A=${B}\\nB=after\\n'), 'undefined', 1, 'A=${B}\\n')\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_duplicate_error_has_zero_writes",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 168, in test_late_duplicate_error_has_zero_writes\n    self.atomic_error('A=good\\nA=again\\n', 'duplicate', 2, 'A=again\\n')\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 56, in atomic_error\n    self.error(lambda: self.api.load_dotenv(stream=io.StringIO(text), strict=True,\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        **kwargs), kind, line, original)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_parse_error_has_zero_writes",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 165, in test_late_parse_error_has_zero_writes\n    self.atomic_error('A=good\\nBAD=\"x\" junk\\n', 'parse', 2, 'BAD=\"x\" junk\\n')\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 56, in atomic_error\n    self.error(lambda: self.api.load_dotenv(stream=io.StringIO(text), strict=True,\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        **kwargs), kind, line, original)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_late_undefined_error_has_zero_writes",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 171, in test_late_undefined_error_has_zero_writes\n    self.atomic_error('A=good\\nB=${UNSET}\\n', 'undefined', 2, 'B=${UNSET}\\n')\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 56, in atomic_error\n    self.error(lambda: self.api.load_dotenv(stream=io.StringIO(text), strict=True,\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        **kwargs), kind, line, original)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_multiline_undefined_context",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 135, in test_multiline_undefined_context\n    self.error(lambda: self.values('A=ok\\nB=\"top\\n${NOPE}\"\\n'),\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'undefined', 2, 'B=\"top\\n${NOPE}\"\\n')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_no_interpolation_keeps_literals_checks_duplicates",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 178, in test_no_interpolation_keeps_literals_checks_duplicates\n    self.assertEqual(self.values('A=${UNSET}\\n', interpolate=False), {'A': '${UNSET}'})\n                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 41, in values\n    return self.api.dotenv_values(stream=io.StringIO(text), strict=True, **kwargs)\n           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dotenv_values() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_no_interpolation_still_checks_syntax",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 183, in test_no_interpolation_still_checks_syntax\n    self.error(lambda: self.values('A=${UNSET}\\nBAD=\"x\" junk\\n', interpolate=False),\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'parse', 2, 'BAD=\"x\" junk\\n')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_os_snapshot_precedes_source_read",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 149, in test_os_snapshot_precedes_source_read\n    result = self.api.dotenv_values(stream=MutatingStream('A=${EXTERNAL}\\nB=${EXTERNAL}\\n'), strict=True)\nTypeError: dotenv_values() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_override_false_resolution_and_successful_commit",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 154, in test_override_false_resolution_and_successful_commit\n    result = self.api.load_dotenv(stream=io.StringIO('A=file\\nB=${A}\\nNONE\\nEMPTY=\\n'), strict=True)\nTypeError: load_dotenv() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_override_true_resolution_and_successful_commit",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 160, in test_override_true_resolution_and_successful_commit\n    self.assertTrue(self.api.load_dotenv(stream=io.StringIO('A=file\\nB=${A}\\n'),\n                    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        strict=True, override=True))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: load_dotenv() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_does_not_reject_duplicates",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 80, in test_parser_does_not_reject_duplicates\n    bindings = list(self.parser.parse_stream(io.StringIO('A=1\\nA=2\\n'), strict=True))\n                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: parse_stream() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_error_context_with_leading_blank",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 76, in test_parser_error_context_with_leading_blank\n    self.error(lambda: list(self.parser.parse_stream(io.StringIO(text), strict=True)),\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'parse', 2, '\\r\\nBROKEN=\"x\" junk\\r\\n')\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_permissive_recovery",
+      "status": "passed"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_parser_strict_success_preserves_bindings",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 69, in test_parser_strict_success_preserves_bindings\n    strict = list(self.parser.parse_stream(io.StringIO(text), strict=True))\n                  ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: parse_stream() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_path_encoding_precedence_and_stream_ownership",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 205, in test_path_encoding_precedence_and_stream_ownership\n    self.assertEqual(self.api.dotenv_values(path, stream=stream, encoding='latin-1',\n                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        strict=True), {'A': 'caf\\xe9'})\n        ^^^^^^^^^^^^\nTypeError: dotenv_values() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_permissive_public_warning_duplicates_and_undefined",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 230, in test_permissive_public_warning_duplicates_and_undefined\n    self.assertEqual(self.api.dotenv_values(stream=io.StringIO('X=${MISSING}\\n'),\n                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        strict=False), {'X': ''})\n        ^^^^^^^^^^^^^\nTypeError: dotenv_values() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_public_error_export",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 62, in test_public_error_export\n    self.assertIs(self.api.DotEnvError, self.parser.DotEnvError)\n                  ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_skipped_override_key_still_validates",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 174, in test_skipped_override_key_still_validates\n    self.atomic_error('A=good\\nKEEP=${UNSET}\\n', 'undefined', 2,\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        'KEEP=${UNSET}\\n', override=False)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 56, in atomic_error\n    self.error(lambda: self.api.load_dotenv(stream=io.StringIO(text), strict=True,\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        **kwargs), kind, line, original)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_valueless_duplicate_is_duplicate",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 128, in test_valueless_duplicate_is_duplicate\n    self.error(lambda: self.values('NONE\\nNONE=now\\n'), 'duplicate', 2, 'NONE=now\\n')\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 44, in error\n    with self.assertRaises(self.api.DotEnvError) as found:\n                           ^^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'dotenv' has no attribute 'DotEnvError'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_values_ordered_resolution_and_valueless",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 114, in test_values_ordered_resolution_and_valueless\n    result = self.values('A=file\\nB=${A}\\nNONE\\nEMPTY=\\nC=${NONE:-n}/${EMPTY:-e}/${Z:-z}\\n')\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 41, in values\n    return self.api.dotenv_values(stream=io.StringIO(text), strict=True, **kwargs)\n           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dotenv_values() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_atoms_can_be_reused",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 102, in test_variables_atoms_can_be_reused\n    atoms = list(self.variables.parse_variables('${X}', strict=True))\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nTypeError: parse_variables() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_defaults_none_empty_and_literals",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 97, in test_variables_defaults_none_empty_and_literals\n    atoms = self.variables.parse_variables(text, strict=True)\nTypeError: parse_variables() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_missing_is_typed",
+      "status": "failed",
+      "detail": "Traceback (most recent call last):\n  File \"D:\\skill\\coding-team\\benchmarks\\cross-module\\acceptance.py\", line 89, in test_variables_missing_is_typed\n    atoms = list(self.variables.parse_variables('pre${ABSENT}post', strict=True))\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: parse_variables() got an unexpected keyword argument 'strict'\n"
+    },
+    {
+      "test": "cross_module_acceptance.StrictDotenvAcceptance.test_variables_permissive_unchanged",
+      "status": "passed"
+    }
+  ],
+  "fixture_failures": [],
+  "captured_output": ""
+}

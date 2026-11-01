@@ -1,0 +1,621 @@
+{
+  "kind": "repeated_cross_module_feature_trials",
+  "protocol_version": 1,
+  "task_bundles": 1,
+  "trials_per_condition": 5,
+  "completed_at": "2026-11-01T00:21:40.573249+00:00",
+  "source_skill_commit": "fda0779294fba06120eb54f1f159580615959ea3",
+  "source_upstream_commit": "bad5771ce54fd643538f177aab1465e4375e2039",
+  "freeze_sha256_utf8_lf": "f1a9b92418f14ac0d638edbd86b090c33ce66cd3fd085e084f075fb807897b78",
+  "model_selection": "same inherited runtime configuration, no overrides",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "full_transcripts_bundled": false,
+  "hidden_feedback_to_participants": false,
+  "scoring_started_after_all_final_snapshots": true,
+  "trials": {
+    "auto-01": {
+      "condition": "auto",
+      "pair": 1,
+      "dispatch_requested_at": "2026-11-01T00:08:16.384203+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:09:56.132616+00:00",
+          "note": ""
+        },
+        {
+          "stage": "qa_start",
+          "observed_at": "2026-11-01T00:09:56.208229+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:10:59.372646+00:00",
+          "note": "independent QA APPROVED no repairs"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:09:56.132616+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "ca60eb729e6d3736a6879cfef001ee930bd371f5943ee82f0ac5a4b151526c43",
+        "dotenv/parser.py": "628bc4fec8f7899c9e4a1ed5bec590bd8e4f9bfc9ba5273ac7451849e0c62394",
+        "dotenv/variables.py": "74d53a62a0549adbaedec6e5b8e4bf477ac97e82893126b28a40f57f1b78dae5"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:10:59.372646+00:00",
+      "elapsed_observed_seconds": 162.988443,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "ca60eb729e6d3736a6879cfef001ee930bd371f5943ee82f0ac5a4b151526c43",
+        "dotenv/parser.py": "628bc4fec8f7899c9e4a1ed5bec590bd8e4f9bfc9ba5273ac7451849e0c62394",
+        "dotenv/variables.py": "74d53a62a0549adbaedec6e5b8e4bf477ac97e82893126b28a40f57f1b78dae5",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "QA.md": "654d5cf2e16303fe94941edb49dc19205c088eda9bc421c4cab0bfa914aca986",
+        "qa_probe_contract.py": "ca39099fff5941bd8f0083caf76e35ef0a1eef6c5b1b122bb7a75d6384c15925",
+        "REPORT.md": "061fe129ed8cd8964c4123ceeac482154d11fa5df7cd162e986abfdd58d9c99e",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "3aca05b5e1ccbf9276f742a63793e32a14bf42e852c9fbe56da9b3a21f3281e7"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_auto_01",
+      "qa_agent": "/root/cross_auto_qa_01",
+      "qa_verdict": "APPROVED",
+      "repair_batches": 0
+    },
+    "control-01": {
+      "condition": "control",
+      "pair": 1,
+      "dispatch_requested_at": "2026-11-01T00:08:26.599247+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:09:55.970094+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:09:56.049255+00:00",
+          "note": "selfcheck only"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:09:55.970094+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "a451e912cb210db471b4b3a02d94b1422dde1d0ff2f641d1760cfd829ab59901",
+        "dotenv/parser.py": "90505879edb7c8014b18068a658584752ec1f445eb2c8ef3b3433561c5e3eb66",
+        "dotenv/variables.py": "7077cc02a55eff535545cc76bdfce04900b62ae2663c13e0da962661e26b9b39"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:09:56.049255+00:00",
+      "elapsed_observed_seconds": 89.450008,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "a451e912cb210db471b4b3a02d94b1422dde1d0ff2f641d1760cfd829ab59901",
+        "dotenv/parser.py": "90505879edb7c8014b18068a658584752ec1f445eb2c8ef3b3433561c5e3eb66",
+        "dotenv/variables.py": "7077cc02a55eff535545cc76bdfce04900b62ae2663c13e0da962661e26b9b39",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "REPORT.md": "8baf5eebf94a9113063bde9eec8e9dd27e258aaa50bfc7adb8d2c090e0c9028b",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "3e513a35990f5d341836f3d074dd5759f37be7598d2e56c06bfcda81c94bd3a0"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_control_01",
+      "qa_agent": null,
+      "qa_verdict": "NOT_REQUIRED",
+      "repair_batches": 0
+    },
+    "auto-02": {
+      "condition": "auto",
+      "pair": 2,
+      "dispatch_requested_at": "2026-11-01T00:10:59.464730+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:12:25.868783+00:00",
+          "note": ""
+        },
+        {
+          "stage": "qa_start",
+          "observed_at": "2026-11-01T00:12:25.945538+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:13:49.996580+00:00",
+          "note": "independent QA APPROVED no repairs"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:12:25.868783+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "932d2ebba53da38f8d590da7bb439e475256f715b273d2e266e3d29edf2e07e7",
+        "dotenv/parser.py": "6ef9388d82fc067e1e0f7b379e06bce720952995dae29d97f7de518919f8ce1d",
+        "dotenv/variables.py": "d9b1d96cac42cb10087c1de7254c20068e41f12a9f2a5b51a8cbd04e542b0dba"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:13:49.996580+00:00",
+      "elapsed_observed_seconds": 170.53185,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "932d2ebba53da38f8d590da7bb439e475256f715b273d2e266e3d29edf2e07e7",
+        "dotenv/parser.py": "6ef9388d82fc067e1e0f7b379e06bce720952995dae29d97f7de518919f8ce1d",
+        "dotenv/variables.py": "d9b1d96cac42cb10087c1de7254c20068e41f12a9f2a5b51a8cbd04e542b0dba",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "QA.md": "db1a009532673d7dd777356a106bb30dc77fb11e62e4bc54bfb86fd48398c21d",
+        "qa_probe_independent.py": "390182836987006b6de1d228e1ab2f74d96fab7de36effef30f1d19ff6560709",
+        "REPORT.md": "0d6bd40ed0b36f659dd78ed1ece7a859519d4e72db96138887824886a10bdc4c",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict_self.py": "42fba2a8885aa1deb21b43472e52f69ce5d983ca19e12c5f42236e9ab3197089"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_auto_02",
+      "qa_agent": "/root/cross_auto_qa_02",
+      "qa_verdict": "APPROVED",
+      "repair_batches": 0
+    },
+    "control-02": {
+      "condition": "control",
+      "pair": 2,
+      "dispatch_requested_at": "2026-11-01T00:11:09.184893+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:12:48.666773+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:12:48.744397+00:00",
+          "note": "selfcheck only"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:12:48.666773+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "e3ff26f9f2bb649e761627b139649ed4d9851d7cd1427aba9392c1161ee43329",
+        "dotenv/parser.py": "554647ebc37a8d3f1faa669c2bf098387392e8ccd507feb47699fd040ef298f0",
+        "dotenv/variables.py": "2f445d18bd0c9e284d3fc9a28640fadbe207f9d3eea6dddc49911596d2ec3340"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:12:48.744397+00:00",
+      "elapsed_observed_seconds": 99.559504,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "e3ff26f9f2bb649e761627b139649ed4d9851d7cd1427aba9392c1161ee43329",
+        "dotenv/parser.py": "554647ebc37a8d3f1faa669c2bf098387392e8ccd507feb47699fd040ef298f0",
+        "dotenv/variables.py": "2f445d18bd0c9e284d3fc9a28640fadbe207f9d3eea6dddc49911596d2ec3340",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "REPORT.md": "fd8e2157755bb6c34df0b48921664746f56e08ddd7df4de2d103a1dcbd38b5c9",
+        "selftests.py": "b0c9b8f466ae174267e2717cd0d6c94ba88f868857bbf6edf3d69563f52c1356",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_control_02",
+      "qa_agent": null,
+      "qa_verdict": "NOT_REQUIRED",
+      "repair_batches": 0
+    },
+    "control-03": {
+      "condition": "control",
+      "pair": 3,
+      "dispatch_requested_at": "2026-11-01T00:13:50.095651+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:15:13.577744+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:15:13.655088+00:00",
+          "note": "selfcheck only"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:15:13.577744+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "a7f0b0bd24a40ae93d42b091fa133004ef6515d4af418061adba00703f99f480",
+        "dotenv/parser.py": "4dadc92b4103394f83f6a33b36cde56eaa48b5eefe6cbf133a52d682dbf9b88a",
+        "dotenv/variables.py": "8df0fcab498c4fcc5f3b0891fcd3708679d1f33c02e25b04a156768a7e62b100"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:15:13.655088+00:00",
+      "elapsed_observed_seconds": 83.559437,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "a7f0b0bd24a40ae93d42b091fa133004ef6515d4af418061adba00703f99f480",
+        "dotenv/parser.py": "4dadc92b4103394f83f6a33b36cde56eaa48b5eefe6cbf133a52d682dbf9b88a",
+        "dotenv/variables.py": "8df0fcab498c4fcc5f3b0891fcd3708679d1f33c02e25b04a156768a7e62b100",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "REPORT.md": "19baa813ebd48ab0225b94dfd61faed291053560a699e1d7ff009012658da0cf",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "82fde90d840581fe315e97b6162534b68fe6f6ea3e252c200fc0e646ac580f9d"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_control_03",
+      "qa_agent": null,
+      "qa_verdict": "NOT_REQUIRED",
+      "repair_batches": 0
+    },
+    "auto-03": {
+      "condition": "auto",
+      "pair": 3,
+      "dispatch_requested_at": "2026-11-01T00:13:58.417476+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:15:13.737099+00:00",
+          "note": ""
+        },
+        {
+          "stage": "qa_start",
+          "observed_at": "2026-11-01T00:15:13.813217+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:16:24.244132+00:00",
+          "note": "independent QA APPROVED no repairs"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:15:13.737099+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "8a682b2a4c2263d2fd7380db29cbc39d597e325060ff0a076d300edb1603fb66",
+        "dotenv/parser.py": "b586a372c520cc5b84083236ce5f7242c095d6e40d3c9de4a1b2898124e0bc3e",
+        "dotenv/variables.py": "d1f2e704f56933630e54a935b01367835f6930b5193fbb463c70d6029b04bd81"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:16:24.244132+00:00",
+      "elapsed_observed_seconds": 145.826656,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "8a682b2a4c2263d2fd7380db29cbc39d597e325060ff0a076d300edb1603fb66",
+        "dotenv/parser.py": "b586a372c520cc5b84083236ce5f7242c095d6e40d3c9de4a1b2898124e0bc3e",
+        "dotenv/variables.py": "d1f2e704f56933630e54a935b01367835f6930b5193fbb463c70d6029b04bd81",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "QA.md": "b182002590b0ebb9fa08e72406038f57cfed7a3e07c503eb5914585c410e6669",
+        "qa_probe_matrix.py": "1a5bece3d29cc871642d44c0cabb7ba34de61ab51eb33ce84b1b6a51191cf428",
+        "qa_probe_strict.py": "17d8c302ccf78578d3efb2ff98fd9fe5249982935551c4ea83c1afcbdef4c7c7",
+        "REPORT.md": "dca822bb1c02bb13db5eb0f9ac144e1b217a039a7c9e8b1afbf705c675e40876",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "1c500b2711d193cb7dc1306d22d38c879d92c5575536b3230fa0d88e3ac3134f"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_auto_03",
+      "qa_agent": "/root/cross_auto_qa_03",
+      "qa_verdict": "APPROVED",
+      "repair_batches": 0
+    },
+    "auto-04": {
+      "condition": "auto",
+      "pair": 4,
+      "dispatch_requested_at": "2026-11-01T00:16:24.338831+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:17:38.549256+00:00",
+          "note": ""
+        },
+        {
+          "stage": "qa_start",
+          "observed_at": "2026-11-01T00:17:38.627655+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:18:57.899628+00:00",
+          "note": "independent QA APPROVED no repairs"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:17:38.549256+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "3d1e3d05d3834ad9e090a3790791bf2b4d7e505075271445a14eb39d72761602",
+        "dotenv/main.py": "2b1f4e33a3afefdd53a08addbfd3acd0b51a93b110fc7f947112799bd9d5b166",
+        "dotenv/parser.py": "628bc4fec8f7899c9e4a1ed5bec590bd8e4f9bfc9ba5273ac7451849e0c62394",
+        "dotenv/variables.py": "83bf1917f5f050004db944cff6a5f6cc85b92dbb74440fb38f14fabb177fbca4"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:18:57.899628+00:00",
+      "elapsed_observed_seconds": 153.560797,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "3d1e3d05d3834ad9e090a3790791bf2b4d7e505075271445a14eb39d72761602",
+        "dotenv/main.py": "2b1f4e33a3afefdd53a08addbfd3acd0b51a93b110fc7f947112799bd9d5b166",
+        "dotenv/parser.py": "628bc4fec8f7899c9e4a1ed5bec590bd8e4f9bfc9ba5273ac7451849e0c62394",
+        "dotenv/variables.py": "83bf1917f5f050004db944cff6a5f6cc85b92dbb74440fb38f14fabb177fbca4",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "QA.md": "91c0e72ce03a7bdd10cae459dfbf5128fdf8433f3f40f6b87cebf6f58d47d765",
+        "qa_probe_independent.py": "1eea24d6e42ab2128cccdec2309462e0ce37a21e54d89ff59bd82b5bba569700",
+        "qa_probe_io.py": "20dbc3727b067f60fe5ea5492a9cbc5c9e72de8f2aa57f6acac79e79e8531975",
+        "REPORT.md": "6476b021c1ee9529843e5bce65dcd0f9397f4932b93a7369c49e6f7b26fdd04e",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "c5294e071583807630033e8d52cfa0259269016d82bc82a623429b38a4c4219e"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_auto_04",
+      "qa_agent": "/root/cross_auto_qa_04",
+      "qa_verdict": "APPROVED",
+      "repair_batches": 0
+    },
+    "control-04": {
+      "condition": "control",
+      "pair": 4,
+      "dispatch_requested_at": "2026-11-01T00:16:34.070677+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:18:01.236691+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:18:01.328988+00:00",
+          "note": "selfcheck only"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:18:01.236691+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "3d1e3d05d3834ad9e090a3790791bf2b4d7e505075271445a14eb39d72761602",
+        "dotenv/main.py": "866ed37483d519e1f159f494c1998e71678bc5a6a47d47a5a90e4420758881fa",
+        "dotenv/parser.py": "c28d0eebf6da027ed0be85d9c4f8f2ca79a466383b748ac078c796ad7dfb9f8d",
+        "dotenv/variables.py": "7ca0f833084fe42cc0be595fc384795a7e1d9a056cf9bda2d221d48f4d617254"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:18:01.328988+00:00",
+      "elapsed_observed_seconds": 87.258311,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "3d1e3d05d3834ad9e090a3790791bf2b4d7e505075271445a14eb39d72761602",
+        "dotenv/main.py": "866ed37483d519e1f159f494c1998e71678bc5a6a47d47a5a90e4420758881fa",
+        "dotenv/parser.py": "c28d0eebf6da027ed0be85d9c4f8f2ca79a466383b748ac078c796ad7dfb9f8d",
+        "dotenv/variables.py": "7ca0f833084fe42cc0be595fc384795a7e1d9a056cf9bda2d221d48f4d617254",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "REPORT.md": "fe4d239b631ca32bc50f342499d0defd7cd1e94eb114aa8fed6e5d7f85ba1ade",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict_local.py": "b36dd29d6f4f0673b99602f9b44c20091e01eb1415bc264e8c01726f9f106b09"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_control_04",
+      "qa_agent": null,
+      "qa_verdict": "NOT_REQUIRED",
+      "repair_batches": 0
+    },
+    "auto-05": {
+      "condition": "auto",
+      "pair": 5,
+      "dispatch_requested_at": "2026-11-01T00:18:57.995892+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:20:15.367604+00:00",
+          "note": ""
+        },
+        {
+          "stage": "qa_start",
+          "observed_at": "2026-11-01T00:20:15.463825+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:21:40.452085+00:00",
+          "note": "independent QA APPROVED no repairs"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:20:15.367604+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "5f5caa96b7ae7b91d6e241b76ae7f757e71cc086e5bed3e1a725e32d732d2d8c",
+        "dotenv/parser.py": "b586a372c520cc5b84083236ce5f7242c095d6e40d3c9de4a1b2898124e0bc3e",
+        "dotenv/variables.py": "8f95f9355a695276f0d543360e50f3fd219b141f16155ba6afbfed18f2dc0fba"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:21:40.452085+00:00",
+      "elapsed_observed_seconds": 162.456193,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "5f5caa96b7ae7b91d6e241b76ae7f757e71cc086e5bed3e1a725e32d732d2d8c",
+        "dotenv/parser.py": "b586a372c520cc5b84083236ce5f7242c095d6e40d3c9de4a1b2898124e0bc3e",
+        "dotenv/variables.py": "8f95f9355a695276f0d543360e50f3fd219b141f16155ba6afbfed18f2dc0fba",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "QA.md": "b5302942096411ebf0b0d1893913956aba88028bcb0d1bb4303c12a9a38199a7",
+        "qa_probe_independent.py": "7a4e69e9eb0d5b480ea421f4d4e0477539afead2fb743c14dfe5552dc7a7713e",
+        "qa_probe_sources.py": "07d624bf2e265cfe4e8111d10331e77469556902787c0094786eaf95b511e71c",
+        "REPORT.md": "a901d658a30b0a1d5d8a97db36af19c72e8024753dd4f18e282d268e32b8f524",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "0bc675c96f0dcc7d16726ea42306a9d2ab73652cc5580728b9d9cb0f8b5c407b"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_auto_05",
+      "qa_agent": "/root/cross_auto_qa_05",
+      "qa_verdict": "APPROVED",
+      "repair_batches": 0
+    },
+    "control-05": {
+      "condition": "control",
+      "pair": 5,
+      "dispatch_requested_at": "2026-11-01T00:19:05.686831+00:00",
+      "status": "complete",
+      "stages": [
+        {
+          "stage": "coder_done",
+          "observed_at": "2026-11-01T00:20:37.129798+00:00",
+          "note": ""
+        },
+        {
+          "stage": "final",
+          "observed_at": "2026-11-01T00:20:37.207322+00:00",
+          "note": "selfcheck only"
+        }
+      ],
+      "coder_completed_observed_at": "2026-11-01T00:20:37.129798+00:00",
+      "coder_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "4e45d94371df0e304cc144dea988a9887130044f0a3cfabf2341c4c31d49a182",
+        "dotenv/parser.py": "c9e834813caa7126a63f1f9a0af0b7bb6eaad1fd40eef2439078f7f9d6ba1dd6",
+        "dotenv/variables.py": "8b9aefb8fbe1abf7ca0d9589160ba05f101e96d03f2cd19cf881a89bec019350"
+      },
+      "final_delivery_observed_at": "2026-11-01T00:20:37.207322+00:00",
+      "elapsed_observed_seconds": 91.520491,
+      "final_sha256_utf8_lf": {
+        "dotenv/__init__.py": "677f13df554a913de2e80462f145436ab9c9121dfe237cbb5adb1025d2257836",
+        "dotenv/main.py": "4e45d94371df0e304cc144dea988a9887130044f0a3cfabf2341c4c31d49a182",
+        "dotenv/parser.py": "c9e834813caa7126a63f1f9a0af0b7bb6eaad1fd40eef2439078f7f9d6ba1dd6",
+        "dotenv/variables.py": "8b9aefb8fbe1abf7ca0d9589160ba05f101e96d03f2cd19cf881a89bec019350",
+        "LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+        "REPORT.md": "f3a20cebc76ae29e3cc7dd60437a927e3e5ca9f5bc7ba4291b5a4a8bcd91ff5e",
+        "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+        "test_strict.py": "36356511c999888a66bb34108eae7293b7130f87ceea8009ef93b05ee17c64b5"
+      },
+      "acceptance_exit_code": 0,
+      "outcome": {
+        "accepted": true,
+        "tests_expected": 28,
+        "tests_run": 28,
+        "tests_passed": 28,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0
+      },
+      "acceptance_sha256_utf8_lf": "b9821e0443df9f405aa0adace75b085eb8fe6e523b783ef4cb92074ef13c2e21",
+      "coder_agent": "/root/cross_control_05",
+      "qa_agent": null,
+      "qa_verdict": "NOT_REQUIRED",
+      "repair_batches": 0
+    }
+  },
+  "conditions": {
+    "control": {
+      "trials": 5,
+      "fully_accepted": 5,
+      "tests_passed": [
+        28,
+        28,
+        28,
+        28,
+        28
+      ],
+      "native_workers_per_trial": 1,
+      "repair_batches": 0,
+      "observed_delivery_seconds": {
+        "min": 83.559437,
+        "median": 89.450008,
+        "max": 99.559504
+      }
+    },
+    "auto": {
+      "trials": 5,
+      "fully_accepted": 5,
+      "tests_passed": [
+        28,
+        28,
+        28,
+        28,
+        28
+      ],
+      "native_workers_per_trial": 2,
+      "repair_batches": 0,
+      "observed_delivery_seconds": {
+        "min": 145.826656,
+        "median": 162.456193,
+        "max": 170.53185
+      }
+    }
+  },
+  "publication_review": {
+    "reviewer": "/root/benchmark_contract_qa",
+    "verdict": "APPROVED",
+    "report": "independent-review.md",
+    "scope": "current publication; actual runtime unchanged from independently approved fda0779"
+  }
+}

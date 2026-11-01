@@ -1,0 +1,21 @@
+{
+  "source_commit": "fda0779294fba06120eb54f1f159580615959ea3",
+  "source_sha256_utf8_lf": {
+    "agents/openai.yaml": "ac2fcf8f116de6d62e0e1202ac9a8363aae71c9fe825e6e1f47baeb12084ddcf",
+    "references/agent-contracts.md": "f55e9c1e483ac6957ad5896aa230dc98cc3cd49f7e6b9fb070bf7668404bf1fa",
+    "references/control-policy.md": "6ae4ff4cbf0bb87cf0bdafd0b850e6b2b80c16d489884e1e7c1bc1c4365416a8",
+    "references/debate-governance.md": "9bc7c322dbde31a7059c12673c7b779f64d336a0539178623a3aafd54e828cb0",
+    "references/governance-defaults.json": "75603644bca6dc29628f050ce101afdc99e6ad12ea28289fac781f448d4f08dd",
+    "references/model-profiles.json": "ef4924c48a87ba9de5298a6187453c6627876c4f7ae31d683c1212db0cf3c736",
+    "references/model-routing.md": "b0552c659eb852ee64d914734d7f6ca722d50daa044215797ee07655e542d039",
+    "references/quality-safety.md": "ed32572dbbaf89357e229edd5d6b24cae6dfad46499b18a469b44bba5d05ab24",
+    "references/task-ledger.md": "1913a297df34274fcda86e575696741a818cbad163ac9b63544c0172b13129e1",
+    "references/workflow.md": "e560636663dc11844e83f6d217f8496c8099bc8247719d1848f70bac2bb21a66",
+    "scripts/build_runtime_package.py": "f81f725e2d856d0cf418becdecf8161a9e9a8d168c88630f603ace9e5dc1064b",
+    "scripts/check_model_profiles.py": "d2c8b8b19089329d0668d79aace8ba427f7cdcfc8527c4a4db7d972ce7cc7d6e",
+    "scripts/coding_team_policy.py": "89a3eb6c5acdefc28b43d51833ea110ac0e491a8a421791606254aa287fa19c4",
+    "scripts/export_evaluation_inputs.py": "d993b9526212629db459b11d3a1b9f5d66d2bd4bae9947e2a389f9092dceb294",
+    "scripts/task_ledger.py": "78bc394fac20ab39cab11b081566ff78d9435c6dc2f166fee04785c3f57d8969",
+    "SKILL.md": "cc2a58625127606e852088acfb8c68bee59dc0c284cacc37144afd2571ec20aa"
+  }
+}

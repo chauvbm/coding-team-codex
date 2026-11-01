@@ -129,6 +129,8 @@ The [full policy rerun](evaluations/2026-11-01-policy/README.md) evaluates all 4
 
 The separate [protocol v3 evaluation](evaluations/2026-11-01-protocol-v3/README.md) clarifies immediate handoff/completion fields and adds four delivery/migration cases. Fresh input-only agents scored 14/16 with skill and 13/16 without it. Shared failures expose remaining action/permission oracle limitations; this single-run difference does not establish a skill benefit. Previous inputs, checks and raw results remain unchanged.
 
+The [repeated cross-module benchmark](benchmarks/cross-module/README.md) requests strict, transactional loading across four pinned python-dotenv modules. Five fresh attempts per condition all passed 28/28, both for a single coder and for AUTO with independent QA. Observed median delivery was 89.45 s versus 162.46 s, with concurrent host work and unmatched review compute; token/cost telemetry is unavailable. This one-bundle tie does not demonstrate a skill advantage or controlled latency difference.
+
 The fixtures contain:
 
 | Fixture | Inventory | What it probes |

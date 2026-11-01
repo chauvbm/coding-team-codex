@@ -1,0 +1,80 @@
+{
+  "protocol_version": 1,
+  "frozen_at": "2026-11-01T00:04:29.654796+00:00",
+  "source_repository": "theskumar/python-dotenv",
+  "source_commit": "bad5771ce54fd643538f177aab1465e4375e2039",
+  "hash_encoding": "UTF-8/LF",
+  "sha256": {
+    "TASK.md": "27905d1c148fb37b9fa1004e991a24ced31f209793f2903f9876e2eee1390dfa",
+    "acceptance.py": "2c5a6cf4b6ad96b5a288f8f86b3eceb46fe1e55ad1368c5b4bb20e884deb99cd",
+    "score.py": "3e3837cecea6da64e526bbce08f7916328805db7dfe8e3aa3505389b0b4fd0a1",
+    "sources.json": "59b2a42d90dd7544d4aca18591adae96ae80d9d28f5a384d94a1e9ce674554bc",
+    "baseline/dotenv/__init__.py": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+    "baseline/dotenv/main.py": "fcb89122cd8756c43209f9052bb3c552dbe440d45493c762295c771f0d1ceaa8",
+    "baseline/dotenv/parser.py": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae",
+    "baseline/dotenv/variables.py": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+    "baseline/LICENSE": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+  },
+  "contract_qa": {
+    "reviewer": "/root/benchmark_contract_qa",
+    "verdict": "APPROVED",
+    "scope": "contract consistency, provenance and scorer; no reference implementation"
+  },
+  "task_bundles": 1,
+  "trials_per_condition": 5,
+  "conditions": {
+    "control": "single coder, self-check",
+    "auto": "coder plus independent final QA; at most one QA-driven repair batch"
+  },
+  "random_seed": 20261101,
+  "pairs": [
+    {
+      "pair": 1,
+      "dispatch_order": [
+        "auto",
+        "control"
+      ]
+    },
+    {
+      "pair": 2,
+      "dispatch_order": [
+        "auto",
+        "control"
+      ]
+    },
+    {
+      "pair": 3,
+      "dispatch_order": [
+        "control",
+        "auto"
+      ]
+    },
+    {
+      "pair": 4,
+      "dispatch_order": [
+        "auto",
+        "control"
+      ]
+    },
+    {
+      "pair": 5,
+      "dispatch_order": [
+        "auto",
+        "control"
+      ]
+    }
+  ],
+  "coder_budget_seconds": 300,
+  "qa_deadline_seconds": 180,
+  "repair_budget_seconds": 180,
+  "qa_recheck_deadline_seconds": 180,
+  "repair_batches_per_trial": 1,
+  "hidden_acceptance_feedback_to_participants": false,
+  "model_selection": "same inherited runtime configuration; no override",
+  "observed_model": null,
+  "token_usage": null,
+  "cost": null,
+  "timing": "prospective dispatch-to-delivery observations; conditions concurrent within pair, queueing/coordinator delays, not controlled comparative latency",
+  "compute_matching": "AUTO extra QA/repair compute; not matched calls or total compute",
+  "stopping": "Preserve trial failures. No hidden-oracle-driven repairs or extra trials. Honor reliable quota pauses."
+}

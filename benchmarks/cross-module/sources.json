@@ -1,0 +1,36 @@
+{
+  "repository": "theskumar/python-dotenv",
+  "commit": "bad5771ce54fd643538f177aab1465e4375e2039",
+  "files": {
+    "dotenv/__init__.py": {
+      "upstream_path": "src/dotenv/__init__.py",
+      "url": "https://raw.githubusercontent.com/theskumar/python-dotenv/bad5771ce54fd643538f177aab1465e4375e2039/src/dotenv/__init__.py",
+      "sha256": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23",
+      "sha256_utf8_lf": "6e163e88aeb0c0765a996208e9e482b820165d435d9f64d016610eb97494ed23"
+    },
+    "dotenv/main.py": {
+      "upstream_path": "src/dotenv/main.py",
+      "url": "https://raw.githubusercontent.com/theskumar/python-dotenv/bad5771ce54fd643538f177aab1465e4375e2039/src/dotenv/main.py",
+      "sha256": "fcb89122cd8756c43209f9052bb3c552dbe440d45493c762295c771f0d1ceaa8",
+      "sha256_utf8_lf": "fcb89122cd8756c43209f9052bb3c552dbe440d45493c762295c771f0d1ceaa8"
+    },
+    "dotenv/parser.py": {
+      "upstream_path": "src/dotenv/parser.py",
+      "url": "https://raw.githubusercontent.com/theskumar/python-dotenv/bad5771ce54fd643538f177aab1465e4375e2039/src/dotenv/parser.py",
+      "sha256": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae",
+      "sha256_utf8_lf": "75f68bfa9e63b6f504b7d23a605b66edbb578d5e3e7ba797ab78ffcbc0eb44ae"
+    },
+    "dotenv/variables.py": {
+      "upstream_path": "src/dotenv/variables.py",
+      "url": "https://raw.githubusercontent.com/theskumar/python-dotenv/bad5771ce54fd643538f177aab1465e4375e2039/src/dotenv/variables.py",
+      "sha256": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f",
+      "sha256_utf8_lf": "083d2a5cebefa41deae51a4140c0fda97eaf1d7ed2c96f92ba2c063054a5b74f"
+    },
+    "LICENSE": {
+      "upstream_path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/theskumar/python-dotenv/bad5771ce54fd643538f177aab1465e4375e2039/LICENSE",
+      "sha256": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9",
+      "sha256_utf8_lf": "80619b7049f08c81683ad0e01f08f257a840652dd71ee83146d36658c7d2c2b9"
+    }
+  }
+}

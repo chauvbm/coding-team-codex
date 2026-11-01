@@ -8,6 +8,8 @@ For a substantial instruction change, use fresh independent evaluators with real
 
 Measure context using an actual tokenizer/host telemetry when available. Word/character counts are useful size indicators but not measured input, output or reasoning tokens. Report unavailable token/cost data as null; account-wide quota deltas cannot attribute usage to a particular worker.
 
+The [cross-module experiment](benchmarks/cross-module/README.md) preserves a frozen contract, pinned upstream source and five fresh attempts per condition. Replay its snapshots with the scorer; do not treat that replay as another live run. All ten snapshots passed the same 28-test ceiling. Preserve this tie and its unmatched-compute/timing limitations instead of selecting only favorable attempts or inferring cost from worker counts.
+
 ## Portable archives
 
 Distribute a named committed revision, rather than zipping the working directory:
