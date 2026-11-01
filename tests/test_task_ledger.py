@@ -19,7 +19,7 @@ class LedgerTests(unittest.TestCase):
     def setUp(self):
         self.fixture = tempfile.TemporaryDirectory()
         self.addCleanup(self.fixture.cleanup)
-        self.root = Path(self.fixture.name)
+        self.root = Path(self.fixture.name).resolve()
         self.path = self.root / 'ledger.json'
 
     def initial(self, gated=False):
@@ -928,7 +928,7 @@ class LedgerTests(unittest.TestCase):
                                  capture_output=True, text=True, timeout=15)
         if created.returncode != 0:
             self.skipTest('native junction creation unavailable: ' + created.stderr.strip())
-        self.assertTrue(alias.is_junction())
+        self.assertTrue(alias.lstat().st_file_attributes & 0x400)
         self.assertFalse(alias.is_symlink())
         state = self.initial()
         state['delivery_files'] = ['alias/result.py']
