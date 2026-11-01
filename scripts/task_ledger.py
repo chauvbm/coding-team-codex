@@ -130,11 +130,18 @@ def freshness(state, ledger_path=None):
     files = []
     for name, path in sorted(declared.items()):
         try:
+            require(stat.S_ISREG(path.stat().st_mode), 'delivery path must be a regular file: ' + name)
             with path.open('rb') as stream:
+                mode = os.fstat(stream.fileno()).st_mode
+                require(stat.S_ISREG(mode), 'delivery path must be a regular file: ' + name)
                 digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+                file_type = 'regular'
+                executable_bits = mode & 0o111 if os.name == 'posix' else None
         except FileNotFoundError:
             digest = None  # An intentional deletion is also a content state.
-        files.append({'path': name, 'sha256': digest})
+            file_type, executable_bits = 'missing', None
+        files.append({'path': name, 'sha256': digest, 'type': file_type,
+                      'executable_bits': executable_bits})
     return {'files': files, 'work': sorted(work, key=lambda item: item['id'])}
 
 
@@ -366,9 +373,18 @@ def readiness(state, ledger_path=None):
             block(not confirmations or not accepted_review(confirmations[-1])
                   or observed is None or confirmations[-1].get('freshness') != observed,
                   'unresolved final verification rejection: ' + predecessor + '/' + scope)
+    declared_count = len({Path(value.replace('\\', '/')).as_posix()
+                          for value in state.get('delivery_files', [])
+                          + [value for item in state['work_items'] for value in item['files']]})
+    coverage = {'scope': 'declared_files_only', 'declared_file_count': declared_count,
+                'status': 'UNAVAILABLE' if observed is None else 'EMPTY' if not declared_count else 'OBSERVED',
+                'posix_executable_bits': os.name == 'posix',
+                'notice': ('No declared file coverage; PASS does not verify project files.' if not declared_count
+                           else 'Only declared files are covered; omitted files are not verified.')}
     return {'valid': True, 'revision': state['revision'], 'gate': 'HOLD' if gate_blockers else 'PASS',
             'delivery': 'HOLD' if blockers else 'PASS', 'gate_blockers': gate_blockers, 'blockers': blockers,
             'verification': verification_policy(b),
+            'file_coverage': coverage,
             'authority_claims_verified': False}
 
 

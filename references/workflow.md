@@ -25,7 +25,7 @@ A role is not an obligatory additional agent for every coding task. A Developer'
 
 ## Work queue and integration
 
-For durable accounting across handoffs or compaction, see the [optional task ledger](task-ledger.md). Check its plan gate before implementation and its delivery readiness after independent integrated QA; a successful state write alone grants no approval.
+For durable accounting across handoffs or compaction, see the [optional task ledger](task-ledger.md). Check its plan gate before implementation and its delivery readiness after independent integrated QA; a successful state write alone grants no approval. For code delivery, reconcile declared files with actual staged, unstaged, deleted and untracked changes before final verification (or compare the saved baseline without Git). Empty file coverage verifies no project files, even when a non-file task can pass.
 
 Use `max_subagents` from [governance defaults](governance-defaults.json), constrained by runtime capacity, already active agents and user limits. Start only ready work items with distinct objectives and outputs. Record ID, owner, dependencies, file ownership, snapshot/version, status and acceptance evidence. Stage downstream work until its input/interface is settled; keep room for independent QA rather than occupying all slots with writers. Sequence roles when runtime capacity is smaller.
 

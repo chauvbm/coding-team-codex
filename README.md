@@ -107,6 +107,8 @@ The eligibility helper uses locking and atomic writes for policy storage. The op
 
 Legacy duplicate representative records remain HOLD and can be repaired through the documented backup-preserving migration command. A new ungated SOLO record can explicitly select self-check verification when no independent review is required; current evidence remains mandatory and an independent policy cannot be downgraded on resume. Review, scope and authority remain caller-authored claims. The ledger checks declared file bytes, but neither helper intercepts agents, locks implementation files, authenticates human authority or proves that a claimed review ran. The host enforces its own permissions and concurrency. Passing behavioral fixtures does not turn instructions into runtime locks.
 
+Freshness also records regular/missing file type and POSIX executable bits where supported. Readiness reports the declared file count and EMPTY/OBSERVED/UNAVAILABLE coverage explicitly; an empty manifest protects no project files. Before delivering code, reconcile the manifest with actual changes, including untracked files. Older byte-only reviews need fresh verification; no automatic Git scanner is added.
+
 ## Checks you can run locally
 
 Run commands from the repository root using your Python 3 interpreter:

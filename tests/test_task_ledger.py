@@ -794,6 +794,54 @@ class LedgerTests(unittest.TestCase):
         ledger.mutate(self.path, 'record-review', 0, 'verify actual current bytes', review)
         return ledger.read_json(self.path), delivered
 
+    @unittest.skipUnless(sys.platform != 'win32', 'requires POSIX executable permissions')
+    def test_executable_permission_change_invalidates_review_without_byte_change(self):
+        state, delivered = self.declared_review(status='DONE')
+        delivered.chmod(0o755)
+        review = self.review(state, id='verify-executable')
+        ledger.mutate(self.path, 'record-review', 1, 'verify executable file', review)
+        state = ledger.read_json(self.path)
+        binding = copy.deepcopy(state['reviews'][-1]['freshness']['files'][0])
+        self.assertEqual(binding['type'], 'regular')
+        self.assertEqual(binding['executable_bits'], 0o111)
+        self.assertEqual(ledger.readiness(state, self.path)['delivery'], 'PASS')
+        delivered.chmod(0o644)
+        self.assertEqual(ledger.readiness(state, self.path)['delivery'], 'HOLD')
+        observed = ledger.freshness(state, self.path)['files'][0]
+        self.assertEqual(observed['sha256'], binding['sha256'])
+        self.assertEqual(observed['executable_bits'], 0)
+
+    def test_readiness_reports_empty_declared_and_unavailable_file_coverage(self):
+        state = self.start()
+        self.review(state)
+        ledger.update(self.path, state, 0, 'verify non-file task')
+        state = ledger.read_json(self.path)
+        result = ledger.readiness(state, self.path)
+        self.assertEqual(result['delivery'], 'PASS')
+        self.assertEqual(result['file_coverage']['status'], 'EMPTY')
+        self.assertEqual(result['file_coverage']['declared_file_count'], 0)
+        self.assertIn('does not verify project files', result['file_coverage']['notice'])
+        state['delivery_files'] = ['result.py', './result.py']
+        result = ledger.readiness(state, self.path)
+        self.assertEqual(result['file_coverage']['status'], 'OBSERVED')
+        self.assertEqual(result['file_coverage']['declared_file_count'], 1)
+        self.assertEqual(result['delivery'], 'HOLD')
+        (self.root / 'result.py').mkdir()
+        result = ledger.readiness(state, self.path)
+        self.assertEqual(result['file_coverage']['status'], 'UNAVAILABLE')
+        self.assertEqual(result['delivery'], 'HOLD')
+
+    def test_metadata_binding_requires_reverification_of_older_byte_only_review(self):
+        state, _ = self.declared_review(status='DONE')
+        binding = state['reviews'][-1]['freshness']['files'][0]
+        self.assertEqual(binding['type'], 'regular')
+        if sys.platform == 'win32':
+            self.assertIsNone(binding['executable_bits'])
+        del binding['type']
+        del binding['executable_bits']
+        self.assertTrue(ledger.readiness(state, self.path)['valid'])
+        self.assertEqual(ledger.readiness(state, self.path)['delivery'], 'HOLD')
+
     def test_byte_change_with_unchanged_label_invalidates_delivery_and_completion(self):
         state, delivered = self.declared_review()
         original_binding = copy.deepcopy(state['reviews'][0]['freshness'])
@@ -839,7 +887,7 @@ class LedgerTests(unittest.TestCase):
         result = ledger.mutate(self.path, 'record-review', 1, 'verify intentional deletion', review)
         self.assertEqual(result['delivery'], 'PASS')
         self.assertEqual(ledger.read_json(self.path)['reviews'][-1]['freshness']['files'],
-                         [{'path': 'result.py', 'sha256': None}])
+                         [{'path': 'result.py', 'sha256': None, 'type': 'missing', 'executable_bits': None}])
 
     def test_no_declared_files_has_explicit_empty_binding_and_legacy_holds(self):
         state = self.start()
