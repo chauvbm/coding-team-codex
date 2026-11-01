@@ -27,6 +27,40 @@ A required CANCELLED item needs `cancellation` with nonempty `reason`, `authorit
 
 For each scope, current FinalQA rejections remain obligations even when no issue was recorded. Each rejecting reviewer's latest current verdict must directly approve, or a valid controlled successor must provide that verdict within the original deadline and recovery allowance. Another reviewer's approval alone cannot erase the rejection. SelfCheck uses the same latest-current rejection rule. Existing material-issue closure requirements remain separate and mandatory.
 
+## Final evidence and actual file freshness
+
+New current `FinalQA` and `SelfCheck` entries receive helper-managed `freshness` when recorded through `init`, `update` or `record-review`. The helper hashes the actual bytes of every explicitly declared `work_items[].files` path plus optional top-level `delivery_files`, including dirty and untracked files. `delivery_files: ["report.txt"]` covers file deliverables that have no work item. Paths are portable relative paths inside the project; symlinks, Windows junction/reparse paths (including ancestors), escapes, directories, the ledger itself and its lock are not valid delivered files. The helper does not enumerate Git, the project tree or a drive. A missing declared file has an explicit null hash, allowing review of an intentional deletion. An unreadable or newly unsafe file makes delivery HOLD.
+
+`check` recomputes those hashes even if the ledger and baseline snapshot label have not changed. Changed bytes invalidate final evidence and require a newly recorded direct review. The binding also identifies the declared work frontier: work IDs, owners, required flags and file lists. Adding work or changing ownership/files invalidates earlier final evidence. Work status and cancellation metadata are excluded from that binding, so an ACTIVE item can become DONE without another review when its content and frontier are identical. Required completion and cancellation checks still apply separately. Plan approvals retain their existing version/snapshot semantics.
+
+An empty work/file declaration receives an explicit empty binding and can represent a non-file task; **it provides no declared file coverage**. Declare actual delivered files when file coverage is needed. Hashing proves only that those declared bytes match what the helper observed while recording evidence; it does not establish that the reviewer actually inspected them, authenticate the evidence, discover omitted deliverables or prevent concurrent writers from changing files after a check. Stop/await writers and check immediately before delivery.
+
+Callers cannot supply or reuse a `freshness` field on a new review, and existing review history cannot be edited to add one. Stale Spec/Plan/snapshot reviews remain historical without a new content binding. Legacy final reviews missing bindings remain readable and return valid delivery HOLD, with `record-review` as the repair route after directly verifying the declared files. Do not rewrite historical evidence or initialize a replacement ledger.
+
+## Resume a stopped task with a recorded claim
+
+Generic `update` cannot change STOP_HOLD or PAUSED to another operating state, including changing STOP_HOLD to PAUSED. Record changed conditions and the existing human authority with a dedicated transaction:
+
+```text
+python scripts/task_ledger.py resume --ledger .task/ledger.json --input resume.json --expected-revision N --reason "record verified conditions for resuming"
+```
+
+```json
+{
+  "stop_ref": "r4",
+  "prior_cause": "exact reason recorded when the task stopped",
+  "changed_condition": "what changed so the recorded cause can be addressed",
+  "evidence": "specific observation or saved result supporting the change",
+  "authority": {"source": "actual user instruction reference checked by coordinator", "scope": "example-task"}
+}
+```
+
+`stop_ref` identifies the original audit event entering the current uninterrupted stopped interval. Subsequent same-state budget, issue or review records do not replace that reference or cause; `prior_cause` must match its reason. For legacy history without recorded operating states, use `legacy:N`, where N is the last revision before the uninterrupted recorded stopped states (or the current revision if none records state), and explicitly supply the reconstructed prior cause from saved evidence. That legacy cause is caller-authored because the helper cannot recover an absent historical cause.
+
+PAUSED additionally requires `"quota_ready": true` in the input. This records a claim, not quota telemetry. The coordinator must observe actual quota replenishment and actual user authorization before using the command; a generic continuation instruction is insufficient while quota remains at the user's pause threshold. STOP_HOLD may omit this field. Unknown fields, missing evidence, a wrong stop reference/cause, mismatched authority scope or stale CAS revision reject the write.
+
+The transaction changes only the operating state to ACTIVE, increments the revision and appends the complete resume claim with the prior state to the audit. Counters, findings, reviews, reservations, original deadlines and earlier audit entries remain intact. Save failure preserves the stopped ledger. Resume supplies no approval, waiver, new allowance or external permission; remaining blockers still produce HOLD. The helper validates recorded claim structure and references only, and `authority_claims_verified` remains false.
+
 ## Repair legacy duplicate assignments
 
 The earlier distinct-identity release rejected pre-existing gated ledgers whose core representatives shared an identity, preventing ordinary resume. Such structurally valid records can now be read and checked as HOLD; new `init` still refuses duplicate assignments. Normal updates cannot erase their responsibilities. Use the explicit narrow migration:
